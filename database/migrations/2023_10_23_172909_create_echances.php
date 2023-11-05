@@ -19,6 +19,9 @@ return new class extends Migration
             $table->float('amount');
             $table->date('date_avance');
             $table->float('amount_avance');
+            $table->string('preuve_avance')->nullable();
+            $table->string('promesse')->nullable();
+            $table->string('contrat')->nullable();
             $table->boolean('payed');
             $table->timestamps();
             $table->foreign('appart_id')->references('id')->on('apparts');

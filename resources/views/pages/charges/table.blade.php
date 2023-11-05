@@ -36,7 +36,7 @@
                                         @foreach ($charges as $charge)
                                             <tr>
                                                 <td>{{ $charge->appart->etage->building->name }}</td>
-                                                <td>{{ $charge->appart->etage->number }}</td>
+                                                <td>{{ $charge->appart->etage->name }}</td>
                                                 <td>{{ $charge->appart->name }}</td>
                                                 <td>
                                                     @if ($charge->appart->client)
@@ -262,7 +262,7 @@
                     residence.etage.forEach(e => {
                         const option = document.createElement('option')
                         option.value = e.id
-                        option.innerHTML = e.number
+                        option.innerHTML = e.name
                         selectEtage.appendChild(option)
                     })
                 }

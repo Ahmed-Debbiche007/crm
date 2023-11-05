@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->unsignedBigInteger('residence_id');
-            $table->unsignedBigInteger('image_id')->nullable();
-            $table->integer('number');
+            $table->string('plan')->nullable();
+            $table->integer('number')->nullable();
             $table->timestamps();
             $table->foreign('residence_id')->references('id')->on('residences');
-            $table->foreign('image_id')->references('id')->on('images')->onDelete('set null');
+            
         });
     }
 

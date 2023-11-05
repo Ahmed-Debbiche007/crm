@@ -22,6 +22,9 @@ class Echance extends Model
         'amount',
         'date_avance',
         'amount_avance',
-        'payed'
+        'payed',
+        'preuve_avance',
+        'promesse',
+        'contrat'
     ];
 }

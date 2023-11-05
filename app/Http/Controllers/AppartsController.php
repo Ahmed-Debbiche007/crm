@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appart;
 use App\Models\Client;
 use App\Models\Etage;
+use App\Models\Image;
 use App\Models\Residence;
 use Illuminate\Http\Request;
 
@@ -12,12 +13,21 @@ class AppartsController extends Controller
 {
     public function index()
     {
-        $apparts = Appart::with(
-            'etage',
-            'etage.building',
-            'client',
-
-        )->get();
+        $apparts = [];
+        $etage = Etage::with('appart','appart.etage','appart.client','building')->get();
+        $residence = request('res');
+        $et = request('etage');
+        if ($residence) {
+            $etage = Etage::with('appart','appart.charge','appart.etage','appart.client','building')->where('residence_id',$residence)->get();
+        }
+        if ($et) {
+            $etage = Etage::with('appart','appart.etage','appart.client','building')->where('id',$et)->get();
+        }
+        foreach($etage as $et){
+            foreach($et->appart as $appart){
+                array_push($apparts,$appart);
+            }
+        }
         $etages = Etage::all();
         $residences = Residence::with(
             'etage',
@@ -41,12 +51,26 @@ class AppartsController extends Controller
         ]);
 
         $appart = Appart::create($formFileds);
+        if ($request->has("gallery")) {
+            $i = 0;
+            foreach ($request->file('gallery') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $filename = $i . time() . $i . '.' . $extension;
+                $file->move('uploads/apparts/', $filename);
+                $image = new Image();
+                $image->path = 'uploads/apparts/' . $filename;
+                $image->appart_id = $appart->id;
+                $image->save();
+                $i++;
+            }
+        }
+        $appart->save();
         return redirect()->route('apparts')->with('success', 'Appart saved!');
     }
 
     public function get($id)
     {
-        $appart = Appart::findOrFail($id);
+        $appart = Appart::with('image')->findOrFail($id);
         return response()->json($appart);
     }
 
@@ -65,6 +89,27 @@ class AppartsController extends Controller
 
         $appart = Appart::findOrFail($id);
         $appart->update($formFileds);
+        $images = Image::where('appart_id', $appart->id)->get();
+        foreach ($images as $image) {
+            //delete old image
+            if (file_exists($image->path)) {
+                unlink($image->path);
+            }
+            $image->delete();
+        }
+        if ($request->has("gallery")) {
+            $i = 0;
+            foreach ($request->file('gallery') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $filename = $i . time() . $i . '.' . $extension;
+                $file->move('uploads/apparts/', $filename);
+                $image = new Image();
+                $image->path = 'uploads/apparts/' . $filename;
+                $image->appart_id = $appart->id;
+                $image->save();
+                $i++;
+            }
+        }
         return redirect()->route('apparts')->with('success', 'Appart updated!');
     }
 

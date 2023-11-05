@@ -31,7 +31,7 @@ Route::group(['middleware' => ['guest']], function () {
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout.perform');
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function () {
-        return view('pages.dashboard');
+        return 'hello';
     })->name('dashboard');
     Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
     Route::post('/clients', [ClientsController::class, 'store'])->name('clients.store');
@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/residences/{id}', [ResidencesController::class, 'update'])->name('residences.update');
     Route::get('/residences/{id}', [ResidencesController::class, 'destroy'])->name('residences.destroy');
     Route::get('/residence/{id}', [ResidencesController::class, 'get'])->name('residences.get');
+    Route::get('/residencess/{id}', [ResidencesController::class, 'show'])->name('residences.show');
 
     Route::get('/etages', [EtagesController::class, 'index'])->name('etages');
     Route::post('/etages', [EtagesController::class, 'store'])->name('etages.store');

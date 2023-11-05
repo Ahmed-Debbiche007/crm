@@ -2,24 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appart;
 use Illuminate\Http\Request;
 use App\Models\Echance;
+use App\Models\Etage;
 use App\Models\Residence;
 
 class EchancesController extends Controller
 {
     public function index()
     {
-        $echances = Echance::with(
-            'appart',
-            'appart.etage',
-            'appart.etage.building',
-        )->get();
+        $echances = [];
+        $etage = Etage::with('appart', 'appart.echance', 'appart.etage', 'appart.client', 'building')->get();
+        $residence = request('res');
+        $et = request('etage');
+        $appart = request('appart');
+        if ($residence) {
+            $etage = Etage::with('appart', 'appart.echance', 'appart.etage', 'appart.client', 'building')->where('residence_id', $residence)->get();
+        }
+        if ($et) {
+            $etage = Etage::with('appart', 'appart.echance', 'appart.etage', 'appart.client', 'building')->where('id', $et)->get();
+        }
+        if ($appart) {
+            $etage = Appart::with('echance')->where('id', $appart)->get();
+            foreach ($etage as $appart) {
+                foreach ($appart->echance as $echance) {
+                    array_push($echances, $echance);
+                }
+            }
+        } else {
+
+            foreach ($etage as $et) {
+                foreach ($et->appart as $appart) {
+                    foreach ($appart->echance as $echance) {
+                        array_push($echances, $echance);
+                    }
+                }
+            }
+        }
         $residences = Residence::with(
             'etage',
             'etage.appart',
         )->get();
-        return view('pages.echances.table',[
+        return view('pages.echances.table', [
             'echances' => $echances,
             'residences' => $residences,
         ]);
@@ -39,6 +64,36 @@ class EchancesController extends Controller
         $formFileds['date'] = date('Y-m-d');
 
         $echance = Echance::create($formFileds);
+        $i = 0;
+        if ($request->hasFile("promesse")) {
+            $file = $request->file('promesse');
+            $extension = $file->getClientOriginalExtension();
+            $filename = $i . time() . $i . '.' . $extension;
+            $file->move('uploads/echanciers/', $filename);
+            $echance->promesse = 'uploads/echanciers/' . $filename;
+            $echance->save();
+            $i++;
+        }
+        $i = 0;
+        if ($request->hasFile("preuve_avance")) {
+            $file = $request->file('preuve_avance');
+            $extension = $file->getClientOriginalExtension();
+            $filename = $i . time() . $i . '.' . $extension;
+            $file->move('uploads/echanciers/', $filename);
+            $echance->preuve_avance = 'uploads/echanciers/' . $filename;
+            $echance->save();
+            $i++;
+        }
+        $i = 0;
+        if ($request->hasFile("contrat")) {
+            $file = $request->file('contrat');
+            $extension = $file->getClientOriginalExtension();
+            $filename = $i . time() . $i . '.' . $extension;
+            $file->move('uploads/echanciers/', $filename);
+            $echance->contrat = 'uploads/echanciers/' . $filename;
+            $echance->save();
+            $i++;
+        }
         return redirect()->route('echances')->with('success', 'Echance saved!');
     }
 
@@ -60,6 +115,45 @@ class EchancesController extends Controller
         ]);
 
         $echance = Echance::findOrFail($id);
+        if (file_exists($echance->promesse)) {
+            unlink($echance->promesse);
+        }
+        if (file_exists($echance->preuve_avance)) {
+            unlink($echance->preuve_avance);
+        }
+        if (file_exists($echance->contrat)) {
+            unlink($echance->contrat);
+        }
+        $i = 0;
+        if ($request->hasFile("promesse")) {
+            $file = $request->file('promesse');
+            $extension = $file->getClientOriginalExtension();
+            $filename = $i . time() . $i . '.' . $extension;
+            $file->move('uploads/echanciers/', $filename);
+            $echance->promesse = 'uploads/echanciers/' . $filename;
+            $echance->save();
+            $i++;
+        }
+        $i = 0;
+        if ($request->hasFile("preuve_avance")) {
+            $file = $request->file('preuve_avance');
+            $extension = $file->getClientOriginalExtension();
+            $filename = $i . time() . $i . '.' . $extension;
+            $file->move('uploads/echanciers/', $filename);
+            $echance->preuve_avance = 'uploads/echanciers/' . $filename;
+            $echance->save();
+            $i++;
+        }
+        $i = 0;
+        if ($request->hasFile("contrat")) {
+            $file = $request->file('contrat');
+            $extension = $file->getClientOriginalExtension();
+            $filename = $i . time() . $i . '.' . $extension;
+            $file->move('uploads/echanciers/', $filename);
+            $echance->contrat = 'uploads/echanciers/' . $filename;
+            $echance->save();
+            $i++;
+        }
         $echance->update($formFileds);
         return redirect()->route('echances')->with('success', 'Echance updated!');
     }

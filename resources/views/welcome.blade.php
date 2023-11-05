@@ -17,14 +17,17 @@
     <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
     <!-- Bootstrap core CSS-->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/bootstrap-dark.min.css') }}" rel="stylesheet" />
     <!-- animate CSS-->
     <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet" type="text/css" />
     <!-- Icons CSS-->
     <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
     <!-- Sidebar CSS-->
     <link href="{{ asset('assets/css/sidebar-menu.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/sidebar-menu-dark.css') }}" rel="stylesheet" />
     <!-- Custom Style-->
     <link href="{{ asset('assets/css/app-style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/app-style-dark.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/vendors/simple-datatables/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/filepond/filepond.css') }}">
     <link rel="stylesheet"
@@ -36,9 +39,9 @@
 
 </head>
 
-<body class="bg-theme bg-theme1">
+<body class="bg-theme">
 
-
+    <script src="{{ asset('assets/js/initTheme.js') }}"></script>
     <div id="wrapper">
 
 
@@ -70,6 +73,7 @@
 
     <!-- Custom scripts -->
     <script src="{{ asset('assets/js/app-script.js') }}"></script>
+    <script src="{{ asset('assets/js/themeToggle.js') }}"></script>
     <!-- Chart js -->
 
     <script src="{{ asset('assets/plugins/Chart.js/Chart.min.js') }}"></script>

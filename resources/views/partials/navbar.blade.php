@@ -9,8 +9,23 @@
 
         </ul>
 
+        <ul class="navbar-nav ms-auto mb-lg-0">
+
+            <li class="nav-item dropdown me-3">
+
+                <div class="theme-toggle d-flex gap-2  align-items-start ">
+
+                    <div class="form-check form-switch fs-6">
+                        <button id="themeSwitch"></button>
+                    </div>
+
+                </div>
+            </li>
+
+        </ul>
+
         <ul class="navbar-nav align-items-center right-nav-link">
-           
+
             <li class="nav-item dropdown-lg">
                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
                     href="javascript:void();">
@@ -25,27 +40,31 @@
 
             <li class="nav-item">
                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                    <span class="user-profile"><img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" class="img-circle"
-                            alt="user avatar"></span>
+                    <span class="user-profile"><img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
+                            class="img-circle" alt="user avatar"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li class="dropdown-item user-details">
                         <a href="javaScript:void();">
                             <div class="media">
                                 <div class="avatar"><img class="align-self-start mr-3"
-                                        src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="user avatar"></div>
+                                        src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="user avatar">
+                                </div>
                                 <div class="media-body">
-                                    <h6 class="mt-2 user-title">{{Auth::user()->name}}</h6>
-                                    <p class="user-subtitle">{{Auth::user()->email}}</p>
+                                    <h6 class="mt-2 user-title">{{ Auth::user()->name }}</h6>
+                                    <p class="user-subtitle">{{ Auth::user()->email }}</p>
                                 </div>
                             </div>
                         </a>
                     </li>
                     <li class="dropdown-divider"></li>
-                    
-                    <li class="dropdown-item"><a href="{{ route('logout.perform') }}"><i class="icon-power mr-2"></i> Logout</a></li>
+
+                    <li class="dropdown-item"><a href="{{ route('logout.perform') }}"><i class="icon-power mr-2"></i>
+                            Logout</a></li>
                 </ul>
             </li>
         </ul>
+
+
     </nav>
 </header>

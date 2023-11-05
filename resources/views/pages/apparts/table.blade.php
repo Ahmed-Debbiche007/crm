@@ -28,8 +28,10 @@
                                             <th scope="col">Type</th>
                                             <th scope="col">Prix</th>
                                             <th scope="col">Statut</th>
-
                                             <th scope="col">Commentaire</th>
+                                            <th scope="col">Charges</th>
+                                            <th scope="col">Échanciers</th>
+
                                             <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
@@ -44,7 +46,7 @@
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>{{ $appart->etage->number }}</td>
+                                                <td>{{ $appart->etage->name }}</td>
                                                 <td>{{ $appart->etage->building->name }}</td>
                                                 <td>{{ $appart->surface }}</td>
                                                 <td>
@@ -84,6 +86,10 @@
                                                 </td>
 
                                                 <td>{{ $appart->comments }}</td>
+                                                <td> <a href="{{ route('charges') }}?appart={{ $appart->id }}"
+                                                        class="badge bg-success">Charges</a> </td>
+                                                <td> <a href="{{ route('echances') }}?appart={{ $appart->id }}"
+                                                        class="badge bg-success">Échanciers</a> </td>
                                                 <td>
                                                     <button id="{{ $appart->id }}" class="btn btn-warning edit"
                                                         data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
@@ -114,7 +120,8 @@
                                                     <i data-feather="x"></i>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('apparts.store') }}">
+                                            <form method="POST" action="{{ route('apparts.store') }}"
+                                                enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <label>Nom: </label>
@@ -180,6 +187,9 @@
                                                             <option value= "3"> Vendu </option>
                                                         </select>
                                                     </div>
+                                                    <label>Gallery </label>
+                                                    <input type="file" name="gallery[]"
+                                                        class="multiple-files-filepond" multiple>
                                                     <label>Commentaires: </label>
                                                     <div class="form-group">
                                                         <textarea name="comments" cols="30" rows="10" class="form-control"></textarea>
@@ -212,7 +222,7 @@
                                                     <i data-feather="x"></i>
                                                 </button>
                                             </div>
-                                            <form method="POST" id="formEdit">
+                                            <form method="POST" id="formEdit" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <label>Nom: </label>
@@ -279,6 +289,9 @@
                                                             <option value= "3"> Vendu </option>
                                                         </select>
                                                     </div>
+                                                    <label>Gallery </label>
+                                                    <input type="file" name="gallery[]"
+                                                        class="multiple-files-filepondEdit" multiple>
                                                     <label>Commentaires: </label>
                                                     <div class="form-group">
                                                         <textarea name="comments" cols="30" rows="10" class="form-control"></textarea>
@@ -345,6 +358,22 @@
             loadEtages(id, 'editetage')
         })
 
+        FilePond.create(document.querySelector(".multiple-files-filepond"), {
+            credits: null,
+            allowImagePreview: true,
+            allowImageFilter: false,
+            allowImageExifOrientation: false,
+            allowMultiple: true,
+            required: false,
+            storeAsFile: true,
+            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+            fileValidateTypeDetectType: (source, type) =>
+                new Promise((resolve, reject) => {
+                    resolve(type);
+                }),
+            labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action">Browse</span></span>`,
+        });
+
         function loadEtages(id, etageId) {
             const selectEtage = document.getElementById(etageId)
             selectEtage.innerHTML = ''
@@ -354,14 +383,14 @@
                     residence.etage.forEach(e => {
                         const option = document.createElement('option')
                         option.value = e.id
-                        option.innerHTML = e.number
+                        option.innerHTML = e.name
                         selectEtage.appendChild(option)
                     })
                 }
             })
         }
 
-       
+
 
         function deleteClient(id) {
             var form = document.getElementById('delete');
@@ -390,7 +419,7 @@
                 const client_idInput = form.querySelector('select[name="client_id"]')
                 const bsInput = form.querySelector('select[name="bs"]')
                 const commentsInput = form.querySelector('textarea[name="comments"]')
-                
+
                 url = "{{ route('apparts.get', 5) }}";
                 url = url.replace('5', editButton.id);
                 axios.get(url).then((reponse) => {
@@ -413,6 +442,35 @@
                     client_idInput.value = appart.client_id
                     bsInput.value = appart.bs
                     commentsInput.value = appart.comments
+
+                    const options = {
+                        credits: null,
+                        allowImagePreview: true,
+                        allowImageFilter: false,
+                        allowImageExifOrientation: false,
+                        allowMultiple: true,
+                        required: false,
+                        storeAsFile: true,
+                        acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+                        fileValidateTypeDetectType: (source, type) =>
+                            new Promise((resolve, reject) => {
+                                resolve(type);
+                            }),
+                        labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action">Browse</span></span>`,
+                    }
+                    if (appart.image) {
+                        const files = []
+                        appart.image.forEach((img) => {
+
+                            files.push({
+                                source: '{{ route('dashboard') }}/' + img.path,
+                            })
+                        })
+                        options.files = files
+                    }
+
+                    FilePond.create(document.querySelector(".multiple-files-filepondEdit"),
+                        options);
                 }).catch((error) => {
                     console.log(error)
                 })

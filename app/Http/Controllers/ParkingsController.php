@@ -9,9 +9,13 @@ use Illuminate\Http\Request;
 
 class ParkingsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $parkings = Parking::with('client', 'residence')->get();
+        $residence = request('res');
+        if($residence){
+            $parkings = Parking::with('client', 'residence')->where('residence_id', $residence)->get();
+        }
         $residences = Residence::all();
         $clients = Client::all();
         return view('pages.parkings.table', [

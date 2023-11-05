@@ -19,18 +19,15 @@ class Etage extends Model
         return $this->belongsTo(Residence::class, 'residence_id');
     }
 
-    public function image()
-    {
-        return $this->belongsTo(Image::class);
-    }
+   
 
 
 
 
     protected $fillable = [
         'name',
+        'plan',
         'residence_id',
-        'image',
         'number',
     ];
 }

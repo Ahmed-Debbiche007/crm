@@ -18,6 +18,18 @@ class Appart extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    public function image(){
+        return $this->hasMany(Image::class);
+    }
+
+    public function charge(){
+        return $this->hasMany(Charge::class);
+    }
+
+    public function echance(){
+        return $this->hasMany(Echance::class);
+    }
     
 
     protected $fillable = [

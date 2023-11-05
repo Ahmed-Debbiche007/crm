@@ -24,20 +24,12 @@ class Residence extends Model
         return $this->hasMany(Cellier::class);
     }
 
-    public function logo()
-    {
-        return $this->belongsTo(Image::class);
-    }
-       
-    public function image()
-    {
-        return $this->belongsTo(Image::class);
+    public function image(){
+        return $this->hasMany(Image::class);
     }
 
     protected $fillable = [
         'name',
-        'logo',
-        'image',
         'address',
 
     ];

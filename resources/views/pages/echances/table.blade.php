@@ -137,6 +137,12 @@
                                         <option value="1">Payé</option>
                                     </select>
                                 </div>
+                                <label>Preuve Avance: </label>
+                                <input type="file" name="preuve_avance" class="image-preview-filepondAvance" />
+                                <label>Promesse: </label>
+                                <input type="file" name="promesse" class="image-preview-filepondPromesse" />
+                                <label>Contrat: </label>
+                                <input type="file" name="contrat" class="image-preview-filepondContrat" />
 
                             </div>
                             <div class="modal-footer">
@@ -218,6 +224,12 @@
                                         <option value="1">Payé</option>
                                     </select>
                                 </div>
+                                <label>Preuve Avance: </label>
+                                <input type="file" name="preuve_avance" class="image-preview-filepond image-preview-filepondAvanceEdit" />
+                                <label>Promesse: </label>
+                                <input type="file" name="promesse" class="image-preview-filepond image-preview-filepondPromesseEdit" />
+                                <label>Contrat: </label>
+                                <input type="file" name="contrat" class="image-preview-filepond image-preview-filepondContratEdit" />
 
                             </div>
                             <div class="modal-footer">
@@ -256,6 +268,40 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <script>
+        function createFileInput(className) {
+            const options = {
+                credits: null,
+                allowImagePreview: false,
+                allowMultiple: false,
+                allowFileEncode: false,
+                required: false,
+                storeAsFile: true,
+                labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action">Browse</span></span>`,
+            }
+            FilePond.create(document.querySelector(className), options);
+        }
+        createFileInput(".image-preview-filepondAvance");
+        createFileInput(".image-preview-filepondPromesse");
+        createFileInput(".image-preview-filepondContrat");
+
+        function createFileInputEdit(className, image) {
+            const options = {
+                credits: null,
+                allowImagePreview: false,
+                allowMultiple: false,
+                allowFileEncode: false,
+                required: false,
+                storeAsFile: true,
+                labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action">Browse</span></span>`,
+            }
+            if (image != null) {
+                options.files = [{
+                    source: '{{ route('dashboard') }}/' + image,
+                }]
+            }
+            FilePond.create(document.querySelector(className), options);
+        }
+
         function loadEtages(id, etageId) {
             const selectEtage = document.getElementById(etageId)
             selectEtage.innerHTML = ''
@@ -265,7 +311,7 @@
                     residence.etage.forEach(e => {
                         const option = document.createElement('option')
                         option.value = e.id
-                        option.innerHTML = e.number
+                        option.innerHTML = e.name
                         selectEtage.appendChild(option)
                     })
                 }
@@ -357,6 +403,9 @@
                     amount_avanceInput.value = client.amount_avance;
                     date_avanceInput.value = client.date_avance;
                     payedInput.value = client.payed;
+                    createFileInputEdit(".image-preview-filepondAvanceEdit", client.preuve_avance);
+                    createFileInputEdit(".image-preview-filepondPromesseEdit", client.promesse);
+                    createFileInputEdit(".image-preview-filepondContratEdit", client.contrat);
                 }).catch((error) => {
                     console.log(error)
                 })

@@ -2,20 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appart;
 use Illuminate\Http\Request;
 use App\Models\Charge;
+use App\Models\Etage;
 use App\Models\Residence;
 
 class ChargesController extends Controller
 {
     public function index()
     {
-        $charges = Charge::with(
-            'appart',
-            'appart.etage',
-            'appart.etage.building',
-        )->get();
+        $charges = [];
+        $etage = Etage::with('appart','appart.charge','appart.etage','appart.client','building')->get();
+        $residence = request('res');
+        $et = request('etage');
+        $appart = request('appart');
+        if ($residence) {
+            $etage = Etage::with('appart','appart.charge','appart.etage','appart.client','building')->where('residence_id',$residence)->get();
+        }
+        if ($et) {
+            $etage = Etage::with('appart','appart.charge','appart.etage','appart.client','building')->where('id',$et)->get();
+        }
+        if ($appart){
+            $etage = Appart::with('charge')->where('id',$appart)->get();
+            foreach ($etage as $appart) {
+                foreach ($appart->charge as $charge) {
+                    array_push($charges, $charge);
+                }
+            }
+        }else{
 
+            foreach($etage as $et){
+                foreach($et->appart as $appart){
+                    foreach($appart->charge as $charge){
+                        array_push($charges,$charge);
+                    }
+                }
+            }
+        }
         $residences = Residence::with(
             'etage',
             'etage.appart',

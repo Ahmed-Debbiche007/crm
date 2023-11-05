@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Models\Residence;
@@ -18,7 +19,7 @@ class ResidencesController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
+         
         $formFileds = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
@@ -26,35 +27,39 @@ class ResidencesController extends Controller
 
 
         $residence = Residence::create($formFileds);
-        if ($request->hasFile('logo')) {
-            $logofile = $request->file('logo');
-            $extension = $logofile->getClientOriginalExtension();
-            $filename = $logofile->getClientOriginalName() . '.' . $extension;
-            $logofile->move('uploads/residences/', $filename);
-            $logo = new Image();
-            $logo->path = 'uploads/residences/' . $filename;
-            $logo->save();
-            $residence->logo = $logo->id;
+      
+        if ($request->has("gallery")){
+            $i = 0;
+            foreach ($request->file('gallery') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $filename = $i.time().$i. '.' . $extension;
+                $file->move('uploads/residences/', $filename);
+                $image = new Image();
+                $image->path = 'uploads/residences/' . $filename;
+                $image->residence_id = $residence->id;
+                $image->save();
+                $i++;
+            }
         }
-
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = $file->getClientOriginalName() . '.' . $extension;
-            $file->move('uploads/residences/', $filename);
-            $image = new Image();
-            $image->path = 'uploads/residences/' . $filename;
-            $image->save();
-            $residence->image = $image->id;
-        }
+        
         $residence->save();
         return redirect()->route('residences')->with('success', 'Residence saved!');
     }
 
     public function get($id)
     {
-        $residence = Residence::with('logo', 'image')->findOrFail($id);
+        $residence = Residence::with('image')->findOrFail($id);
         return response()->json($residence);
+    }
+
+    public function show($id)
+    {
+        $residence = Residence::with('image','etage','etage.appart','parking','cellier')->findOrFail($id);
+        $clients = Client::all();
+        return view('pages.residences.details', [
+            'residence' => $residence,
+            'clients' => $clients
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -67,26 +72,26 @@ class ResidencesController extends Controller
 
         $residence = Residence::findOrFail($id);
         $residence->update($formFileds);
-        if ($request->hasFile('logo')) {
-            $logofile = $request->file('logo');
-            $extension = $logofile->getClientOriginalExtension();
-            $filename = $logofile->getClientOriginalName() . '.' . $extension;
-            $logofile->move('uploads/residences/', $filename);
-            $logo = new Image();
-            $logo->path = 'uploads/residences/' . $filename;
-            $logo->save();
-            $residence->logo = $logo->id;
+        $images = Image::where('residence_id', $residence->id)->get();
+        foreach ($images as $image) {
+            //delete old image
+            if (file_exists($image->path)) {
+                unlink($image->path);
+            }
+            $image->delete();
         }
-
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = $file->getClientOriginalName() . '.' . $extension;
-            $file->move('uploads/residences/', $filename);
-            $image = new Image();
-            $image->path = 'uploads/residences/' . $filename;
-            $image->save();
-            $residence->image = $image->id;
+        if ($request->has("gallery")){
+            $i = 0;
+            foreach ($request->file('gallery') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $filename = $i.time().$i. '.' . $extension;
+                $file->move('uploads/residences/', $filename);
+                $image = new Image();
+                $image->path = 'uploads/residences/' . $filename;
+                $image->residence_id = $residence->id;
+                $image->save();
+                $i++;
+            }
         }
         $residence->save();
         return redirect()->route('residences')->with('success', 'Residence updated!');
