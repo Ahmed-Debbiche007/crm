@@ -326,11 +326,11 @@
                 const residence_idInput = form.querySelector('select[name="residence_id"]')
                 const etage_idInput = form.querySelector('select[name="etage_id"]')
                 const appart_idInput = form.querySelector('select[name="appart_id"]')
-                const sonedeInput = form.querySelector('input[name="sonede]"');
-                const syndicInput = form.querySelector('input[name="syndic]"');
-                const avocatInput = form.querySelector('input[name="avocat]"');
-                const contratInput = form.querySelector('input[name="contrat]"');
-                const foncierInput = form.querySelector('input[name="foncier]"');
+                const sonedeInput = form.querySelector('input[name="sonede"]');
+                const syndicInput = form.querySelector('input[name="syndic"]');
+                const avocatInput = form.querySelector('input[name="avocat"]');
+                const contratInput = form.querySelector('input[name="contrat"]');
+                const foncierInput = form.querySelector('input[name="foncier"]');
                 url = "{{ route('charges.get', 5) }}";
                 url = url.replace('5', editButton.id);
                 axios.get(url).then((reponse) => {

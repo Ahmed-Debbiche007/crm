@@ -99,6 +99,9 @@
                                                 <td> <a href="{{ route('echances') }}?appart={{ $appart->id }}"
                                                         class="badge bg-success">Échanciers</a> </td>
                                                 <td>
+                                                    <a href="{{ route('apparts.show', $appart->id) }}"
+                                                        class="btn btn-primary"><i
+                                                            data-feather="plus-circle"></i>Details</a>
                                                     <button id="{{ $appart->id }}" class="btn btn-warning edit"
                                                         data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
                                                             data-feather="edit"></i>Modifier</button>

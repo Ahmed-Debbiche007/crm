@@ -77,7 +77,7 @@ class AppartsController extends Controller
 
     public function show($id)
     {
-        $appart = Appart::with('image', 'echance', 'charge', 'echance.client', 'charge.client','echance.echeance')->findOrFail($id);
+        $appart = Appart::with('image', 'echance', 'charge', 'echance.client', 'charge.client')->findOrFail($id);
         $etages = Etage::all();
         $residences = Residence::with(
             'etage',
