@@ -642,7 +642,7 @@ html[data-bs-theme="dark"] .brand-logo{
   height: 100px;
   line-height: 90px;
   text-align: center;
-  background-color: rgb(247, 247, 255, 0.5);
+  background-color: rgb(247, 247, 255);
 }
 
 html[data-bs-theme="dark"] .logo-text{

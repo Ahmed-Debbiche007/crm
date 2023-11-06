@@ -43,6 +43,7 @@ class AppartsController extends Controller
         $formFileds = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'etage_id' => ['required', 'exists:etages,id'],
+            'client_id' => ['nullable', 'exists:clients,id'],
             'type' => ['required', 'integer'],
             'surface' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
@@ -65,7 +66,7 @@ class AppartsController extends Controller
             }
         }
         $appart->save();
-        return redirect()->route('apparts')->with('success', 'Appart saved!');
+        return redirect()->back()->with('success', 'Appart saved!');
     }
 
     public function get($id)
@@ -74,12 +75,25 @@ class AppartsController extends Controller
         return response()->json($appart);
     }
 
+    public function show($id)
+    {
+        $appart = Appart::with('image', 'echance', 'charge', 'echance.client', 'charge.client','echance.echeance')->findOrFail($id);
+        $etages = Etage::all();
+        $residences = Residence::with(
+            'etage',
+            'parking',
+            'cellier'
+        )->get();
+        $clients = Client::all();
+        return view('pages.apparts.show', ['appart' => $appart,'etages' => $etages, 'residences' => $residences, 'clients' => $clients]);
+    }
 
     public function update(Request $request, $id)
     {
         $formFileds = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'etage_id' => ['required', 'exists:etages,id'],
+            'client_id' => ['nullable', 'exists:clients,id'],
             'type' => ['required', 'integer'],
             'surface' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
@@ -110,13 +124,13 @@ class AppartsController extends Controller
                 $i++;
             }
         }
-        return redirect()->route('apparts')->with('success', 'Appart updated!');
+        return redirect()->back()->with('success', 'Appart updated!');
     }
 
     public function destroy($id)
     {
         $appart = Appart::findOrFail($id);
         $appart->delete();
-        return redirect()->route('apparts')->with('success', 'Appart deleted!');
+        return redirect()->back()->with('success', 'Appart deleted!');
     }
 }

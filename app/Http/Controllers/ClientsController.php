@@ -29,7 +29,7 @@ class ClientsController extends Controller
         ]);
 
         $client = Client::create($formFileds);
-        return redirect()->route('clients')->with('success', 'Client saved!');
+        return redirect()->back()->with('success', 'Client saved!');
     }
 
     public function get($id)
@@ -52,13 +52,13 @@ class ClientsController extends Controller
 
         $client = Client::findOrFail($id);
         $client->update($formFileds);
-        return redirect()->route('clients')->with('success', 'Client updated!');
+        return redirect()->back()->with('success', 'Client updated!');
     }
 
     public function destroy($id)
     {
         $client = Client::findOrFail($id);
         $client->delete();
-        return redirect()->route('clients')->with('success', 'Client deleted!');
+        return redirect()->back()->with('success', 'Client deleted!');
     }
 }

@@ -13,8 +13,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Echéanciers</h5>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                    class="btn btn-primary">Ajouter</button>
+
                             </div>
                             <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
@@ -33,95 +32,92 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($echances as $echance)
-                                            <tr>
-                                                <td>{{ $echance->appart->etage->building->name }}</td>
-                                                <td>{{ $echance->appart->name }}</td>
-                                                <td>
 
-                                                    @if ($echance->client != null)
-                                                        {{ $echance->client->name }}
-                                                        {{ $echance->client->lastName }}
-                                                    @else
-                                                        --
+                                        <tr>
+                                            <td>{{ $echance->appart->etage->building->name }}</td>
+                                            <td>{{ $echance->appart->name }}</td>
+                                            <td>
+
+                                                @if ($echance->client != null)
+                                                    {{ $echance->client->name }}
+                                                    {{ $echance->client->lastName }}
+                                                @else
+                                                    --
+                                                @endif
+                                            </td>
+                                            <td>{{ $echance->date }}</td>
+                                            <td>{{ $echance->amount_avance }}</td>
+                                            <td>{{ $echance->date_avance }}</td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-items-center align-items-center ">
+                                                    @if ($echance->preuve_avance != null)
+                                                        <div>
+                                                            <a href="/" class="btn btn-success">Télécharger</a>
+                                                        </div>
                                                     @endif
-                                                </td>
-                                                <td>{{ $echance->date }}</td>
-                                                <td>{{ $echance->amount_avance }}</td>
-                                                <td>{{ $echance->date_avance }}</td>
-                                                <td>
-                                                    <div
-                                                        class="d-flex flex-column justify-items-center align-items-center ">
-                                                        @if ($echance->preuve_avance != null)
-                                                            <div>
-                                                                <a href="/" class="btn btn-success">Télécharger</a>
-                                                            </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-items-center align-items-center ">
+                                                    @if ($echance->promesse != null)
+                                                        <div>
+                                                            <a href="/" class="btn btn-success">Télécharger</a>
+                                                        </div>
+                                                    @endif
+                                                    <div>
+                                                        @if ($echance->date_promesse_legal != null)
+                                                            Légalisé: {{ $echance->date_promesse_legal }}
                                                         @endif
                                                     </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="d-flex flex-column justify-items-center align-items-center ">
-                                                        @if ($echance->promesse != null)
-                                                            <div>
-                                                                <a href="/" class="btn btn-success">Télécharger</a>
-                                                            </div>
+                                                    <div>
+                                                        @if ($echance->date_promesse_livre != null)
+                                                            Livré: {{ $echance->date_promesse_livre }}
                                                         @endif
-                                                        <div>
-                                                            @if ($echance->date_promesse_legal != null)
-                                                                Légalisé: {{ $echance->date_promesse_legal }}
-                                                            @endif
-                                                        </div>
-                                                        <div>
-                                                            @if ($echance->date_promesse_livre != null)
-                                                                Livré: {{ $echance->date_promesse_livre }}
-                                                            @endif
-                                                        </div>
-
                                                     </div>
-                                                </td>
-                                                <td>
-                                                    <div
-                                                        class="d-flex flex-column justify-items-center align-items-center ">
-                                                        @if ($echance->contrat != null)
-                                                            <div>
-                                                                <a href="/" class="btn btn-success">Télécharger</a>
-                                                            </div>
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column justify-items-center align-items-center ">
+                                                    @if ($echance->contrat != null)
+                                                        <div>
+                                                            <a href="/" class="btn btn-success">Télécharger</a>
+                                                        </div>
+                                                    @endif
+                                                    <div>
+                                                        @if ($echance->date_contrat_enregistre != null)
+                                                            Enregistré: {{ $echance->date_contrat_enregistre }}
                                                         @endif
-                                                        <div>
-                                                            @if ($echance->date_contrat_enregistre != null)
-                                                                Enregistré: {{ $echance->date_contrat_enregistre }}
-                                                            @endif
-                                                        </div>
-                                                        <div>
-                                                            @if ($echance->date_contrat_livre != null)
-                                                                Livré: {{ $echance->date_contrat_livre }}
-                                                            @endif
-                                                        </div>
-
                                                     </div>
-                                                </td>
-
-                                                <td>
-
-                                                    <div class="d-flex">
-                                                        <a href="{{ route('echances.show', $echance->id) }}"
-                                                            class="btn btn-primary edit"><i
-                                                                data-feather="plus-circle"></i>Details</a>
-                                                        <button id="{{ $echance->id }}" class="btn btn-warning edit m-1"
-                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                                data-feather="edit"></i>Modifier</button>
-                                                        <form method="GET"
-                                                            action="{{ route('echances.destroy', $echance->id) }}">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger m-1"><i
-                                                                    data-feather="trash"></i>Supprimer</button>
-                                                        </form>
+                                                    <div>
+                                                        @if ($echance->date_contrat_livre != null)
+                                                            Livré: {{ $echance->date_contrat_livre }}
+                                                        @endif
                                                     </div>
 
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                </div>
+                                            </td>
+
+                                            <td>
+
+                                                <div class="d-flex">
+                                                    <a href="{{ route('echances.show', $echance->id) }}"
+                                                        class="btn btn-primary edit"><i
+                                                            data-feather="plus-circle"></i>Details</a>
+                                                    <button id="{{ $echance->id }}" class="btn btn-warning edit m-1"
+                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
+                                                            data-feather="edit"></i>Modifier</button>
+                                                    <form method="GET"
+                                                        action="{{ route('echances.destroy', $echance->id) }}">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger m-1"><i
+                                                                data-feather="trash"></i>Supprimer</button>
+                                                    </form>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -366,8 +362,183 @@
         <div class="overlay toggle-menu"></div>
         <!--end overlay-->
     </div>
-    <!-- End container-fluid-->
+    <div class="content-wrapper mt-0" style="padding-top: 0px ">
+        <div class="container-fluid mt-0">
+            <div class="row mt-0">
+                <div class="col-lg-12 mt-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between m-3">
+                                <h5 class="card-title">Echéances</h5>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineFormEcheance"
+                                    class="btn btn-primary">Ajouter</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class='table table-striped' id="table1">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Montant</th>
+                                            <th scope="col">Statut</th>
+                                            <th scope="col">Modalité</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($echance->echeance as $echeance)
+                                            <tr>
+
+                                                <td>{{ $echeance->date }}</td>
+                                                <td>{{ $echeance->montant }}</td>
+                                                <td>
+                                                    @if ($echeance->payed)
+                                                        Payé
+                                                    @else
+                                                        Non Payé
+                                                    @endif
+                                                </td>
+                                                <td>{{ $echeance->modalite }}</td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <button id="{{ $echeance->id }}"
+                                                            class="btn btn-warning editEcheances m-1"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#inlineFormEcheanceEdit"><i
+                                                                data-feather="edit"></i>Modifier</button>
+                                                        <form method="GET"
+                                                            action="{{ route('echeances.destroy', $echeance->id) }}">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-danger m-1"><i
+                                                                    data-feather="trash"></i>Supprimer</button>
+                                                        </form>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--End Row-->
+            <div class="modal fade text-left " id="inlineFormEcheance" tabindex="-1" role="dialog"
+                aria-labelledby="myModalLabel33" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <form method="POST" action="{{ route('echeances.store') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <input type="hidden" name="echance_id" value="{{ $echance->id }}">
+                                <label>Date: </label>
+                                <div class="form-group">
+                                    <input type="date" name="date" placeholder="Numero" class="form-control">
+                                </div>
+                                <label>Montant: </label>
+                                <div class="form-group">
+                                    <input type="number" name="montant" placeholder="Numero" class="form-control">
+                                </div>
+                                <label>Modalité: </label>
+                                <div class="form-group">
+                                    <select name="modalite" class="form-control">
+                                        <option value="Chèque">Chèque</option>
+                                        <option value="Crédit">Crédit</option>
+                                        <option value="Espèces">Espèces</option>
+                                        <option value="Virement">Virement</option>
+                                        <option value="Versement">Versement</option>
+                                    </select>
+                                </div>
+                                <label>Statut: </label>
+                                <div class="form-group">
+                                    <select name="payed" class="form-control">
+                                        <option value="0">Non Payé</option>
+                                        <option value="1">Payé</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Close</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block text-white">Ajouter</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade text-left " id="inlineFormEcheanceEdit" tabindex="-1" role="dialog"
+                aria-labelledby="myModalLabel44" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <form method="POST" id="editFormEcheance" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <input type="hidden" name="echance_id" value="{{ $echance->id }}">
+                                <label>Date: </label>
+                                <div class="form-group">
+                                    <input type="date" name="date" placeholder="Numero" class="form-control">
+                                </div>
+                                <label>Montant: </label>
+                                <div class="form-group">
+                                    <input type="number" name="amount" placeholder="Numero" class="form-control">
+                                </div>
+                                <label>Modalité: </label>
+                                <div class="form-group">
+                                    <select name="modalite" class="form-control">
+                                        <option value="Chèque">Chèque</option>
+                                        <option value="Crédit">Crédit</option>
+                                        <option value="Espèces">Espèces</option>
+                                        <option value="Virement">Virement</option>
+                                        <option value="Versement">Versement</option>
+                                    </select>
+                                </div>
+                                <label>Statut: </label>
+                                <div class="form-group">
+                                    <select name="payed" class="form-control">
+                                        <option value="0">Non Payé</option>
+                                        <option value="1">Payé</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ml-1">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block text-white">Ajouter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 @endsection
 
 @section('scripts')
@@ -637,5 +808,64 @@
                 enregistreDate.disabled = true;
             }
         })
+
+        const editEcheances = document.getElementsByClassName('editEcheances');
+        editEcheances.forEach = Array.prototype.forEach;
+        editEcheances.forEach((editEcheance) => {
+            editEcheance.addEventListener('click', function() {
+
+                const form = document.getElementById('editFormEcheance');
+
+                let base = '{{ route('echeances.update', '5') }}';
+                base = base.replace('5', editEcheance.id);
+                form.action = base;
+                const dateInput = form.querySelector('input[ name="date"]')
+                const montantInput = form.querySelector('input[ name="amount"]')
+                const modaliteInput = form.querySelector('select[name="modalite"]')
+                const payedInput = form.querySelector('select[name="payed"]')
+
+                url = "{{ route('echeances.get', 5) }}";
+                url = url.replace('5', editEcheance.id);
+                axios.get(url).then((reponse) => {
+                    console.log("object")
+                    const client = reponse.data;
+                    console.log(client)
+                    dateInput.value = client.date;
+                    montantInput.value = client.montant;
+                    modaliteInput.value = client.modalite;
+                    payedInput.value = client.payed;
+                }).catch((error) => {
+                    console.log(error)
+                })
+            });
+        })
+    </script>
+    <script>
+        const forms = document.querySelectorAll('form');
+
+        forms.forEach((form) => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                if (form.method != 'get') {
+                    fetch(form.action, {
+                            method: form.method,
+                            body: formData,
+                        })
+                        .then((response) => {
+                            window.location.reload();
+                        })
+                        .catch((error) => {
+                            console.error('An error occurred:', error);
+                        });
+                } else {
+                    axios.get(form.action).then((reponse) => {
+                        window.location.reload();
+                    }).catch((error) => {
+                        console.log(error)
+                    })
+                }
+            });
+        });
     </script>
 @endsection

@@ -35,7 +35,7 @@ class CelliersController extends Controller
         ]);
 
         $cellier = Cellier::create($formFileds);
-        return redirect()->route('celliers')->with('success', 'cellier saved!');
+        return redirect()->back()->with('success', 'cellier saved!');
     }
 
     public function get($id)
@@ -56,13 +56,13 @@ class CelliersController extends Controller
 
         $cellier = Cellier::findOrFail($id);
         $cellier->update($formFileds);
-        return redirect()->route('celliers')->with('success', 'cellier updated!');
+        return redirect()->back()->with('success', 'cellier updated!');
     }
 
     public function destroy($id)
     {
         $cellier = Cellier::findOrFail($id);
         $cellier->delete();
-        return redirect()->route('celliers')->with('success', 'cellier deleted!');
+        return redirect()->back()->with('success', 'cellier deleted!');
     }
 }

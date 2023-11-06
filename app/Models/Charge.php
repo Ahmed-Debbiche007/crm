@@ -14,7 +14,11 @@ class Charge extends Model
         return $this->belongsTo(Appart::class);
     }
 
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
     protected $fillable = [
+        'client_id',
         'sonede',
         'syndic',
         'avocat',

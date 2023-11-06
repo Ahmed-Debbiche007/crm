@@ -36,7 +36,7 @@ class ParkingsController extends Controller
         ]);
 
         $parking = Parking::create($formFileds);
-        return redirect()->route('parkings')->with('success', 'Parking saved!');
+        return redirect()->back()->with('success', 'Parking saved!');
     }
 
     public function get($id)
@@ -58,13 +58,13 @@ class ParkingsController extends Controller
 
         $parking = Parking::findOrFail($id);
         $parking->update($formFileds);
-        return redirect()->route('parkings')->with('success', 'Parking updated!');
+        return redirect()->back()->with('success', 'Parking updated!');
     }
 
     public function destroy($id)
     {
         $parking = Parking::findOrFail($id);
         $parking->delete();
-        return redirect()->route('parkings')->with('success', 'Parking deleted!');
+        return redirect()->back()->with('success', 'Parking deleted!');
     }
 }

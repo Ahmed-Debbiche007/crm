@@ -13,7 +13,7 @@ class EchancesController extends Controller
     public function index()
     {
         $echances = [];
-        $etage = Etage::with('appart', 'appart.echance', 'appart.etage', 'appart.client', 'building')->get();
+        $etage = Etage::with('appart.echance.client','appart', 'appart.echance', 'appart.etage', 'appart.client', 'building')->get();
         $residence = request('res');
         $et = request('etage');
         $appart = request('appart');
@@ -54,15 +54,15 @@ class EchancesController extends Controller
     {
         $formFileds = $request->validate([
             'appart_id' => ['required', 'exists:apparts,id'],
-            'type' => ['required', 'string'],
-            'amount' => ['required', 'numeric'],
             'date_avance' => ['required', 'date'],
             'amount_avance' => ['required', 'numeric'],
-            'payed' => ['required', 'boolean'],
+            'date' => ['required', 'date'],
+            'date_promesse_livre' => ['nullable', 'date'],
+            'date_promesse_legal' => ['nullable', 'date'],
+            'date_contrat_livre' => ['nullable', 'date'],
+            'date_contrat_enregistre' => ['nullable', 'date']
         ]);
-
-        $formFileds['date'] = date('Y-m-d');
-
+        $formFileds['client_id'] = Appart::findOrFail($formFileds['appart_id'])->client_id;
         $echance = Echance::create($formFileds);
         $i = 0;
         if ($request->hasFile("promesse")) {
@@ -94,7 +94,7 @@ class EchancesController extends Controller
             $echance->save();
             $i++;
         }
-        return redirect()->route('echances')->with('success', 'Echance saved!');
+        return redirect()->back()->with('success', 'Echance saved!');
     }
 
     public function get($id)
@@ -103,17 +103,29 @@ class EchancesController extends Controller
         return response()->json($echance);
     }
 
+    public function show ($id)
+    {
+        $echance = Echance::with('client','echeance', 'appart', 'appart.client','appart.etage','appart.etage.building' )->findOrFail($id);
+        $residences = Residence::with(
+            'etage',
+            'etage.appart',
+        )->get();
+        return view('pages.echances.show', ['echance' => $echance,'residences' => $residences,]);
+    }
+
     public function update(Request $request, $id)
     {
         $formFileds = $request->validate([
             'appart_id' => ['required', 'exists:apparts,id'],
-            'type' => ['required', 'string'],
-            'amount' => ['required', 'numeric'],
             'date_avance' => ['required', 'date'],
             'amount_avance' => ['required', 'numeric'],
-            'payed' => ['required', 'boolean'],
+            'date' => ['required', 'date'],
+            'date_promesse_livre' => ['nullable', 'date'],
+            'date_promesse_legal' => ['nullable', 'date'],
+            'date_contrat_livre' => ['nullable', 'date'],
+            'date_contrat_enregistre' => ['nullable', 'date']
         ]);
-
+        $formFileds['client_id'] = Appart::findOrFail($formFileds['appart_id'])->client_id;
         $echance = Echance::findOrFail($id);
         if (file_exists($echance->promesse)) {
             unlink($echance->promesse);
@@ -155,13 +167,13 @@ class EchancesController extends Controller
             $i++;
         }
         $echance->update($formFileds);
-        return redirect()->route('echances')->with('success', 'Echance updated!');
+        return redirect()->back()->with('success', 'Echance updated!');
     }
 
     public function destroy($id)
     {
         $echance = Echance::findOrFail($id);
         $echance->delete();
-        return redirect()->route('echances')->with('success', 'Echance deleted!');
+        return redirect()->back()->with('success', 'Echance deleted!');
     }
 }

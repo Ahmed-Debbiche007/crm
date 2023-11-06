@@ -35,6 +35,7 @@ class Appart extends Model
     protected $fillable = [
         'name',
         'etage_id',
+        'client_id',
         'type',
         'surface',
         'price',

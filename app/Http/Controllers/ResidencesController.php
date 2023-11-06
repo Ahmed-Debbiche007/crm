@@ -43,7 +43,7 @@ class ResidencesController extends Controller
         }
         
         $residence->save();
-        return redirect()->route('residences')->with('success', 'Residence saved!');
+        return redirect()->back()->with('success', 'Residence saved!');
     }
 
     public function get($id)
@@ -94,13 +94,13 @@ class ResidencesController extends Controller
             }
         }
         $residence->save();
-        return redirect()->route('residences')->with('success', 'Residence updated!');
+        return redirect()->back()->with('success', 'Residence updated!');
     }
 
     public function destroy($id)
     {
         $residence = Residence::findOrFail($id);
         $residence->delete();
-        return redirect()->route('residences')->with('success', 'Residence deleted!');
+        return redirect()->back()->with('success', 'Residence deleted!');
     }
 }

@@ -14,15 +14,17 @@ return new class extends Migration
         Schema::create('echances', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('appart_id');
-            $table->string('type');
+            $table->unsignedBigInteger('client_id')->nullable();
             $table->date('date');
-            $table->float('amount');
             $table->date('date_avance');
             $table->float('amount_avance');
             $table->string('preuve_avance')->nullable();
             $table->string('promesse')->nullable();
+            $table->date('date_promesse_livre')->nullable();
+            $table->date('date_promesse_legal')->nullable();
             $table->string('contrat')->nullable();
-            $table->boolean('payed');
+            $table->date('date_contrat_livre')->nullable();
+            $table->date('date_contrat_enregistre')->nullable();
             $table->timestamps();
             $table->foreign('appart_id')->references('id')->on('apparts');
         });

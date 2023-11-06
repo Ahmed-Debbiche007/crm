@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('contrat')->nullable();
             $table->float('foncier')->nullable();
             $table->unsignedBigInteger('appart_id');
+            $table->unsignedBigInteger('client_id')->nullable();
             $table->timestamps();
             $table->foreign('appart_id')->references('id')->on('apparts');
         });

@@ -203,7 +203,7 @@
                 new Promise((resolve, reject) => {
                     resolve(type);
                 }),
-            labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action">Browse</span></span>`,
+            labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
         });
 
         const editButtons = document.getElementsByClassName('edit');
@@ -237,7 +237,7 @@
                             new Promise((resolve, reject) => {
                                 resolve(type);
                             }),
-                        labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action">Browse</span></span>`,
+                        labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
                     }
                     if (residence.image) {
                         const files = []

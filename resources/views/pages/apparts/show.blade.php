@@ -9,10 +9,40 @@
         <div class="container-fluid">
             <div class="row mt-3">
                 <div class="col-lg-12">
+                    @if ($appart->image)
+                        <h5>Gallery:</h5>
+                        <div id="carouselExample" class="carousel slide m-3">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{{ asset($appart->image[0]->path) }}" class="d-block w-100"
+                                        style="height: 500px; object-fit: contain;">
+                                </div>
+                                @foreach ($appart->image as $key => $image)
+                                    @if ($key > 0)
+                                        <div class="carousel-item">
+                                            <img src="{{ asset($image->path) }}" class="d-block w-100"
+                                                style="height: 500px; object-fit: contain;">
+                                        </div>
+                                    @endif
+                                @endforeach
+
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    @endif
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
-                                <h5 class="card-title">Appartements</h5>
+                                <h5 class="card-title">Appartement</h5>
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
@@ -36,73 +66,70 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($apparts as $appart)
-                                            <tr>
-                                                <td>{{ $appart->name }}</td>
-                                                <td>
-                                                    @if ($appart->client)
-                                                        {{ $appart->client->name }} {{ $appart->client->lastName }}
-                                                    @else
-                                                        --
-                                                    @endif
-                                                </td>
-                                                <td>{{ $appart->etage->name }}</td>
-                                                <td>{{ $appart->etage->building->name }}</td>
-                                                <td>{{ $appart->surface }}</td>
-                                                <td>
-                                                    @if ($appart->bs == 0)
-                                                        Commerce
-                                                    @endif
-                                                    @if ($appart->bs == 1)
-                                                        Duplex
-                                                    @endif
-                                                    @if ($appart->bs == 2)
-                                                        Duplex - 1
-                                                    @endif
-                                                    @if ($appart->bs == 3)
-                                                        S+1
-                                                    @endif
-                                                    @if ($appart->bs == 4)
-                                                        S+2
-                                                    @endif
-                                                    @if ($appart->bs == 5)
-                                                        S+3
-                                                    @endif
-                                                </td>
-                                                <td>{{ $appart->price }}</td>
-                                                <td>
-                                                    @if ($appart->bs == 0)
-                                                        Libre
-                                                    @endif
-                                                    @if ($appart->bs == 1)
-                                                        Loué
-                                                    @endif
-                                                    @if ($appart->bs == 2)
-                                                        Réservé
-                                                    @endif
-                                                    @if ($appart->bs == 3)
-                                                        Vendu
-                                                    @endif
-                                                </td>
 
-                                                <td>{{ $appart->comments }}</td>
-                                                <td> <a href="{{ route('charges') }}?appart={{ $appart->id }}"
-                                                        class="badge bg-success">Charges</a> </td>
-                                                <td> <a href="{{ route('echances') }}?appart={{ $appart->id }}"
-                                                        class="badge bg-success">Échanciers</a> </td>
-                                                <td>
-                                                    <a href="{{ route('apparts.show', $appart->id) }}"
-                                                        class="btn btn-primary"><i
-                                                            data-feather="plus-circle"></i>Details</a>
-                                                    <button id="{{ $appart->id }}" class="btn btn-warning edit"
-                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                            data-feather="edit"></i>Modifier</button>
-                                                    <button onclick="deleteClient({{ $appart->id }})"
-                                                        class="btn btn-danger"><i
-                                                            data-feather="trash"></i>Supprimer</button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                        <tr>
+                                            <td>{{ $appart->name }}</td>
+                                            <td>
+                                                @if ($appart->client)
+                                                    {{ $appart->client->name }} {{ $appart->client->lastName }}
+                                                @else
+                                                    --
+                                                @endif
+                                            </td>
+                                            <td>{{ $appart->etage->name }}</td>
+                                            <td>{{ $appart->etage->building->name }}</td>
+                                            <td>{{ $appart->surface }}</td>
+                                            <td>
+                                                @if ($appart->bs == 0)
+                                                    Commerce
+                                                @endif
+                                                @if ($appart->bs == 1)
+                                                    Duplex
+                                                @endif
+                                                @if ($appart->bs == 2)
+                                                    Duplex - 1
+                                                @endif
+                                                @if ($appart->bs == 3)
+                                                    S+1
+                                                @endif
+                                                @if ($appart->bs == 4)
+                                                    S+2
+                                                @endif
+                                                @if ($appart->bs == 5)
+                                                    S+3
+                                                @endif
+                                            </td>
+                                            <td>{{ $appart->price }}</td>
+                                            <td>
+                                                @if ($appart->bs == 0)
+                                                    Libre
+                                                @endif
+                                                @if ($appart->bs == 1)
+                                                    Loué
+                                                @endif
+                                                @if ($appart->bs == 2)
+                                                    Réservé
+                                                @endif
+                                                @if ($appart->bs == 3)
+                                                    Vendu
+                                                @endif
+                                            </td>
+
+                                            <td>{{ $appart->comments }}</td>
+                                            <td> <a href="{{ route('charges') }}?appart={{ $appart->id }}"
+                                                    class="badge bg-success">Charges</a> </td>
+                                            <td> <a href="{{ route('echances') }}?appart={{ $appart->id }}"
+                                                    class="badge bg-success">Échanciers</a> </td>
+                                            <td>
+
+                                                <button id="{{ $appart->id }}" class="btn btn-warning edit"
+                                                    data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
+                                                        data-feather="edit"></i>Modifier</button>
+                                                <button onclick="deleteClient({{ $appart->id }})"
+                                                    class="btn btn-danger"><i data-feather="trash"></i>Supprimer</button>
+                                            </td>
+                                        </tr>
+
                                     </tbody>
                                 </table>
 

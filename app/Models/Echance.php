@@ -14,17 +14,28 @@ class Echance extends Model
         return $this->belongsTo(Appart::class);
     }
 
+    public function echeance(){
+        return $this->hasMany(Echeances::class);
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
 
     protected $fillable = [
         'appart_id',
-        'type',
         'date',
-        'amount',
+        'client_id',
         'date_avance',
         'amount_avance',
-        'payed',
         'preuve_avance',
         'promesse',
-        'contrat'
+        'date_promesse_livre',
+        'date_promesse_legal',
+        'contrat',
+        'date_contrat_livre',
+        'date_contrat_enregistre'
     ];
 }

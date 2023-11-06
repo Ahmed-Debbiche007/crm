@@ -13,7 +13,7 @@ class ChargesController extends Controller
     public function index()
     {
         $charges = [];
-        $etage = Etage::with('appart','appart.charge','appart.etage','appart.client','building')->get();
+        $etage = Etage::with('appart.charge.client','appart','appart.charge','appart.etage','appart.client','building')->get();
         $residence = request('res');
         $et = request('etage');
         $appart = request('appart');
@@ -63,8 +63,10 @@ class ChargesController extends Controller
 
         ]);
 
+        $formFileds['client_id'] = Appart::findOrFail($formFileds['appart_id'])->client_id;
+
         $charge = Charge::create($formFileds);
-        return redirect()->route('charges')->with('success', 'Charge saved!');
+        return redirect()->back()->with('success', 'Charge saved!');
     }
 
     public function get($id)
@@ -84,16 +86,16 @@ class ChargesController extends Controller
             'foncier' => ['nullable', 'numeric'],
             'appart_id' => ['required', 'exists:apparts,id'],
         ]);
-
+        $formFileds['client_id'] = Appart::findOrFail($formFileds['appart_id'])->client_id;
         $charge = Charge::findOrFail($id);
         $charge->update($formFileds);
-        return redirect()->route('charges')->with('success', 'Charge updated!');
+        return redirect()->back()->with('success', 'Charge updated!');
     }
 
     public function destroy($id)
     {
         $charge = Charge::findOrFail($id);
         $charge->delete();
-        return redirect()->route('charges')->with('success', 'Charge deleted!');
+        return redirect()->back()->with('success', 'Charge deleted!');
     }
 }

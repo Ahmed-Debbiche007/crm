@@ -6,6 +6,7 @@ use App\Http\Controllers\CelliersController;
 use App\Http\Controllers\ChargesController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\EchancesController;
+use App\Http\Controllers\EcheancesController;
 use App\Http\Controllers\EtagesController;
 use App\Http\Controllers\ParkingsController;
 use App\Http\Controllers\ResidencesController;
@@ -51,12 +52,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/etages/{id}', [EtagesController::class, 'update'])->name('etages.update');
     Route::get('/etages/{id}', [EtagesController::class, 'destroy'])->name('etages.destroy');
     Route::get('/etage/{id}', [EtagesController::class, 'get'])->name('etages.get');
+    Route::get('/etagess/{id}', [EtagesController::class, 'show'])->name('etages.show');
 
     Route::get('/apparts', [AppartsController::class, 'index'])->name('apparts');
     Route::post('/apparts', [AppartsController::class, 'store'])->name('apparts.store');
     Route::post('/apparts/{id}', [AppartsController::class, 'update'])->name('apparts.update');
     Route::get('/apparts/{id}', [AppartsController::class, 'destroy'])->name('apparts.destroy');
     Route::get('/appart/{id}', [AppartsController::class, 'get'])->name('apparts.get');
+    Route::get('/appartss/{id}', [AppartsController::class, 'show'])->name('apparts.show');
 
     Route::get('/celliers', [CelliersController::class, 'index'])->name('celliers');
     Route::post('/celliers', [CelliersController::class, 'store'])->name('celliers.store');
@@ -81,4 +84,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/echanciers/{id}', [EchancesController::class, 'update'])->name('echances.update');
     Route::get('/echanciers/{id}', [EchancesController::class, 'destroy'])->name('echances.destroy');
     Route::get('/echancier/{id}', [EchancesController::class, 'get'])->name('echances.get');
+    Route::get('/echancierss/{id}', [EchancesController::class, 'show'])->name('echances.show');
+
+    
+    Route::get('/echeances',[EcheancesController::class, 'index'])->name('echeances');
+    Route::post('/echeances',[EcheancesController::class, 'store'])->name('echeances.store');
+    Route::post('/echeances/{id}',[EcheancesController::class, 'update'])->name('echeances.update');
+    Route::get('/echeances/{id}',[EcheancesController::class, 'destroy'])->name('echeances.destroy');
+    Route::get('/echeance/{id}',[EcheancesController::class, 'get'])->name('echeances.get');
 });

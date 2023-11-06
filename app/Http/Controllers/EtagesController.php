@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\Etage;
 use App\Models\Residence;
@@ -37,7 +38,7 @@ class EtagesController extends Controller
             $etage->save();
         }
 
-        return redirect()->route('etages')->with('success', 'Etage saved!');
+        return redirect()->back()->with('success', 'Etage saved!');
     }
 
     public function get($id)
@@ -46,7 +47,15 @@ class EtagesController extends Controller
         return response()->json($etage);
     }
 
-    
+    public function show($id){
+        $etage = Etage::with('appart','appart.charge','appart.etage','appart.client','building')->findOrFail($id);
+        $clients = Client::all();
+        $residences = Residence::with(
+            'etage',
+            'etage.appart',
+        )->get();
+        return view('pages.etages.show', ['etage' => $etage,'residences' => $residences, 'clients' => $clients]);
+    }
 
     public function update(Request $request, $id)
     {
@@ -68,13 +77,13 @@ class EtagesController extends Controller
             $etage->plan = 'uploads/residences/' . $filename;
             $etage->save();
         }
-        return redirect()->route('etages')->with('success', 'Etage updated!');
+        return redirect()->back()->with('success', 'Etage updated!');
     }
 
     public function destroy($id)
     {
         $etage = Etage::findOrFail($id);
         $etage->delete();
-        return redirect()->route('etages')->with('success', 'Etage deleted!');
+        return redirect()->back()->with('success', 'Etage deleted!');
     }
 }

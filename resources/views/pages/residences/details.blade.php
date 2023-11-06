@@ -9,7 +9,38 @@
         <div class="container-fluid">
             <div class="mt-3">
                 <h5 class="card-title">Residence: {{ $residence->name }}</h5>
-                <h5 class="card-title">Adresse: {{ $residence->adress }}</h5>
+                <h5 class="card-title">Adresse: {{ $residence->address }}</h5>
+
+                @if ($residence->image)
+
+                    <div id="carouselExample" class="carousel slide m-3">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{{ asset($residence->image[0]->path) }}" class="d-block w-100"
+                                    style="height: 500px; object-fit: contain;">
+                            </div>
+                            @foreach ($residence->image as $key => $image)
+                                @if ($key > 0)
+                                    <div class="carousel-item">
+                                        <img src="{{ asset($image->path) }}" class="d-block w-100"
+                                            style="height: 500px; object-fit: contain;">
+                                    </div>
+                                @endif
+                            @endforeach
+
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                @endif
                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineResEdit" id="resEd"
                     class="btn btn-primary">Modifier</button>
                 <h5 class="card-title">Étages:</h5>
@@ -207,8 +238,9 @@
                                             <td>
 
                                                 <div class="d-flex">
-                                                    <button id="{{ $cellier->id }}" class="btn btn-warning editCellier m-1"
-                                                        data-bs-toggle="modal" data-bs-target="#cellierEdit"><i
+                                                    <button id="{{ $cellier->id }}"
+                                                        class="btn btn-warning editCellier m-1" data-bs-toggle="modal"
+                                                        data-bs-target="#cellierEdit"><i
                                                             data-feather="edit"></i>Modifier</button>
                                                     <form method="GET"
                                                         action="{{ route('celliers.destroy', $cellier->id) }}">

@@ -33,13 +33,16 @@
                                             <tr>
                                                 <td>{{ $etage->building->name }}</td>
                                                 <td>{{ $etage->name }}</td>
-                                                <td> <a href="{{route('apparts')}}?etage={{$etage->id}}" class="badge bg-success">Appartements</a> </td>
-                                                <td> <a href="{{route('charges')}}?etage={{$etage->id}}" class="badge bg-success">Charges</a> </td>
-                                                <td> <a href="{{route('echances')}}?etage={{$etage->id}}" class="badge bg-success">Échanciers</a> </td>
+                                                <td> <a href="{{ route('apparts') }}?etage={{ $etage->id }}"
+                                                        class="badge bg-success">Appartements</a> </td>
+                                                <td> <a href="{{ route('charges') }}?etage={{ $etage->id }}"
+                                                        class="badge bg-success">Charges</a> </td>
+                                                <td> <a href="{{ route('echances') }}?etage={{ $etage->id }}"
+                                                        class="badge bg-success">Échanciers</a> </td>
                                                 <td>
-                                                    <button id="{{ $etage->id }}" class="btn btn-primary edit"
-                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                            data-feather="plus-circle"></i>Details</button>
+                                                    <a href="{{ route('etages.show', $etage->id) }}"
+                                                        class="btn btn-primary"><i
+                                                            data-feather="plus-circle"></i>Details</a>
                                                     <button id="{{ $etage->id }}" class="btn btn-warning edit"
                                                         data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
                                                             data-feather="edit"></i>Modifier</button>
@@ -74,7 +77,8 @@
                                                     <div class="form-group">
                                                         <select name="residence_id" class="form-control">
                                                             @foreach ($residences as $residence)
-                                                                <option value="{{ $residence->id }}">{{ $residence->name }}
+                                                                <option value="{{ $residence->id }}">
+                                                                    {{ $residence->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -200,7 +204,7 @@
                         resolve(type);
                     }),
                 storeAsFile: true,
-                labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action">Browse</span></span>`,
+                labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
             });
         }
         createFileInput(".image-preview-filepond");
@@ -235,11 +239,11 @@
                                 resolve(type);
                             }),
                         storeAsFile: true,
-                        labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action">Browse</span></span>`,
+                        labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
                     }
                     if (etage.plan) {
                         options.files = [{
-                            source: '{{route('dashboard')}}/'+etage.plan
+                            source: '{{ route('dashboard') }}/' + etage.plan
                         }]
                     }
                     FilePond.create(document.querySelector('.image-preview-filepondEdit'), options);

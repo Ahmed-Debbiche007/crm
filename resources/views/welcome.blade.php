@@ -16,8 +16,8 @@
     <!-- simplebar CSS-->
     <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
     <!-- Bootstrap core CSS-->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/bootstrap-dark.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/bootstrap-dark.css') }}" rel="stylesheet" />
     <!-- animate CSS-->
     <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet" type="text/css" />
     <!-- Icons CSS-->

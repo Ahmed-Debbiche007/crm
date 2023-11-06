@@ -6735,30 +6735,7 @@ html[data-bs-theme="dark"] .carousel.pointer-event {
     touch-action: pan-y;
 }
 
-html[data-bs-theme="dark"] .carousel-inner {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-}
 
-html[data-bs-theme="dark"] .carousel-inner::after {
-    display: block;
-    clear: both;
-    content: "";
-}
-
-html[data-bs-theme="dark"] .carousel-item {
-    position: relative;
-    display: none;
-    float: left;
-    width: 100%;
-    margin-right: -100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    transition: -webkit-transform 0.6s ease-in-out;
-    transition: transform 0.6s ease-in-out;
-    transition: transform 0.6s ease-in-out, -webkit-transform 0.6s ease-in-out;
-}
 
 @media (prefers-reduced-motion: reduce) {
     html[data-bs-theme="dark"] .carousel-item {
