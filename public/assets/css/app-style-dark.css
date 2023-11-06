@@ -3660,3 +3660,12 @@ html[data-bs-theme="dark"] .modal .modal-content{
 html[data-bs-theme="dark"] .modal .modal-content select , html[data-bs-theme="dark"] .modal .modal-content option  {
     background-color: rgb(5,5,5);
 }
+
+html[data-bs-theme="dark"] .footer{
+    color: #fff;
+}
+html[data-bs-theme="dark"] .custom-footer{
+    height:30px; 
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}

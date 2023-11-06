@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('payed');
             $table->string('modalite');
             $table->timestamps();
+            $table->foreign('echance_id')->references('id')->on('echances')->onDelete('cascade');
         });
     }
 

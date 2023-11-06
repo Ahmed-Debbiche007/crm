@@ -49,19 +49,21 @@
                                             <td>{{ $echance->amount_avance }}</td>
                                             <td>{{ $echance->date_avance }}</td>
                                             <td>
-                                                <div class="d-flex flex-column justify-items-center align-items-center ">
+                                                <div
+                                                    class="d-flex flex-column justify-items-center align-items-center ">
                                                     @if ($echance->preuve_avance != null)
                                                         <div>
-                                                            <a href="/" class="btn btn-success">Télécharger</a>
+                                                            <a href="{{asset($echance->preuve_avance)}}" target="_blank" download class="btn btn-success"><i data-feather="download"></i> Télécharger</a>
                                                         </div>
                                                     @endif
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="d-flex flex-column justify-items-center align-items-center ">
+                                                <div
+                                                    class="d-flex flex-column justify-items-center align-items-center ">
                                                     @if ($echance->promesse != null)
                                                         <div>
-                                                            <a href="/" class="btn btn-success">Télécharger</a>
+                                                            <a href="{{asset($echance->promesse)}}" target="_blank" download class="btn btn-success"><i data-feather="download"></i> Télécharger</a>
                                                         </div>
                                                     @endif
                                                     <div>
@@ -78,10 +80,11 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="d-flex flex-column justify-items-center align-items-center ">
+                                                <div
+                                                    class="d-flex flex-column justify-items-center align-items-center ">
                                                     @if ($echance->contrat != null)
                                                         <div>
-                                                            <a href="/" class="btn btn-success">Télécharger</a>
+                                                           <a href="{{asset($echance->contrat)}}" target="_blank" download class="btn btn-success"><i data-feather="download"></i> Télécharger</a>
                                                         </div>
                                                     @endif
                                                     <div>
@@ -101,18 +104,11 @@
                                             <td>
 
                                                 <div class="d-flex">
-                                                    <a href="{{ route('echances.show', $echance->id) }}"
-                                                        class="btn btn-primary edit"><i
-                                                            data-feather="plus-circle"></i>Details</a>
+                                                   
                                                     <button id="{{ $echance->id }}" class="btn btn-warning edit m-1"
                                                         data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
                                                             data-feather="edit"></i>Modifier</button>
-                                                    <form method="GET"
-                                                        action="{{ route('echances.destroy', $echance->id) }}">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger m-1"><i
-                                                                data-feather="trash"></i>Supprimer</button>
-                                                    </form>
+                                                    
                                                 </div>
 
                                             </td>

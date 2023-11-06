@@ -172,8 +172,7 @@
                                                     <label>Client: </label>
                                                     <div class="form-group">
                                                         <select name="client_id" class="form-control">
-                                                            <option>--</option>
-                                                            @foreach ($clients as $client)
+                                                            <option value="">--</option>                                                            @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
                                                                     {{ $client->name }}
                                                                 </option>
@@ -274,8 +273,7 @@
                                                     <label>Client: </label>
                                                     <div class="form-group">
                                                         <select name="client_id" class="form-control">
-                                                            <option>--</option>
-                                                            @foreach ($clients as $client)
+                                                            <option value="">--</option>                                                            @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
                                                                     {{ $client->name }}
                                                                 </option>

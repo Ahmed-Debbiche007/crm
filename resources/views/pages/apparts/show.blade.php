@@ -9,8 +9,8 @@
         <div class="container-fluid">
             <div class="row mt-3">
                 <div class="col-lg-12">
-                    @if ($appart->image)
-                        <h5>Gallery:</h5>
+                    <h5 class="card-title">Gallery:</h5>
+                    @if ($appart->image && $appart->image->count()>0)
                         <div id="carouselExample" class="carousel slide m-3">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
@@ -38,13 +38,14 @@
                                 <span class="visually-hidden">Next</span>
                             </button>
                         </div>
+                        @else
+                        <h6 class="card-title ml-5">Pas de photos</h6>
                     @endif
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Appartement</h5>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                    class="btn btn-primary">Ajouter</button>
+                                
                             </div>
                             <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
@@ -125,8 +126,7 @@
                                                 <button id="{{ $appart->id }}" class="btn btn-warning edit"
                                                     data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
                                                         data-feather="edit"></i>Modifier</button>
-                                                <button onclick="deleteClient({{ $appart->id }})"
-                                                    class="btn btn-danger"><i data-feather="trash"></i>Supprimer</button>
+                                                
                                             </td>
                                         </tr>
 
@@ -199,8 +199,7 @@
                                                     <label>Client: </label>
                                                     <div class="form-group">
                                                         <select name="client_id" class="form-control">
-                                                            <option>--</option>
-                                                            @foreach ($clients as $client)
+                                                            <option value="">--</option>                                                            @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
                                                                     {{ $client->name }}
                                                                 </option>
@@ -301,8 +300,7 @@
                                                     <label>Client: </label>
                                                     <div class="form-group">
                                                         <select name="client_id" class="form-control">
-                                                            <option>--</option>
-                                                            @foreach ($clients as $client)
+                                                            <option value="">--</option>                                                            @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
                                                                     {{ $client->name }}
                                                                 </option>
@@ -447,8 +445,9 @@
 
                                                     <div class="d-flex">
                                                         <a href="{{ route('echances.show', $echance->id) }}"
-                                                            class="btn btn-primary edit"><i
+                                                            class="btn btn-primary m-1"><i
                                                                 data-feather="plus-circle"></i>Details</a>
+
                                                         <button id="{{ $echance->id }}"
                                                             class="btn btn-warning editEchance m-1" data-bs-toggle="modal"
                                                             data-bs-target="#inlineEchanceEdit"><i

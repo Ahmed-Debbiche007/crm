@@ -32,7 +32,7 @@ Route::group(['middleware' => ['guest']], function () {
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout.perform');
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function () {
-        return 'hello';
+        return redirect()->route('residences');
     })->name('dashboard');
     Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
     Route::post('/clients', [ClientsController::class, 'store'])->name('clients.store');

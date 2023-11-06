@@ -11,10 +11,10 @@
                 <div class="col-lg-12">
                     <button id="{{ $etage->id }}" class="btn btn-warning editEt" data-bs-toggle="modal"
                         data-bs-target="#inlineEtageEdit"><i data-feather="edit"></i>Modifier</button>
-                    <h5>Résidence: {{ $etage->building->name }}</h5>
-                    <h5>Étage: {{ $etage->name }}</h5>
-                    <h5>Nombre d'appartements: {{ $etage->appart->count() }}</h5>
-                    <h5>Plan:</h5>
+                    <h5 class="card-title">Résidence: {{ $etage->building->name }}</h5>
+                    <h5 class="card-title">Étage: {{ $etage->name }}</h5>
+                    <h5 class="card-title">Nombre d'appartements: {{ $etage->appart->count() }}</h5>
+                    <h5 class="card-title">Plan:</h5>
                     <img src="{{ asset($etage->plan) }}" alt="" class="m-3"
                         style="height: 500px; object-fit: contain;">
                     <div class="card">
@@ -137,25 +137,16 @@
                                                 <div class="modal-body">
                                                     <label>Nom: </label>
                                                     <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Nom"
+                                                        <input  type="text" name="name" placeholder="Nom"
                                                             class="form-control">
                                                     </div>
-                                                    <label>Résidence: </label>
-                                                    <div class="form-group">
-                                                        <select name="residence_id" class="form-control" id="residencesAdd">
-                                                            @foreach ($residences as $residence)
-                                                                <option value="{{ $residence->id }}">
-                                                                    {{ $residence->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <label>Etages: </label>
-                                                    <div class="form-group">
-                                                        <select name="etage_id" id="addetage" class="form-control">
 
-                                                        </select>
-                                                    </div>
+                                                    <input type="hidden" name="residence_id" class="form-control"
+                                                        value="{{ $etage->residence_id }}">
+
+                                                    <input type="hidden" name="etage_id" value="{{ $etage->id }}"
+                                                        class="form-control">
+
                                                     <label>Surface: </label>
                                                     <div class="form-group">
                                                         <input type="number" name="surface" placeholder="Numéro CIN"
@@ -180,7 +171,7 @@
                                                     <label>Client: </label>
                                                     <div class="form-group">
                                                         <select name="client_id" class="form-control">
-                                                            <option>--</option>
+                                                            <option value="">--</option>
                                                             @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
                                                                     {{ $client->name }}
@@ -241,23 +232,11 @@
                                                         <input type="text" name="name" placeholder="Nom"
                                                             class="form-control">
                                                     </div>
-                                                    <label>Résidence: </label>
-                                                    <div class="form-group">
-                                                        <select name="residence_id" class="form-control"
-                                                            id="residencesEdit">
-                                                            @foreach ($residences as $residence)
-                                                                <option value="{{ $residence->id }}">
-                                                                    {{ $residence->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <label>Etages: </label>
-                                                    <div class="form-group">
-                                                        <select name="etage_id" id="editetage" class="form-control">
+                                                    <input type="hidden" name="residence_id" class="form-control"
+                                                        value="{{ $etage->residence_id }}">
 
-                                                        </select>
-                                                    </div>
+                                                    <input type="hidden" name="etage_id" value="{{ $etage->id }}"
+                                                        class="form-control">
                                                     <label>Surface: </label>
                                                     <div class="form-group">
                                                         <input type="number" name="surface" placeholder="Numéro CIN"
@@ -282,8 +261,7 @@
                                                     <label>Client: </label>
                                                     <div class="form-group">
                                                         <select name="client_id" class="form-control">
-                                                            <option>--</option>
-                                                            @foreach ($clients as $client)
+                                                            <option value="">--</option>                                                            @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
                                                                     {{ $client->name }}
                                                                 </option>
@@ -400,20 +378,7 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <script>
-        const selectEtages = document.getElementById('residencesAdd')
-        const selectEtagesEdit = document.getElementById('residencesEdit')
-        loadEtages(selectEtages.value, 'addetage');
-        selectEtages.addEventListener('change', (e) => {
-            const id = e.target.value
-
-            loadEtages(id, 'addetage')
-        })
-
-        selectEtagesEdit.addEventListener('change', (e) => {
-            const id = e.target.value
-
-            loadEtages(id, 'editetage')
-        })
+        
 
         FilePond.create(document.querySelector(".multiple-files-filepond"), {
             credits: null,
@@ -431,21 +396,7 @@
             labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
         });
 
-        function loadEtages(id, etageId) {
-            const selectEtage = document.getElementById(etageId)
-            selectEtage.innerHTML = ''
-            const data = @json($residences);
-            data.forEach(residence => {
-                if (residence.id == id) {
-                    residence.etage.forEach(e => {
-                        const option = document.createElement('option')
-                        option.value = e.id
-                        option.innerHTML = e.name
-                        selectEtage.appendChild(option)
-                    })
-                }
-            })
-        }
+        
 
 
 
@@ -481,17 +432,7 @@
                 url = url.replace('5', editButton.id);
                 axios.get(url).then((reponse) => {
                     const appart = reponse.data;
-                    const data = @json($residences);
-
-                    data.forEach(residence => {
-                        residence.etage.forEach(e => {
-                            if (e.id == appart.etage_id) {
-                                residence_idInput.value = residence.id
-                                loadEtages(residence.id, 'editetage')
-                                etage_idInput.value = e.id
-                            }
-                        })
-                    })
+                    
                     nameInput.value = appart.name
                     surfaceInput.value = appart.surface
                     typeInput.value = appart.type
@@ -570,7 +511,8 @@
                             source: '{{ route('dashboard') }}/' + etage.plan
                         }]
                     }
-                    FilePond.create(document.querySelector('.image-preview-filepondEtage'), options);
+                    FilePond.create(document.querySelector('.image-preview-filepondEtage'),
+                        options);
                 }).catch((error) => {
                     console.log(error)
                 })

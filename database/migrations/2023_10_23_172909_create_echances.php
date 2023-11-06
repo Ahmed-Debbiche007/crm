@@ -26,7 +26,7 @@ return new class extends Migration
             $table->date('date_contrat_livre')->nullable();
             $table->date('date_contrat_enregistre')->nullable();
             $table->timestamps();
-            $table->foreign('appart_id')->references('id')->on('apparts');
+            $table->foreign('appart_id')->references('id')->on('apparts')->onDelete('cascade');
         });
     }
 

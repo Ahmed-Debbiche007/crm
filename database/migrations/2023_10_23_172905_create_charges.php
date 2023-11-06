@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('appart_id');
             $table->unsignedBigInteger('client_id')->nullable();
             $table->timestamps();
-            $table->foreign('appart_id')->references('id')->on('apparts');
+            $table->foreign('appart_id')->references('id')->on('apparts')->onDelete('cascade');
         });
     }
 

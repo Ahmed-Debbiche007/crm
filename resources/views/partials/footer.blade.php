@@ -4,7 +4,7 @@
             <p>2023 &copy; MRTech Solutions</p>
         </div>
         <div class="float-end">
-            <img src="{{ asset('assets/images/mrtech.png') }}" style="height:30px;  object-fit: contain; filter: brightness(0) invert(1);" alt="">
+            <img src="{{ asset('assets/images/mrtech.png') }}" class="custom-footer" alt="">
         </div>
     </div>
 </footer>

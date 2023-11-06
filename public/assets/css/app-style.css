@@ -3672,3 +3672,11 @@ table.grid td {
     background-color: transparent;
 }
 
+.footer{
+    color: #000;
+}
+.custom-footer{
+    height:30px; 
+    object-fit: contain;
+    filter: brightness(0) invert(0);
+}

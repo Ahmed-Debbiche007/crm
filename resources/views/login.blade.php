@@ -17,18 +17,28 @@
     <!-- simplebar CSS-->
     <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
     <!-- Bootstrap core CSS-->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/bootstrap-dark.css') }}" rel="stylesheet" />
     <!-- animate CSS-->
     <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet" type="text/css" />
     <!-- Icons CSS-->
     <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
     <!-- Sidebar CSS-->
     <link href="{{ asset('assets/css/sidebar-menu.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/sidebar-menu-dark.css') }}" rel="stylesheet" />
     <!-- Custom Style-->
     <link href="{{ asset('assets/css/app-style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/app-style-dark.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/vendors/simple-datatables/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/filepond/filepond.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('assets/vendors/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('assets/vendors/filepond-plugin-get-file/dist/filepond-plugin-get-file.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/toastify-js/src/toastify.css') }}">
 </head>
 
-<body class="bg-theme bg-theme1">
+<body class="bg-theme">
 
     <!-- start loader -->
    

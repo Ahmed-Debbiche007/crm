@@ -10,8 +10,8 @@
             <div class="mt-3">
                 <h5 class="card-title">Residence: {{ $residence->name }}</h5>
                 <h5 class="card-title">Adresse: {{ $residence->address }}</h5>
-
-                @if ($residence->image)
+                <h5 class="card-title">Gallery:</h5>
+                @if ($residence->image && count($residence->image) > 0)
 
                     <div id="carouselExample" class="carousel slide m-3">
                         <div class="carousel-inner">
@@ -40,17 +40,22 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
+                @else
+                    <h6 class="card-title ml-5">Pas de photos</h6>
                 @endif
                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineResEdit" id="resEd"
-                    class="btn btn-primary">Modifier</button>
+                    class="btn btn-primary mb-1 mt-1">Modifier</button>
                 <h5 class="card-title">Étages:</h5>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineEtage" id="resEd"
+                    class="btn btn-primary mb-1 mt-1">Ajouter</button>
                 <div class="row">
                     @foreach ($residence->etage as $etage)
                         <div class="card m-3">
                             <div class="card-header">
                                 <div class="d-flex justify-items-between">
                                     <h5 class="card-title">{{ $etage->name }}</h5>
-                                    <a href="/" class="btn btn-primary ml-auto">Details</a>
+                                    <a href="{{ route('etages.show', $etage->id) }}"
+                                        class="btn btn-primary ml-auto">Details</a>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -114,12 +119,49 @@
                     </div>
                 </div>
 
+                <div class="modal fade text-left " id="inlineEtage" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel33" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <form method="POST" action="{{ route('etages.store') }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="modal-body">
+                                    <input type="hidden" name="residence_id" value={{ $residence->id }}>
+                                    <label>Numero: </label>
+                                    <div class="form-group">
+                                        <input type="text" name="name" placeholder="Addresse"
+                                            class="form-control">
+                                    </div>
+                                    <label>Plan: </label>
+                                    <input type="file" name="plan" class="image-preview-filepondEtage" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Close</span>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary ml-1">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block text-white">Ajouter</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="modal fade text-left " id="cellier" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel33" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                                <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <i data-feather="x"></i>
                                 </button>
@@ -164,7 +206,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                                <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <i data-feather="x"></i>
                                 </button>
@@ -266,7 +308,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                            <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <i data-feather="x"></i>
                             </button>
@@ -315,7 +357,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                            <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <i data-feather="x"></i>
                             </button>
@@ -366,7 +408,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                            <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <i data-feather="x"></i>
                             </button>
@@ -562,5 +604,23 @@
                 console.log(error)
             })
         });
+
+        function createFileInput(className) {
+            FilePond.create(document.querySelector(className), {
+                credits: null,
+                allowImagePreview: true,
+                allowImageFilter: false,
+                allowImageExifOrientation: false,
+                allowImageCrop: false,
+                acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+                fileValidateTypeDetectType: (source, type) =>
+                    new Promise((resolve, reject) => {
+                        resolve(type);
+                    }),
+                storeAsFile: true,
+                labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
+            });
+        }
+        createFileInput(".image-preview-filepondEtage");
     </script>
 @endsection
