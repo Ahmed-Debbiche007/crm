@@ -14,7 +14,12 @@ return new class extends Migration
         Schema::create('residences', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('address');
+            $table->string('address')->nullable();
+            $table->string('nfoncier')->nullable();
+            $table->string('emplacemnt')->nullable();
+            $table->string('npermis')->nullable();
+            $table->string('detailMunicipal')->nullable();
+            $table->string('detail')->nullable();
             $table->timestamps();
             
         });

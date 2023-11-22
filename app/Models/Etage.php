@@ -29,5 +29,7 @@ class Etage extends Model
         'plan',
         'residence_id',
         'number',
+        'hplan',
+        'wplan',
     ];
 }

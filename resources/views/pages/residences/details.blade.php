@@ -10,6 +10,11 @@
             <div class="mt-3">
                 <h5 class="card-title">Residence: {{ $residence->name }}</h5>
                 <h5 class="card-title">Adresse: {{ $residence->address }}</h5>
+                <h5 class="card-title">N° du titre Foncier: {{ $residence->nfoncier }}</h5>
+                <h5 class="card-title">Emplacement: {{ $residence->emplacemnt }}</h5>
+                <h5 class="card-title">N° du permis de bâtir: {{ $residence->npermis }}</h5>
+                <h5 class="card-title">Détail Municipalité: {{ $residence->detailMunicipal }}</h5>
+                <h5 class="card-title">Détails Résidence: <a href="{{asset($residence->detail)}}" target="_blank" download class="btn btn-primary mb-1 mt-1"><i data-feather="download"></i> Télécharger</a></h5>
                 <h5 class="card-title">Gallery:</h5>
                 @if ($residence->image && count($residence->image) > 0)
 
@@ -126,7 +131,9 @@
                             <div class="modal-header">
                                 <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <i data-feather="x"></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg>
                                 </button>
                             </div>
                             <form method="POST" action="{{ route('etages.store') }}" enctype="multipart/form-data">
@@ -163,7 +170,9 @@
                             <div class="modal-header">
                                 <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <i data-feather="x"></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg>
                                 </button>
                             </div>
                             <form method="POST" action="{{ route('celliers.store') }}" enctype="multipart/form-data">
@@ -208,7 +217,9 @@
                             <div class="modal-header">
                                 <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <i data-feather="x"></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg>
                                 </button>
                             </div>
                             <form id="formEdit" method="POST" enctype="multipart/form-data">
@@ -310,7 +321,9 @@
                         <div class="modal-header">
                             <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <i data-feather="x"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg>
                             </button>
                         </div>
                         <form method="POST" action="{{ route('parkings.store') }}" enctype="multipart/form-data">
@@ -359,7 +372,9 @@
                         <div class="modal-header">
                             <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <i data-feather="x"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg>
                             </button>
                         </div>
                         <form id="formEditParking" method="POST" enctype="multipart/form-data">
@@ -410,7 +425,9 @@
                         <div class="modal-header">
                             <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <i data-feather="x"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg>
                             </button>
                         </div>
                         <form id="resEdit" method="POST" action="{{ route('residences.update', $residence->id) }}"
@@ -428,6 +445,31 @@
                                     <input type="text" name="address" placeholder="Addresse" class="form-control">
                                 </div>
 
+                                <label>N° du titre Foncier: </label>
+                                <div class="form-group">
+                                    <input type="text" name="nfoncier" placeholder="N° du titre Foncier"
+                                        class="form-control">
+                                </div>
+
+                                <label>Emplacement: </label>
+                                <div class="form-group">
+                                    <input type="text" name="emplacemnt" placeholder="Emplacement"
+                                        class="form-control">
+                                </div>
+
+                                <label>N° du permis de bâtir: </label>
+                                <div class="form-group">
+                                    <input type="text" name="npermis" placeholder="N° du permis de bâtir"
+                                        class="form-control">
+                                </div>
+
+                                <label>Détail Municipalité: </label>
+                                <div class="form-group">
+                                    <input type="text" name="detailMunicipal" placeholder="Détail Municipalité"
+                                        class="form-control">
+                                </div>
+                                <label>Detail Résidence </label>
+                                <input type="file" name="details" class="image-preview-filepondEdit" />
 
                                 <label>Gallery </label>
                                 <input type="file" name="gallery[]" class="multiple-files-filepondEdit" multiple>
@@ -459,14 +501,14 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
+    
 
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+    
 
-    <script src="{{ asset('assets/vendors/simple-datatables/simple-datatables.js') }}"></script>
-    <script src="{{ asset('assets/js/vendors.js') }}"></script>
+    <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+    
 
     <script>
         const editButtons = document.getElementsByClassName('editCellier');
@@ -563,13 +605,42 @@
 
             const nameInput = form.querySelector('input[name="name"]');
             const adressInput = form.querySelector('input[name="address"]');
+            const nfoncierInput = form.querySelector('input[name="nfoncier"]');
+            const emplacemntInput = form.querySelector('input[name="emplacemnt"]');
+            const npermisInput = form.querySelector('input[name="npermis"]');
+            const detailMunicipalInput = form.querySelector('input[name="detailMunicipal"]');
             url = "{{ route('residences.get', 5) }}";
             url = url.replace('5', '{{ $residence->id }}');
             axios.get(url).then((reponse) => {
                 const residence = reponse.data;
                 nameInput.value = residence.name;
                 adressInput.value = residence.address;
-                console.log(residence.image)
+                nfoncierInput.value = residence.nfoncier;
+                emplacemntInput.value = residence.emplacemnt;
+                npermisInput.value = residence.npermis;
+                detailMunicipalInput.value = residence.detailMunicipal;
+                const options2 = {
+                        credits: null,
+                        allowImagePreview: false,
+                        allowMultiple: false,
+                        allowFileEncode: false,
+                        required: false,
+                        storeAsFile: true,
+                        labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
+                        labelButtonDownloadItem: "Télécharger",
+                        allowDrop: false,
+                        allowBrowse: false,
+                        allowPaste: false,
+                    }
+                    if (residence.detail) {
+                        options2.files = [{
+                            source: '{{ route('dashboard') }}/' + residence.detail
+                        }]
+                    }
+                    FilePond.create(document.querySelector('.image-preview-filepondEdit'),
+                        options2);
+
+
                 const options = {
                     credits: null,
                     allowImagePreview: true,

@@ -28,7 +28,7 @@ class AppartsController extends Controller
                 array_push($apparts,$appart);
             }
         }
-        $etages = Etage::all();
+        $etages = Etage::with('appart')->get();
         $residences = Residence::with(
             'etage',
             'parking',
@@ -40,15 +40,18 @@ class AppartsController extends Controller
 
     public function store(Request $request)
     {
+        
         $formFileds = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'etage_id' => ['required', 'exists:etages,id'],
             'client_id' => ['nullable', 'exists:clients,id'],
-            'type' => ['required', 'integer'],
-            'surface' => ['required', 'numeric'],
-            'price' => ['required', 'numeric'],
-            'bs' => ['required', 'integer'],
-            'comments' => ['required', 'string'],
+            'type' => ['nullable', 'integer'],
+            'surface' => ['nullable', 'numeric'],
+            'price' => ['nullable', 'numeric'],
+            'bs' => ['nullable', 'integer'],
+            'comments' => ['nullable', 'string'],
+            'x' => ['nullable', 'string'],
+            'y' => ['nullable', 'string'],
         ]);
 
         $appart = Appart::create($formFileds);
@@ -78,7 +81,7 @@ class AppartsController extends Controller
     public function show($id)
     {
         $appart = Appart::with('image', 'echance', 'charge', 'echance.client', 'charge.client')->findOrFail($id);
-        $etages = Etage::all();
+        $etages = Etage::with('appart')->get();
         $residences = Residence::with(
             'etage',
             'parking',
@@ -94,11 +97,13 @@ class AppartsController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'etage_id' => ['required', 'exists:etages,id'],
             'client_id' => ['nullable', 'exists:clients,id'],
-            'type' => ['required', 'integer'],
-            'surface' => ['required', 'numeric'],
-            'price' => ['required', 'numeric'],
-            'bs' => ['required', 'integer'],
-            'comments' => ['required', 'string'],
+            'type' => ['nullable', 'integer'],
+            'surface' => ['nullable', 'numeric'],
+            'price' => ['nullable', 'numeric'],
+            'bs' => ['nullable', 'integer'],
+            'comments' => ['nullable', 'string'],
+            'x' => ['nullable', 'string'],
+            'y' => ['nullable', 'string'],
         ]);
 
         $appart = Appart::findOrFail($id);

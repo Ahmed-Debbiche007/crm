@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('etage_id');
             $table->unsignedBigInteger('client_id')->nullable();
-            $table->integer('type');
-            $table->float('surface');
-            $table->float('price');
-            $table->integer('bs');
-            $table->text('comments');
+            $table->integer('type')->nullable();
+            $table->float('surface')->nullable();
+            $table->float('price')->nullable();
+            $table->string('x')->nullable();
+            $table->string('y')->nullable();
+            $table->integer('bs')->nullable();
+            $table->text('comments')->nullable();
             $table->timestamps();
             $table->foreign('etage_id')->references('id')->on('etages');
             

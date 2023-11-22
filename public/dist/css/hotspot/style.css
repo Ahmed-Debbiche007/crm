@@ -1,0 +1,100 @@
+
+.containerH {
+  position: relative;
+  z-index: 99;
+  display: block;
+  
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.containerD {
+  position: relative;
+  z-index: 99;
+  display: block;
+  
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.hotspot {
+  position: absolute;
+  display: block;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  border-radius: 50% 50%;
+  background-color: #994e77;
+  color: white;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  backface-visibilty: hidden;
+  transition: all 0.3s ease 0.1, border-radius 0.1s ease 0.2;
+}
+.hotspot.open {
+  border-radius: 0 0;
+  width: 300px;
+  height: 250px;
+  max-height: 300px;
+  transition: all 0.3s ease, border-radius 0.1s ease;
+}
+.hotspot.open .icon {
+  transform: rotate(45deg);
+}
+.hotspot.open .content {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.2s;
+}
+.hotspot .icon {
+  position: absolute;
+  display: block;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.hotspot .content {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  margin: 0;
+  overflow: auto;
+  height: 240px;
+  width: 240px;
+  opacity: 0;
+  transition: opacity 0.1s ease 0s;
+}
+.hotspot .content h4 {
+  margin: 0 0 10px 0;
+}
+.hotspot .content p {
+  margin: 0 0 30px 0;
+}
+.hotspot .content .btn {
+  padding: 10px 20px;
+  line-height: 20px;
+  background-color: white;
+  color: black;
+  text-decoration: none;
+  box-shadow: 0px 0px 5px #422133;
+}
+.hotspot.left-top .icon {
+  top: 0;
+  left: 0;
+}
+.hotspot.right-top .icon {
+  left: auto;
+  top: 0;
+  right: 0;
+}
+.hotspot.left-bottom .icon {
+  left: 0;
+  bottom: 0;
+}
+.hotspot.right-bottom .icon {
+  bottom: 0;
+  right: 0;
+}

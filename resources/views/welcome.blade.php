@@ -1,104 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
+<!--
+* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
+* @version 1.0.0-beta19
+* @link https://tabler.io
+* Copyright 2018-2023 The Tabler Authors
+* Copyright 2018-2023 codecalm.net Paweł Kuna
+* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
+-->
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>CRM - @yield('title')</title>
-    <!-- loader-->
-
-    <!--favicon-->
-    <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
-
-    <!-- simplebar CSS-->
-    <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
-    <!-- Bootstrap core CSS-->
-    <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/bootstrap-dark.css') }}" rel="stylesheet" />
-    <!-- animate CSS-->
-    <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet" type="text/css" />
-    <!-- Icons CSS-->
-    <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
-    <!-- Sidebar CSS-->
-    <link href="{{ asset('assets/css/sidebar-menu.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/sidebar-menu-dark.css') }}" rel="stylesheet" />
-    <!-- Custom Style-->
-    <link href="{{ asset('assets/css/app-style.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/app-style-dark.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('assets/vendors/simple-datatables/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendors/filepond/filepond.css') }}">
+    <!-- CSS files -->
+    <link href="{{ asset('dist/css/tabler.min.css?1684106062') }}" rel="stylesheet" />
+    <link href="{{ asset('dist/css/tabler-flags.min.css?1684106062') }}" rel="stylesheet" />
+    <link href="{{ asset('dist/css/tabler-payments.min.css?1684106062') }}" rel="stylesheet" />
+    <link href="{{ asset('dist/css/tabler-vendors.min.css?1684106062') }}" rel="stylesheet" />
+    <link href="{{ asset('dist/css/demo.min.css?1684106062') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('dist/js/simple-datatables/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/js/filepond/filepond.css') }}">
     <link rel="stylesheet"
-        href="{{ asset('assets/vendors/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
+        href="{{ asset('dist/js/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
     <link rel="stylesheet"
-        href="{{ asset('assets/vendors/filepond-plugin-get-file/dist/filepond-plugin-get-file.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendors/toastify-js/src/toastify.css') }}">
+        href="{{ asset('dist/js/filepond-plugin-get-file/filepond-plugin-get-file.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/js/toastify-js/src/toastify.css') }}">
     @yield('styles')
+    <style>
+        @import url('https://rsms.me/inter/inter.css');
 
+        :root {
+            --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+        }
+
+        body {
+            font-feature-settings: "cv03", "cv04", "cv11";
+        }
+    </style>
 </head>
 
-<body class="bg-theme">
-
-    <script src="{{ asset('assets/js/initTheme.js') }}"></script>
-    <div id="wrapper">
-
-
+<body>
+    <script src="{{ asset('dist/js/demo-theme.min.js?1684106062') }}"></script>
+    <div class="page">
+        @include('partials.navbar') 
         @include('partials.sidebar')
-
-        @include('partials.navbar')
-
-
-        <div class="clearfix"></div>
-
-        @yield('content')
-
-        <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
-
-
-        @include('partials.footer')
+        <!-- Navbar -->
+       
+        <div class="page-wrapper">
+            @yield('content')
+            @include('partials.footer')
+        </div>
     </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/js/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-
-    <!-- simplebar js -->
-    <script src="{{ asset('assets/plugins/simplebar/js/simplebar.js') }}"></script>
-    <!-- sidebar-menu js -->
-    <script src="{{ asset('assets/js/sidebar-menu.js') }}"></script>
-    <!-- loader scripts -->
-
-    <!-- Custom scripts -->
-    <script src="{{ asset('assets/js/app-script.js') }}"></script>
-    <script src="{{ asset('assets/js/themeToggle.js') }}"></script>
-    <!-- Chart js -->
-
-    <script src="{{ asset('assets/plugins/Chart.js/Chart.min.js') }}"></script>
-
-    <!-- Index js -->
+    <script src="{{ asset('dist/js/jquery.min.js') }}"></script>
+    <!-- Libs JS -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="{{ asset('assets/js/index.js') }}"></script>
-    <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
+    <script src="{{asset('dist/libs/apexcharts/dist/apexcharts.min.js?1684106062')}}" defer></script>
+    <script src="{{asset('dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1684106062')}}" defer></script>
+    <script src="{{asset('dist/libs/jsvectormap/dist/maps/world.js?1684106062')}}" defer></script>
+    <script src="{{asset('dist/libs/jsvectormap/dist/maps/world-merc.js?1684106062')}}" defer></script>
+    <!-- Tabler Core -->
+    <script src="{{asset('dist/js/tabler.min.js?1684106062')}}" defer></script>
+    <script src="{{asset('dist/js/demo.min.js?1684106062')}}" defer></script>
+    <script src="{{ asset('dist/js/intDark.js') }}"></script>
     <script
-        src="{{ asset('assets/vendors/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}">
+        src="{{ asset('dist/js/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}">
     </script>
     <script
-        src="{{ asset('assets/vendors/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}">
+        src="{{ asset('dist/js/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}">
     </script>
-    <script src="{{ asset('assets/vendors/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js') }}"></script>
+    <script src="{{ asset('dist/js/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js') }}"></script>
     <script
-        src="{{ asset('assets/vendors/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}">
+        src="{{ asset('dist/js/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}">
     </script>
-    <script src="{{ asset('assets/vendors/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}">
+    <script src="{{ asset('dist/js/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js') }}"></script>
+    <script src="{{ asset('dist/js/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}">
     </script>
-    <script src="{{ asset('assets/vendors/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/filepond-plugin-get-file/filepond-plugin-get-file.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/filepond/filepond.js') }}"></script>
-    <script src="{{ asset('assets/vendors/toastify-js/src/toastify.js') }}"></script>
+    <script src="{{ asset('dist/js/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}"></script>
+    <script src="{{ asset('dist/js/filepond-plugin-get-file/filepond-plugin-get-file.js') }}"></script>
+    <script src="{{ asset('dist/js/filepond/filepond.js') }}"></script>
+    <script src="{{ asset('dist/js/toastify-js/src/toastify.js') }}"></script>
     <script>
         FilePond.registerPlugin(
             FilePondPluginImagePreview,
@@ -127,7 +109,7 @@
     @endif
 
     @if (isset($errors) && count($errors) > 0)
-        <script src="{{ asset('assets/extensions/toastify-js/src/toastify.js') }}"></script>
+        <script src="{{ asset('dist/js/toastify-js/src/toastify.js') }}"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const errors = @json($errors->all());
@@ -145,8 +127,6 @@
         </script>
     @endif
     @yield('scripts')
-
-
 </body>
 
 </html>

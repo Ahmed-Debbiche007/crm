@@ -1,7 +1,8 @@
 @extends('welcome')
 @section('title', 'Appartements')
 @section('styles')
-
+    <link href="{{ asset('dist/css/hotspot/hotspot.css') }}" rel="stylesheet" />
+    <link href="{{ asset('dist/css/hotspot/style.css') }}" rel="stylesheet" />
 @endsection
 
 @section('content')
@@ -50,22 +51,22 @@
                                                 <td>{{ $appart->etage->building->name }}</td>
                                                 <td>{{ $appart->surface }}</td>
                                                 <td>
-                                                    @if ($appart->bs == 0)
+                                                    @if ($appart->type == 0)
                                                         Commerce
                                                     @endif
-                                                    @if ($appart->bs == 1)
+                                                    @if ($appart->type == 1)
                                                         Duplex
                                                     @endif
-                                                    @if ($appart->bs == 2)
+                                                    @if ($appart->type == 2)
                                                         Duplex - 1
                                                     @endif
-                                                    @if ($appart->bs == 3)
+                                                    @if ($appart->type == 3)
                                                         S+1
                                                     @endif
-                                                    @if ($appart->bs == 4)
+                                                    @if ($appart->type == 4)
                                                         S+2
                                                     @endif
-                                                    @if ($appart->bs == 5)
+                                                    @if ($appart->type == 5)
                                                         S+3
                                                     @endif
                                                 </td>
@@ -120,11 +121,13 @@
                                                 <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
-                                                    <i data-feather="x"></i>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg>
                                                 </button>
                                             </div>
                                             <form method="POST" action="{{ route('apparts.store') }}"
-                                                enctype="multipart/form-data">
+                                                enctype="multipart/form-data" id="formmm">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <label>Nom: </label>
@@ -148,66 +151,75 @@
 
                                                         </select>
                                                     </div>
-                                                    <label>Surface: </label>
                                                     <div class="form-group">
-                                                        <input type="number" name="surface" placeholder="Numéro CIN"
-                                                            class="form-control">
-                                                    </div>
-                                                    <label>Type: </label>
-                                                    <div class="form-group">
-                                                        <select name="type" class="form-control">
-                                                            <option value="0">Commerce</option>
-                                                            <option value="1">Duplex</option>
-                                                            <option value="2">Duplex - 1</option>
-                                                            <option value="3">S+1</option>
-                                                            <option value="4">S+2</option>
-                                                            <option value="5">S+3</option>
-                                                        </select>
-                                                    </div>
-                                                    <label>Prix: </label>
-                                                    <div class="form-group">
-                                                        <input type="number" name="price" placeholder="Numéro CIN"
-                                                            class="form-control">
-                                                    </div>
-                                                    <label>Client: </label>
-                                                    <div class="form-group">
-                                                        <select name="client_id" class="form-control">
-                                                            <option value="">--</option>                                                            @foreach ($clients as $client)
-                                                                <option value="{{ $client->id }}">
-                                                                    {{ $client->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                                        <main class="cd__main" style="display: none;">
 
-                                                    <label>Statut: </label>
-                                                    <div class="form-group">
-                                                        <select name="bs" class="form-control">
-                                                            <option value= "0"> Libre </option>
-                                                            <option value= "1"> Loué </option>
-                                                            <option value= "2"> Réservé </option>
-                                                            <option value= "3"> Vendu </option>
-                                                        </select>
+                                                        </main>
+                                                        <input type="hidden" name="x">
+                                                        <input type="hidden" name="y">
+
                                                     </div>
-                                                    <label>Gallery </label>
-                                                    <input type="file" name="gallery[]"
-                                                        class="multiple-files-filepond" multiple>
-                                                    <label>Commentaires: </label>
-                                                    <div class="form-group">
-                                                        <textarea name="comments" cols="30" rows="10" class="form-control"></textarea>
+                                                        <label>Surface: </label>
+                                                        <div class="form-group">
+                                                            <input type="number" name="surface" placeholder="Numéro CIN"
+                                                                class="form-control">
+                                                        </div>
+                                                        <label>Type: </label>
+                                                        <div class="form-group">
+                                                            <select name="type" class="form-control">
+                                                                <option value="0">Commerce</option>
+                                                                <option value="1">Duplex</option>
+                                                                <option value="2">Duplex - 1</option>
+                                                                <option value="3">S+1</option>
+                                                                <option value="4">S+2</option>
+                                                                <option value="5">S+3</option>
+                                                            </select>
+                                                        </div>
+                                                        <label>Prix: </label>
+                                                        <div class="form-group">
+                                                            <input type="number" name="price" placeholder="Numéro CIN"
+                                                                class="form-control">
+                                                        </div>
+                                                        <label>Client: </label>
+                                                        <div class="form-group">
+                                                            <select name="client_id" class="form-control">
+                                                                <option value="">--</option>
+                                                                @foreach ($clients as $client)
+                                                                    <option value="{{ $client->id }}">
+                                                                        {{ $client->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
+                                                        <label>Statut: </label>
+                                                        <div class="form-group">
+                                                            <select name="bs" class="form-control">
+                                                                <option value= "0"> Libre </option>
+                                                                <option value= "1"> Loué </option>
+                                                                <option value= "2"> Réservé </option>
+                                                                <option value= "3"> Vendu </option>
+                                                            </select>
+                                                        </div>
+                                                        <label>Gallery </label>
+                                                        <input type="file" name="gallery[]"
+                                                            class="multiple-files-filepond" multiple>
+                                                        <label>Commentaires: </label>
+                                                        <div class="form-group">
+                                                            <textarea name="comments" cols="30" rows="10" class="form-control"></textarea>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-light-secondary"
-                                                        data-bs-dismiss="modal">
-                                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">Annuler</span>
-                                                    </button>
-                                                    <button type="submit" class="btn btn-primary ml-1">
-                                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block text-white">Ajouter</span>
-                                                    </button>
-                                                </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light-secondary"
+                                                            data-bs-dismiss="modal">
+                                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block">Annuler</span>
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary ml-1">
+                                                            <i class="bx bx-check d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block text-white">Ajouter</span>
+                                                        </button>
+                                                    </div>
                                             </form>
                                         </div>
                                     </div>
@@ -221,12 +233,15 @@
                                                 <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
-                                                    <i data-feather="x"></i>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg>
                                                 </button>
                                             </div>
                                             <form method="POST" id="formEdit" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="modal-body">
+                                                    <input type="hidden" name="id">
                                                     <label>Nom: </label>
                                                     <div class="form-group">
                                                         <input type="text" name="name" placeholder="Nom"
@@ -249,6 +264,14 @@
 
                                                         </select>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <main class="cd__main editHotspot" style="display: none;">
+
+                                                        </main>
+                                                        <input type="hidden" name="x">
+                                                        <input type="hidden" name="y">
+
+                                                    </div>
                                                     <label>Surface: </label>
                                                     <div class="form-group">
                                                         <input type="number" name="surface" placeholder="Numéro CIN"
@@ -273,7 +296,8 @@
                                                     <label>Client: </label>
                                                     <div class="form-group">
                                                         <select name="client_id" class="form-control">
-                                                            <option value="">--</option>                                                            @foreach ($clients as $client)
+                                                            <option value="">--</option>
+                                                            @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
                                                                     {{ $client->name }}
                                                                 </option>
@@ -334,19 +358,24 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
 
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+    
 
-    <script src="{{ asset('assets/vendors/simple-datatables/simple-datatables.js') }}"></script>
-    <script src="{{ asset('assets/js/vendors.js') }}"></script>
+    
 
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="{{ asset('dist/js/vendors.js') }}"></script>
+
+    
 
     <script>
         const selectEtages = document.getElementById('residencesAdd')
         const selectEtagesEdit = document.getElementById('residencesEdit')
+        const addSelect = document.getElementById('addetage')
+        const etagesSelectEdit = document.getElementById('editetage')
         loadEtages(selectEtages.value, 'addetage');
+        loadImage(addSelect.value);
+        
         selectEtages.addEventListener('change', (e) => {
             const id = e.target.value
 
@@ -357,6 +386,17 @@
             const id = e.target.value
 
             loadEtages(id, 'editetage')
+        })
+
+        addSelect.addEventListener('change', (e) => {
+            const id = e.target.value
+
+            loadImage(id)
+        })
+        etagesSelectEdit.addEventListener('change', (e) => {
+            const id = e.target.value
+            const appart = document.getElementById('formEdit').querySelector('input[name="id"]')?.value
+            loadImageEdit(id,appart)
         })
 
         FilePond.create(document.querySelector(".multiple-files-filepond"), {
@@ -391,6 +431,86 @@
             })
         }
 
+        function loadImage(id) {
+            const main = document.querySelector('.cd__main');
+            const etages = @json($etages);
+            
+            const w = 458;
+            etages.forEach((etage) => {
+                if (etage.id == id) {
+                    if (etage.hplan != 'undefined' && etage.wplan != 'undefined') {
+                        main.style.display = 'block'
+                        main.innerHTML = ''
+                        const imageUrl = "../../" + etage.plan;
+                        const div = document.createElement('div');
+                        const ratio = etage.wplan / etage.hplan;
+
+                        main.setAttribute('style', 'height: ' + w / ratio +
+                            'px; width: ' + w + 'px;');
+
+
+                        div.classList.add('containerH');
+
+                        const path = "{{asset('favicon.ico')}}".replace("favicon.ico", etage.plan)
+                        div.setAttribute('style', "background-image: url('" + path + "'); height: " + w / ratio +
+                            "px; width: " + w + "px;");
+
+                        etage.appart.forEach((ap) => {
+                            const appart = document.createElement('div');
+                            appart.classList.add('hotspot');
+                            appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                            appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap.name +
+                                '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                            div.appendChild(appart);
+                        })
+                        main.appendChild(div);
+                    }
+                }
+            });
+        }
+
+        function loadImageEdit(id, appart_id) {
+            const main = document.querySelector('.editHotspot');
+            const etages = @json($etages);
+            
+            const w = 458;
+            etages.forEach((etage) => {
+                if (etage.id == id) {
+                    if (etage.hplan != 'undefined' && etage.wplan != 'undefined') {
+                        main.style.display = 'block'
+                        main.innerHTML = ''
+                        const imageUrl = "../../" + etage.plan;
+                        const ratio = etage.wplan / etage.hplan;
+                        
+                        main.setAttribute('style', 'height: ' + w / ratio +
+                        'px; width: ' + w + 'px;');
+                        
+                        
+                        const div = document.createElement('div');
+                        div.classList.add('containerH');
+
+                        const path = "{{asset('favicon.ico')}}".replace("favicon.ico", etage.plan)
+                        div.setAttribute('style', "background-image: url('" + path + "'); height: " + w / ratio +
+                            "px; width: " + w + "px;");
+
+                        etage.appart.forEach((ap) => {
+                            const appart = document.createElement('div');
+                            appart.classList.add('hotspot');
+                            if (ap.id == appart_id) {
+                                appart.classList.add('added');
+                            }
+                            
+                            appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                            appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap.name +
+                                '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                            div.appendChild(appart);
+                        })
+                        main.appendChild(div);
+                    }
+                }
+            });
+        }
+
 
 
         function deleteClient(id) {
@@ -411,12 +531,15 @@
                 let base = '{{ route('apparts.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
+                const idInput = form.querySelector('input[name="id"]')
                 const nameInput = form.querySelector('input[name="name"]')
                 const residence_idInput = form.querySelector('select[name="residence_id"]')
                 const etage_idInput = form.querySelector('select[name="etage_id"]')
                 const surfaceInput = form.querySelector('input[name="surface"]')
                 const typeInput = form.querySelector('select[name="type"]')
                 const priceInput = form.querySelector('input[name="price"]')
+                const xInput = form.querySelector('input[name="x"]')
+                const yInput = form.querySelector('input[name="y"]')
                 const client_idInput = form.querySelector('select[name="client_id"]')
                 const bsInput = form.querySelector('select[name="bs"]')
                 const commentsInput = form.querySelector('textarea[name="comments"]')
@@ -432,10 +555,12 @@
                             if (e.id == appart.etage_id) {
                                 residence_idInput.value = residence.id
                                 loadEtages(residence.id, 'editetage')
+                                loadImageEdit(e.id, appart.id)
                                 etage_idInput.value = e.id
                             }
                         })
                     })
+                    idInput.value = appart.id
                     nameInput.value = appart.name
                     surfaceInput.value = appart.surface
                     typeInput.value = appart.type
@@ -443,6 +568,8 @@
                     client_idInput.value = appart.client_id
                     bsInput.value = appart.bs
                     commentsInput.value = appart.comments
+                    xInput.value = appart.x
+                    yInput.value = appart.y
 
                     const options = {
                         credits: null,
@@ -477,5 +604,41 @@
                 })
             });
         })
+
+        $(document).on("click", ".containerH", function(e) {
+            const container = $(this); // Get the clicked container element
+
+            const containerRect = container[0].getBoundingClientRect();
+
+            const offsetXPercent =
+                ((e.clientX - containerRect.left) / containerRect.width) * 100;
+            const offsetYPercent =
+                ((e.clientY - containerRect.top) / containerRect.height) * 100;
+
+            
+
+            $('.added').each((index, el) => {
+                $(el).remove(); // Remove each element with the class .added
+            });
+
+            const newElement = $(
+                `<div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
+      <div class='icon'>+</div>
+      <div class='content'>
+        <h4>Eros uns eos sind rebum</h4>
+        <p>Clita sanctus eirmod eros aliquip. Clita Lorem dolores diam</p>
+        <a class='btn'>
+          velit dolor
+        </a>
+      </div>
+    </div>`
+            );
+            document.getElementById("formmm").querySelector("input[name='x']").value = offsetXPercent;
+            document.getElementById("formmm").querySelector("input[name='y']").value = offsetYPercent;
+            document.getElementById("formEdit").querySelector("input[name='x']").value = offsetXPercent;
+            document.getElementById("formEdit").querySelector("input[name='y']").value = offsetYPercent;
+
+            container.append(newElement);
+        });
     </script>
 @endsection

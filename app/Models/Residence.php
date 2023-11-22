@@ -24,14 +24,19 @@ class Residence extends Model
         return $this->hasMany(Cellier::class);
     }
 
-    public function image(){
+    public function image()
+    {
         return $this->hasMany(Image::class);
     }
 
     protected $fillable = [
         'name',
         'address',
+        'nfoncier',
+        'emplacemnt',
+        'npermis',
+        'detailMunicipal',
+        'detail',
 
     ];
-
 }

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->unsignedBigInteger('residence_id');
             $table->string('plan')->nullable();
+            $table->string('hplan')->nullable();
+            $table->string('wplan')->nullable();
             $table->integer('number')->nullable();
             $table->timestamps();
             $table->foreign('residence_id')->references('id')->on('residences');

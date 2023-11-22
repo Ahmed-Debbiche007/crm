@@ -41,6 +41,7 @@ class Appart extends Model
         'price',
         'bs',
         'comments',
-
+        'x',
+        'y',
     ];
 }

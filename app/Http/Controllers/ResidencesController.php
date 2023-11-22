@@ -19,20 +19,33 @@ class ResidencesController extends Controller
 
     public function store(Request $request)
     {
-         
+
         $formFileds = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'nfoncier' => ['nullable', 'string', 'max:255'],
+            'emplacemnt' => ['nullable', 'string', 'max:255'],
+            'npermis' => ['nullable', 'string', 'max:255'],
+            'detailMunicipal' => ['nullable', 'string', 'max:255'],
         ]);
 
 
         $residence = Residence::create($formFileds);
-      
-        if ($request->has("gallery")){
+        if ($request->hasFile("details")) {
+            $file = $request->file('details');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move('uploads/residences/', $filename);
+            $residence->detail = 'uploads/residences/' . $filename;
+            $residence->save();
+        }
+
+
+        if ($request->has("gallery")) {
             $i = 0;
             foreach ($request->file('gallery') as $file) {
                 $extension = $file->getClientOriginalExtension();
-                $filename = $i.time().$i. '.' . $extension;
+                $filename = $i . time() . $i . '.' . $extension;
                 $file->move('uploads/residences/', $filename);
                 $image = new Image();
                 $image->path = 'uploads/residences/' . $filename;
@@ -41,7 +54,7 @@ class ResidencesController extends Controller
                 $i++;
             }
         }
-        
+
         $residence->save();
         return redirect()->back()->with('success', 'Residence saved!');
     }
@@ -54,7 +67,7 @@ class ResidencesController extends Controller
 
     public function show($id)
     {
-        $residence = Residence::with('image','etage','etage.appart','parking','cellier')->findOrFail($id);
+        $residence = Residence::with('image', 'etage', 'etage.appart', 'parking', 'cellier')->findOrFail($id);
         $clients = Client::all();
         return view('pages.residences.details', [
             'residence' => $residence,
@@ -66,8 +79,11 @@ class ResidencesController extends Controller
     {
         $formFileds = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'address' => 'required|string|max:255',
-
+            'address' => ['nullable', 'string', 'max:255'],
+            'nfoncier' => ['nullable', 'string', 'max:255'],
+            'emplacemnt' => ['nullable', 'string', 'max:255'],
+            'npermis' => ['nullable', 'string', 'max:255'],
+            'detailMunicipal' => ['nullable', 'string', 'max:255'],
         ]);
 
         $residence = Residence::findOrFail($id);
@@ -80,11 +96,22 @@ class ResidencesController extends Controller
             }
             $image->delete();
         }
-        if ($request->has("gallery")){
+        if (file_exists($residence->detail)) {
+            unlink($residence->detail);
+        }
+        if ($request->hasFile("details")) {
+            $file = $request->file('details');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move('uploads/residences/', $filename);
+            $residence->detail = 'uploads/residences/' . $filename;
+            $residence->save();
+        }
+        if ($request->has("gallery")) {
             $i = 0;
             foreach ($request->file('gallery') as $file) {
                 $extension = $file->getClientOriginalExtension();
-                $filename = $i.time().$i. '.' . $extension;
+                $filename = $i . time() . $i . '.' . $extension;
                 $file->move('uploads/residences/', $filename);
                 $image = new Image();
                 $image->path = 'uploads/residences/' . $filename;

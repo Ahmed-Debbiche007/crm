@@ -11,10 +11,10 @@ class EtagesController extends Controller
 {
     public function index(Request $request)
     {
-        
+
         $etages = Etage::with('building')->get();
         $residence = request('res');
-        if($residence){
+        if ($residence) {
             $etages = Etage::where('residence_id', $residence)->get();
         }
         $residences = Residence::all();
@@ -35,6 +35,9 @@ class EtagesController extends Controller
             $filename = time() . '.' . $extension;
             $file->move('uploads/residences/', $filename);
             $etage->plan = 'uploads/residences/' . $filename;
+            list($width, $height) = getimagesize($etage->plan);
+            $etage->hplan = $height;
+            $etage->wplan = $width;
             $etage->save();
         }
 
@@ -47,14 +50,15 @@ class EtagesController extends Controller
         return response()->json($etage);
     }
 
-    public function show($id){
-        $etage = Etage::with('appart','appart.charge','appart.etage','appart.client','building')->findOrFail($id);
+    public function show($id)
+    {
+        $etage = Etage::with('appart', 'appart.charge', 'appart.etage', 'appart.client', 'building')->findOrFail($id);
         $clients = Client::all();
         $residences = Residence::with(
             'etage',
             'etage.appart',
         )->get();
-        return view('pages.etages.show', ['etage' => $etage,'residences' => $residences, 'clients' => $clients]);
+        return view('pages.etages.show', ['etage' => $etage, 'residences' => $residences, 'clients' => $clients]);
     }
 
     public function update(Request $request, $id)
@@ -75,6 +79,9 @@ class EtagesController extends Controller
             $filename = time() . '.' . $extension;
             $file->move('uploads/residences/', $filename);
             $etage->plan = 'uploads/residences/' . $filename;
+            list($width, $height) = getimagesize($etage->plan);
+            $etage->hplan = $height;
+            $etage->wplan = $width;
             $etage->save();
         }
         return redirect()->back()->with('success', 'Etage updated!');
