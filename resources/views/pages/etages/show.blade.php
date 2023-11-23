@@ -10,16 +10,21 @@
         <div class="container-fluid">
             <div class="row mt-3">
                 <div class="col-lg-12">
-                    <button id="{{ $etage->id }}" class="btn btn-warning editEt" data-bs-toggle="modal"
-                        data-bs-target="#inlineEtageEdit"><i data-feather="edit"></i>Modifier</button>
-                    <h5 class="card-title">Résidence: {{ $etage->building->name }}</h5>
-                    <h5 class="card-title">Étage: {{ $etage->name }}</h5>
-                    <h5 class="card-title">Nombre d'appartements: {{ $etage->appart->count() }}</h5>
+
+                    <div class="d-flex justify-content-between flex-wrap">
+                        <h5 class="card-title">Résidence: {{ $etage->building->name }}</h5>
+                        <h5 class="card-title">Étage: {{ $etage->name }}</h5>
+                        <h5 class="card-title">Nombre d'appartements: {{ $etage->appart->count() }}</h5>
+                    </div>
                     <h5 class="card-title">Plan:</h5>
                     <div class="pb-5">
                         <main class="main_plan" style="display: block;">
 
                         </main>
+                    </div>
+                    <div class="p-1">
+                        <button id="{{ $etage->id }}" class="btn btn-warning editEt" data-bs-toggle="modal"
+                            data-bs-target="#inlineEtageEdit"><i data-feather="edit"></i>Modifier</button>
                     </div>
                     <div class="card">
                         <div class="card-body">
@@ -177,7 +182,7 @@
 
                                                     <label>Surface: </label>
                                                     <div class="form-group">
-                                                        <input type="number" name="surface" placeholder="Numéro CIN"
+                                                        <input type="number" name="surface" placeholder="Surface"
                                                             class="form-control">
                                                     </div>
                                                     <label>Type: </label>
@@ -193,7 +198,7 @@
                                                     </div>
                                                     <label>Prix: </label>
                                                     <div class="form-group">
-                                                        <input type="number" name="price" placeholder="Numéro CIN"
+                                                        <input type="number" name="price" placeholder="Prix"
                                                             class="form-control">
                                                     </div>
                                                     <label>Client: </label>
@@ -246,7 +251,7 @@
                                     <div class="modal-dialog modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                                                <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -266,7 +271,8 @@
                                                     </div>
                                                     <label>Résidence: </label>
                                                     <div class="form-group">
-                                                        <select name="residence_id" class="form-control" id="residencesEdit">
+                                                        <select name="residence_id" class="form-control"
+                                                            id="residencesEdit">
                                                             @foreach ($residences as $residence)
                                                                 <option value="{{ $residence->id }}">
                                                                     {{ $residence->name }}
@@ -292,7 +298,7 @@
 
                                                     <label>Surface: </label>
                                                     <div class="form-group">
-                                                        <input type="number" name="surface" placeholder="Numéro CIN"
+                                                        <input type="number" name="surface" placeholder="Surface"
                                                             class="form-control">
                                                     </div>
                                                     <label>Type: </label>
@@ -308,7 +314,7 @@
                                                     </div>
                                                     <label>Prix: </label>
                                                     <div class="form-group">
-                                                        <input type="number" name="price" placeholder="Numéro CIN"
+                                                        <input type="number" name="price" placeholder="Prix"
                                                             class="form-control">
                                                     </div>
                                                     <label>Client: </label>
@@ -389,7 +395,7 @@
                                     </div>
                                     <label>Numero: </label>
                                     <div class="form-group">
-                                        <input type="text" name="name" placeholder="Addresse"
+                                        <input type="text" name="name" placeholder="Numero"
                                             class="form-control">
                                     </div>
                                     <label>Plan: </label>
@@ -402,7 +408,7 @@
                                     </button>
                                     <button type="submit" class="btn btn-primary ml-1">
                                         <i class="bx bx-check d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block text-white">Ajouter</span>
+                                        <span class="d-none d-sm-block text-white">Modifier</span>
                                     </button>
                                 </div>
                             </form>
@@ -436,14 +442,13 @@
 
 
     <script>
-
-const selectEtages = document.getElementById('residencesAdd')
+        const selectEtages = document.getElementById('residencesAdd')
         const selectEtagesEdit = document.getElementById('residencesEdit')
         const addSelect = document.getElementById('addetage')
         const etagesSelectEdit = document.getElementById('editetage')
         loadEtages(selectEtages.value, 'addetage');
-        
-        
+
+
         selectEtages.addEventListener('change', (e) => {
             const id = e.target.value
 
@@ -458,8 +463,9 @@ const selectEtages = document.getElementById('residencesAdd')
         etagesSelectEdit.addEventListener('change', (e) => {
             const id = e.target.value
             const appart = document.getElementById('formEdit').querySelector('input[name="id"]')?.value
-            
+
         })
+
         function loadEtages(id, etageId) {
             const selectEtage = document.getElementById(etageId)
             selectEtage.innerHTML = ''
@@ -639,38 +645,47 @@ const selectEtages = document.getElementById('residencesAdd')
 
             appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
             let statut = "";
+            let color = "";
             switch (ap.bs) {
                 case 0:
                     statut = "Libre";
+                    color = "#005841";
                     break;
                 case 1:
                     statut = "Loué";
+                    color = "#fe8900";
                     break;
                 case 2:
                     statut = "Réservé";
+                    color = "#fde25e";
                     break;
                 case 3:
                     statut = "Vendu";
+                    color = "#850000";
                     break;
             }
             const link = "{{ route('apparts.show', 5) }}".replace('5', ap.id);
             const ht = document.createElement('div');
             ht.classList.add('icon');
             ht.classList.add('hotspot');
-            ht.innerHTML = "+"  ;
+            ht.setAttribute('style', 'background-color: ' + color + ';');
+            ht.innerHTML = "+";
             ht.addEventListener('click', function() {
                 var parent = this.parentElement;
                 parent.classList.toggle('open');
-
+                parent.setAttribute('style', parent.getAttribute('style') + 'background-color: ' + color +
+                    '; color:black;');
                 var hotspots = document.querySelectorAll('.hotspot.open');
                 hotspots.forEach(function(hotspot) {
                     if (hotspot !== parent) {
+                        hotspot.setAttribute('style', 'background-color: ' + color + ';');
                         hotspot.classList.remove('open');
                     }
                 });
             });
             const content = document.createElement('div');
             content.classList.add('content');
+            content.setAttribute('style', 'background-color: ' + color + ';');
             content.innerHTML = '<h4>' + ap.name + '</h4><p>' + statut + '</p><a href="' + link +
                 '" class="btn">Voir</a>';
 
@@ -679,7 +694,84 @@ const selectEtages = document.getElementById('residencesAdd')
             div.appendChild(appart);
         })
 
+        // create a container having the color codes an explanations
+        const container = document.createElement('div');
+        container.classList.add('container');
+        container.classList.add('d-flex');
+        container.classList.add('justify-content-between');
+        const textLibre = document.createElement('div');
+        textLibre.innerHTML = "Libre";
+        const labelLibre = document.createElement('div');
+        labelLibre.classList.add('icon');
+        labelLibre.classList.add('d-flex');
+        labelLibre.classList.add('justify-content-center');
+        labelLibre.classList.add('align-items-center');
+        labelLibre.classList.add('mx-2');
+        labelLibre.setAttribute('style', 'background-color: #005841; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;');
+        labelLibre.innerHTML = "+";
+        const divLibre = document.createElement('div');
+        divLibre.classList.add('d-flex');
+        divLibre.classList.add('justify-content-center');
+        divLibre.classList.add('align-items-center');
+        divLibre.appendChild(labelLibre)
+        divLibre.appendChild(textLibre)
+        const textLoué = document.createElement('div');
+        textLoué.innerHTML = "Loué";
+        const labelLoué = document.createElement('div');
+        labelLoué.classList.add('icon');
+        labelLoué.classList.add('d-flex');
+        labelLoué.classList.add('justify-content-center');
+        labelLoué.classList.add('align-items-center');
+        labelLoué.classList.add('mx-2');
+        labelLoué.setAttribute('style', 'background-color: #fe8900; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;');
+        labelLoué.innerHTML = "+";
+        const divLoué = document.createElement('div');
+        divLoué.classList.add('d-flex');
+        divLoué.classList.add('justify-content-center');
+        divLoué.classList.add('align-items-center');
+        divLoué.appendChild(labelLoué)
+        divLoué.appendChild(textLoué)
+        const textRéservé = document.createElement('div');
+        textRéservé.innerHTML = "Réservé";
+        const labelRéservé = document.createElement('div');
+        labelRéservé.classList.add('icon');
+        labelRéservé.classList.add('d-flex');
+        labelRéservé.classList.add('justify-content-center');
+        labelRéservé.classList.add('align-items-center');
+        labelRéservé.classList.add('mx-2');
+        labelRéservé.setAttribute('style', 'background-color: #fde25e; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;');
+        labelRéservé.innerHTML = "+";
+        const divRéservé = document.createElement('div');
+        divRéservé.classList.add('d-flex');
+        divRéservé.classList.add('justify-content-center');
+        divRéservé.classList.add('align-items-center');
+        divRéservé.appendChild(labelRéservé)
+        divRéservé.appendChild(textRéservé)
+        const textVendu = document.createElement('div');
+        textVendu.innerHTML = "Vendu";
+        const labelVendu = document.createElement('div');
+        labelVendu.classList.add('icon');
+        labelVendu.classList.add('d-flex');
+        labelVendu.classList.add('justify-content-center');
+        labelVendu.classList.add('align-items-center');
+        labelVendu.classList.add('mx-2');
+        labelVendu.setAttribute('style', 'background-color: #850000; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;');
+        labelVendu.innerHTML = "+";
+        const divVendu = document.createElement('div');
+        divVendu.classList.add('d-flex');
+        divVendu.classList.add('justify-content-center');
+        divVendu.classList.add('align-items-center');
+        divVendu.appendChild(labelVendu)
+        divVendu.appendChild(textVendu)
+        container.appendChild(divLibre)
+        container.appendChild(divLoué)
+        container.appendChild(divRéservé)
+        container.appendChild(divVendu)
+        container.classList.add('mt-2');
+
+
         main.appendChild(div);
+        main.appendChild(container);
     </script>
     <script>
         function loadImage(id) {
@@ -708,6 +800,7 @@ const selectEtages = document.getElementById('residencesAdd')
                 etage.appart.forEach((ap) => {
                     const appart = document.createElement('div');
                     appart.classList.add('hotspot');
+                    
                     appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
                     appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap.name +
                         '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
@@ -721,7 +814,7 @@ const selectEtages = document.getElementById('residencesAdd')
         function loadImageOnEdit(appart_id) {
             const main = document.querySelector('.EditImg ');
 
-            
+
 
             if (etage.hplan != 'undefined' && etage.wplan != 'undefined') {
                 main.style.display = 'block'

@@ -87,7 +87,7 @@
                                                     </div>
                                                     <label>Numero: </label>
                                                     <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Addresse"
+                                                        <input type="text" name="name" placeholder="Numero"
                                                             class="form-control">
                                                     </div>
                                                     <label>Plan: </label>
@@ -113,7 +113,7 @@
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                                                <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
@@ -136,7 +136,7 @@
                                                     </div>
                                                     <label>Numero: </label>
                                                     <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Addresse"
+                                                        <input type="text" name="name" placeholder="Numero"
                                                             class="form-control">
                                                     </div>
                                                     <label>Plan: </label>
@@ -151,7 +151,7 @@
                                                     </button>
                                                     <button type="submit" class="btn btn-primary ml-1">
                                                         <i class="bx bx-check d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block text-white">Ajouter</span>
+                                                        <span class="d-none d-sm-block text-white">Modifier</span>
                                                     </button>
                                                 </div>
                                             </form>

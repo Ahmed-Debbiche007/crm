@@ -146,7 +146,7 @@
                                     <div class="modal-dialog modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                                                <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
@@ -190,7 +190,7 @@
                                                     </div>
                                                     <label>Surface: </label>
                                                     <div class="form-group">
-                                                        <input type="number" name="surface" placeholder="Numéro CIN"
+                                                        <input type="number" name="surface" placeholder="Surface"
                                                             class="form-control">
                                                     </div>
                                                     <label>Type: </label>
@@ -206,7 +206,7 @@
                                                     </div>
                                                     <label>Prix: </label>
                                                     <div class="form-group">
-                                                        <input type="number" name="price" placeholder="Numéro CIN"
+                                                        <input type="number" name="price" placeholder="Prix"
                                                             class="form-control">
                                                     </div>
                                                     <label>Client: </label>
@@ -246,7 +246,7 @@
                                                     </button>
                                                     <button type="submit" class="btn btn-primary ml-1">
                                                         <i class="bx bx-check d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block text-white">Ajouter</span>
+                                                        <span class="d-none d-sm-block text-white">Modifier</span>
                                                     </button>
                                                 </div>
                                             </form>
@@ -404,16 +404,16 @@
                                 <input type="hidden" name="appart_id" value="{{ $appart->id }}">
                                 <label>Date: </label>
                                 <div class="form-group">
-                                    <input type="date" name="date" placeholder="Numero" class="form-control">
+                                    <input type="date" name="date" placeholder="Date" class="form-control">
                                 </div>
                                 <label>Avance: </label>
                                 <div class="form-group">
-                                    <input type="number" name="amount_avance" placeholder="Numero"
+                                    <input type="number" name="amount_avance" placeholder="Avance"
                                         class="form-control">
                                 </div>
                                 <label>Date de l'avance: </label>
                                 <div class="form-group">
-                                    <input type="date" name="date_avance" placeholder="Numero" class="form-control">
+                                    <input type="date" name="date_avance" placeholder="Date" class="form-control">
                                 </div>
 
                                 <label>Preuve Avance: </label>
@@ -487,7 +487,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                            <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
   <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
@@ -505,7 +505,7 @@
                                 </div>
                                 <label>Avance: </label>
                                 <div class="form-group">
-                                    <input type="number" name="amount_avance" placeholder="Numero"
+                                    <input type="number" name="amount_avance" placeholder="Avance"
                                         class="form-control">
                                 </div>
                                 <label>Date de l'avance: </label>
@@ -572,7 +572,7 @@
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
                                     <i class="bx bx-check d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block text-white">Ajouter</span>
+                                    <span class="d-none d-sm-block text-white">Modifier</span>
                                 </button>
                             </div>
                         </form>
@@ -666,27 +666,27 @@
 
                                 <label>Sonède & Gaz: </label>
                                 <div class="form-group">
-                                    <input name="sonede" type="number" placeholder="Numero" class="form-control">
+                                    <input name="sonede" type="number" placeholder="Sonède & Gaz" class="form-control">
                                 </div>
 
                                 <label>Syndic: </label>
                                 <div class="form-group">
-                                    <input name="syndic" type="number" placeholder="Numero" class="form-control">
+                                    <input name="syndic" type="number" placeholder="Syndic" class="form-control">
                                 </div>
 
                                 <label>Avocat Promesse: </label>
                                 <div class="form-group">
-                                    <input name="avocat" type="number" placeholder="Numero" class="form-control">
+                                    <input name="avocat" type="number" placeholder="Avocat Promesse" class="form-control">
                                 </div>
 
                                 <label>Avocat Contart: </label>
                                 <div class="form-group">
-                                    <input name="contrat" type="number" placeholder="Numero" class="form-control">
+                                    <input name="contrat" type="number" placeholder="Avocat Contart" class="form-control">
                                 </div>
 
                                 <label>Titre Foncier: </label>
                                 <div class="form-group">
-                                    <input name="foncier" type="number" placeholder="Numero" class="form-control">
+                                    <input name="foncier" type="number" placeholder="Titre Foncier" class="form-control">
                                 </div>
 
 
@@ -726,27 +726,27 @@
                                 <label id="clientEdit"></label>
                                 <label>Sonède & Gaz: </label>
                                 <div class="form-group">
-                                    <input name="sonede" type="number" placeholder="Numero" class="form-control">
+                                    <input name="sonede" type="number" placeholder="Sonède & Gaz" class="form-control">
                                 </div>
 
                                 <label>Syndic: </label>
                                 <div class="form-group">
-                                    <input name="syndic" type="number" placeholder="Numero" class="form-control">
+                                    <input name="syndic" type="number" placeholder="Syndic" class="form-control">
                                 </div>
 
                                 <label>Avocat Promesse: </label>
                                 <div class="form-group">
-                                    <input name="avocat" type="number" placeholder="Numero" class="form-control">
+                                    <input name="avocat" type="number" placeholder="Avocat Promesse" class="form-control">
                                 </div>
 
                                 <label>Avocat Contart: </label>
                                 <div class="form-group">
-                                    <input name="contrat" type="number" placeholder="Numero" class="form-control">
+                                    <input name="contrat" type="number" placeholder="Avocat Contart" class="form-control">
                                 </div>
 
                                 <label>Titre Foncier: </label>
                                 <div class="form-group">
-                                    <input name="foncier" type="number" placeholder="Numero" class="form-control">
+                                    <input name="foncier" type="number" placeholder="Titre Foncier" class="form-control">
                                 </div>
 
                             </div>

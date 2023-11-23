@@ -8,13 +8,16 @@
     <div class="content-wrapper">
         <div class="container-fluid">
             <div class="mt-3">
-                <h5 class="card-title">Residence: {{ $residence->name }}</h5>
-                <h5 class="card-title">Adresse: {{ $residence->address }}</h5>
-                <h5 class="card-title">N° du titre Foncier: {{ $residence->nfoncier }}</h5>
-                <h5 class="card-title">Emplacement: {{ $residence->emplacemnt }}</h5>
-                <h5 class="card-title">N° du permis de bâtir: {{ $residence->npermis }}</h5>
-                <h5 class="card-title">Détail Municipalité: {{ $residence->detailMunicipal }}</h5>
-                <h5 class="card-title">Détails Résidence: <a href="{{asset($residence->detail)}}" target="_blank" download class="btn btn-primary mb-1 mt-1"><i data-feather="download"></i> Télécharger</a></h5>
+                <div class="d-flex justify-content-evenly flex-wrap ">
+                    <h5 class="card-title">Residence: {{ $residence->name }}</h5>
+                    <h5 class="card-title">Adresse: {{ $residence->address }}</h5>
+                    <h5 class="card-title">N° du titre Foncier: {{ $residence->nfoncier }}</h5>
+                    <h5 class="card-title">Emplacement: {{ $residence->emplacemnt }}</h5>
+                    <h5 class="card-title">N° du permis de bâtir: {{ $residence->npermis }}</h5>
+                    <h5 class="card-title">Détail Municipalité: {{ $residence->detailMunicipal }}</h5>
+                </div>
+                <h5 class="card-title">Détails Résidence: <a href="{{ asset($residence->detail) }}" target="_blank" download
+                        class="btn btn-primary mb-1 mt-1"><i data-feather="download"></i> Télécharger</a></h5>
                 <h5 class="card-title">Gallery:</h5>
                 @if ($residence->image && count($residence->image) > 0)
 
@@ -49,22 +52,36 @@
                     <h6 class="card-title ml-5">Pas de photos</h6>
                 @endif
                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineResEdit" id="resEd"
-                    class="btn btn-primary mb-1 mt-1">Modifier</button>
+                    class=" btn btn-warning mb-1 mt-1">Modifier</button>
                 <h5 class="card-title">Étages:</h5>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineEtage" id="resEd"
                     class="btn btn-primary mb-1 mt-1">Ajouter</button>
-                <div class="row">
+                <div class="row d-flex flex-wrap">
                     @foreach ($residence->etage as $etage)
-                        <div class="card m-3">
-                            <div class="card-header">
-                                <div class="d-flex justify-items-between">
-                                    <h5 class="card-title">{{ $etage->name }}</h5>
-                                    <a href="{{ route('etages.show', $etage->id) }}"
-                                        class="btn btn-primary ml-auto">Details</a>
+                        <div class="container w-50">
+                            <div class="card m-3">
+                                <div class="card-header">
+
+                                    <div>
+                                        <div>
+                                            <h5 class="card-title">{{ $etage->name }}</h5>
+                                        </div>
+                                        <br>
+                                        <div class="d-none d-md-inline-block"><a
+                                                href="{{ route('etages.show', $etage->id) }}"
+                                                class="btn btn-primary ml-auto">Details</a>
+                                        </div>
+
+                                        <div class="d-inline-block d-md-none"><a
+                                                href="{{ route('etages.show', $etage->id) }}"
+                                                class="btn btn-primary ml-auto">+</a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <img src="{{ asset($etage->plan) }}" height="300px" alt="">
+                                <div class="card-body">
+                                    <img src="{{ asset($etage->plan) }}" height="300px" style="object-fit: contain"
+                                        alt="">
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -131,9 +148,11 @@
                             <div class="modal-header">
                                 <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                    </svg>
                                 </button>
                             </div>
                             <form method="POST" action="{{ route('etages.store') }}" enctype="multipart/form-data">
@@ -142,7 +161,7 @@
                                     <input type="hidden" name="residence_id" value={{ $residence->id }}>
                                     <label>Numero: </label>
                                     <div class="form-group">
-                                        <input type="text" name="name" placeholder="Addresse"
+                                        <input type="text" name="name" placeholder="Numero"
                                             class="form-control">
                                     </div>
                                     <label>Plan: </label>
@@ -170,9 +189,11 @@
                             <div class="modal-header">
                                 <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                    </svg>
                                 </button>
                             </div>
                             <form method="POST" action="{{ route('celliers.store') }}" enctype="multipart/form-data">
@@ -215,11 +236,13 @@
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
+                                <h4 class="card-title" id="myModalLabel33">Modifier </h4>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                    </svg>
                                 </button>
                             </div>
                             <form id="formEdit" method="POST" enctype="multipart/form-data">
@@ -251,7 +274,7 @@
                                     </button>
                                     <button type="submit" class="btn btn-primary ml-1">
                                         <i class="bx bx-check d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block text-white">Ajouter</span>
+                                        <span class="d-none d-sm-block text-white">Modifier</span>
                                     </button>
                                 </div>
                             </form>
@@ -259,12 +282,12 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card mt-3">
                     <div class="card-body">
                         <div class="d-flex justify-content-between m-3">
                             <h5 class="card-title">Celliers</h5>
                             <button type="button" data-bs-toggle="modal" data-bs-target="#cellier"
-                                class="btn btn-primary">Ajouter</button>
+                            class="btn btn-primary">Ajouter</button>
                         </div>
                         <div class="table-responsive">
                             <table class='table table-striped' id="table1">
@@ -311,6 +334,219 @@
                         </div>
                     </div>
                 </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between m-3">
+                            <h5 class="card-title">Clients</h5>
+
+                        </div>
+                        <div class="table-responsive">
+                            <table class='table table-striped' id="table1">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Prénom</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Numéro de téléphone</th>
+                                        <th scope="col">CIN</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Date Réservation</th>
+                                        <th scope="col">Commentaires</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($residence->etage as $etage)
+                                        @foreach ($etage->appart as $appart)
+                                            @if ($appart->client)
+                                            <tr>
+                                                <td>{{ $appart->client->name }}</td>
+                                                <td>{{ $appart->client->lastName }}</td>
+                                                <td>{{ $appart->client->email }}</td>
+                                                <td>{{ $appart->client->phone }}</td>
+                                                <td>{{ $appart->client->cin }}</td>
+                                                <td>
+                                                    @if ($appart->client->type == 0)
+                                                        Client
+                                                    @else
+                                                        Prospect
+                                                    @endif
+                                                </td>
+                                                <td>{{ $appart->client->date_res }}</td>
+                                                <td>{{ $appart->client->comments }}</td>
+                                                <td>
+                                                    <button id="{{ $client->id }}" class="btn btn-warning editClient"
+                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEditClient"><i
+                                                            data-feather="edit"></i>Modifier</button>
+                                                    <button onclick="deleteClient({{ $client->id }})"
+                                                        class="btn btn-danger"><i
+                                                            data-feather="trash"></i>Supprimer</button>
+                                                </td>
+                                            </tr>
+                                                
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade text-left " id="inlineFormEditClient" tabindex="-1" role="dialog"
+                aria-labelledby="myModalLabel44" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg>
+                            </button>
+                        </div>
+                        <form id="editForm" method="POST" action="{{ route('clients.store') }}">
+                            @csrf
+                            <div class="modal-body">
+                                <label>Nom: </label>
+                                <div class="form-group">
+                                    <input type="text" name="name" placeholder="Nom" class="form-control">
+                                </div>
+                                <label>Prenom: </label>
+                                <div class="form-group">
+                                    <input type="text" name="lastName" placeholder="Prénom" class="form-control">
+                                </div>
+                                <label>Numéro de téléphone: </label>
+                                <div class="form-group">
+                                    <input type="text" name="phone" placeholder="Numéro de téléphone"
+                                        class="form-control">
+                                </div>
+                                <label>Numéro CIN: </label>
+                                <div class="form-group">
+                                    <input type="text" name="cin" placeholder="Numéro CIN" class="form-control">
+                                </div>
+                                <label>Email: </label>
+                                <div class="form-group">
+                                    <input type="text" name="email" placeholder="Email" class="form-control">
+                                </div>
+                                <label>Type: </label>
+                                <div class="form-group">
+                                    <select name="type" id="" class="form-control">
+                                        <option value="0">Client</option>
+                                        <option value="1">Prospect</option>
+                                    </select>
+                                </div>
+                                <label>Commentaires: </label>
+                                <div class="form-group">
+                                    <textarea name="comments" id="" cols="30" rows="10" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="edit" class="btn btn-light-secondary"
+                                    data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Annuler</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block text-white">Modifier</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between m-3">
+                            <h5 class="card-title">Échéanciers</h5>
+
+                        </div>
+                        <div class="table-responsive">
+                            <table class='table table-striped' id="table1">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Total Échanciers</th>
+                                        <th scope="col">Total Payé</th>
+                                        <th scope="col">Total Restant</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>{{ $total_echance }}</td>
+                                        <td>{{ $total_echeance }}</td>
+                                        <td>{{ $total_echance - $total_echeance }}</td>
+
+
+                                        <td>
+
+                                            <div class="d-flex">
+                                                <a href="{{ route('echances') }}?res={{ $residence->id }}"
+                                                    class="btn btn-primary edit m-1"><i
+                                                        data-feather="plus-circle"></i>Details</a>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between m-3">
+                            <h5 class="card-title">Charges</h5>
+                            
+                        </div>
+                        <div class="table-responsive">
+                            <table class='table table-striped' id="table1">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Total Sonede</th>
+                                        <th scope="col">Total Syndic</th>
+                                        <th scope="col">Total Avocat</th>
+                                        <th scope="col">Total Contrat</th>
+                                        <th scope="col">Total Fncier</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>{{ $total_sonede }}</td>
+                                        <td>{{ $total_syndic }}</td>
+                                        <td>{{ $total_avocat }}</td>
+                                        <td>{{ $total_contrat }}</td>
+                                        <td>{{ $total_foncier }}</td>
+                                        <td>{{ $total_sonede + $total_syndic + $total_avocat + $total_contrat + $total_foncier }}
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="d-flex">
+                                                <a href="{{ route('charges') }}?res={{ $residence->id }}"
+                                                    class="btn btn-primary edit m-1"><i
+                                                        data-feather="plus-circle"></i>Details</a>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                
 
             </div>
             <!--End Row-->
@@ -321,9 +557,11 @@
                         <div class="modal-header">
                             <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form method="POST" action="{{ route('parkings.store') }}" enctype="multipart/form-data">
@@ -332,7 +570,7 @@
                                 <input type="hidden" value="{{ $residence->id }}" name="residence_id">
                                 <label>Place Parking: </label>
                                 <div class="form-group">
-                                    <input type="text" name="name" placeholder="Numero" class="form-control">
+                                    <input type="text" name="name" placeholder="Place Parking" class="form-control">
                                 </div>
                                 <label>Numero: </label>
                                 <div class="form-group">
@@ -370,11 +608,13 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
+                            <h4 class="card-title" id="myModalLabel33">Modifier </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form id="formEditParking" method="POST" enctype="multipart/form-data">
@@ -384,7 +624,7 @@
                                 <input type="hidden" value="{{ $residence->id }}" name="residence_id">
                                 <label>Place Parking: </label>
                                 <div class="form-group">
-                                    <input type="text" name="name" placeholder="Numero" class="form-control">
+                                    <input type="text" name="name" placeholder="Place Parking" class="form-control">
                                 </div>
                                 <label>Numero: </label>
                                 <div class="form-group">
@@ -410,7 +650,7 @@
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
                                     <i class="bx bx-check d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block text-white">Ajouter</span>
+                                    <span class="d-none d-sm-block text-white">Modifier</span>
                                 </button>
                             </div>
                         </form>
@@ -425,9 +665,11 @@
                         <div class="modal-header">
                             <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form id="resEdit" method="POST" action="{{ route('residences.update', $residence->id) }}"
@@ -501,14 +743,14 @@
 @endsection
 
 @section('scripts')
-    
 
-    
+
+
 
     <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
-    
+
 
     <script>
         const editButtons = document.getElementsByClassName('editCellier');
@@ -620,25 +862,25 @@
                 npermisInput.value = residence.npermis;
                 detailMunicipalInput.value = residence.detailMunicipal;
                 const options2 = {
-                        credits: null,
-                        allowImagePreview: false,
-                        allowMultiple: false,
-                        allowFileEncode: false,
-                        required: false,
-                        storeAsFile: true,
-                        labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
-                        labelButtonDownloadItem: "Télécharger",
-                        allowDrop: false,
-                        allowBrowse: false,
-                        allowPaste: false,
-                    }
-                    if (residence.detail) {
-                        options2.files = [{
-                            source: '{{ route('dashboard') }}/' + residence.detail
-                        }]
-                    }
-                    FilePond.create(document.querySelector('.image-preview-filepondEdit'),
-                        options2);
+                    credits: null,
+                    allowImagePreview: false,
+                    allowMultiple: false,
+                    allowFileEncode: false,
+                    required: false,
+                    storeAsFile: true,
+                    labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
+                    labelButtonDownloadItem: "Télécharger",
+                    allowDrop: false,
+                    allowBrowse: false,
+                    allowPaste: false,
+                }
+                if (residence.detail) {
+                    options2.files = [{
+                        source: '{{ route('dashboard') }}/' + residence.detail
+                    }]
+                }
+                FilePond.create(document.querySelector('.image-preview-filepondEdit'),
+                    options2);
 
 
                 const options = {
@@ -693,5 +935,47 @@
             });
         }
         createFileInput(".image-preview-filepondEtage");
+
+        function deleteClient(id) {
+            var form = document.getElementById('delete');
+            let base = '{{ route('clients.destroy', '5') }}';
+            base = base.replace('5', id);
+            form.action = base;
+            form.method = 'DELETE';
+            form.submit();
+        }
+
+        const editClient = document.getElementsByClassName('editClient');
+        editClient.forEach = Array.prototype.forEach;
+        editClient.forEach((editButton) => {
+            editButton.addEventListener('click', function() {
+                const form = document.getElementById('editForm');
+                
+                let base = '{{ route('clients.update', '5') }}';
+                base = base.replace('5', editButton.id);
+                form.action = base;
+                const nameInput = form.querySelector('input[name="name"]');
+                const lastNameInput = form.querySelector('input[name="lastName"]');
+                const phoneInput = form.querySelector('input[name="phone"]');
+                const cinInput = form.querySelector('input[name="cin"]');
+                const emailInput = form.querySelector('input[name="email"]');
+                const typeInput = form.querySelector('select[name="type"]');
+                const commentsArea = form.querySelector('textarea[name="comments"]');
+                url = "{{ route('clients.get', 5) }}";
+                url = url.replace('5', editButton.id);
+                axios.get(url).then((reponse) => {
+                    const client = reponse.data;
+                    nameInput.value = client.name;
+                    lastNameInput.value = client.lastName;
+                    phoneInput.value = client.phone;
+                    cinInput.value = client.cin;
+                    emailInput.value = client.email;
+                    typeInput.value = client.type;
+                    commentsArea.innerHTML = client.comments
+                }).catch((error) => {
+                    console.log(error)
+                })
+            });
+        })
     </script>
 @endsection

@@ -67,11 +67,49 @@ class ResidencesController extends Controller
 
     public function show($id)
     {
-        $residence = Residence::with('image', 'etage', 'etage.appart', 'parking', 'cellier')->findOrFail($id);
+        $residence = Residence::with('image', 'etage', 'etage.appart','etage.appart.echance','etage.appart.client','etage.appart.charge', 'etage.appart.echance.echeance', 'parking', 'cellier')->findOrFail($id);
         $clients = Client::all();
+
+        $total_echance = 0;
+        $total_echeance = 0;
+        $total_sonede = 0;
+        $total_syndic = 0;
+        $total_avocat = 0;
+        $total_contrat = 0;
+        $total_foncier = 0;
+        foreach ($residence->etage as $etage) {
+            foreach ($etage->appart as $appart) {
+                foreach($appart->charge as $charge){
+                    $total_sonede += $charge->sonede;
+                    $total_syndic += $charge->syndic;
+                    $total_avocat += $charge->avocat;
+                    $total_contrat += $charge->contrat;
+                    $total_foncier += $charge->foncier;
+
+                }
+                $total_echance += $appart->price;
+                foreach ($appart->echance as $echance) {
+                    $total_echeance += $echance->amount_avance;
+                    foreach ($echance->echeance as $echeance) {
+                        if($echeance->payed == 1){
+                            $total_echeance += $echeance->montant;
+                        }
+                    }
+                }
+            }
+        }
+
+
         return view('pages.residences.details', [
             'residence' => $residence,
-            'clients' => $clients
+            'clients' => $clients,
+            'total_echance'=>$total_echance,
+            'total_echeance'=>$total_echeance,
+            'total_sonede'=>$total_sonede,
+            'total_syndic'=>$total_syndic,
+            'total_avocat'=>$total_avocat,
+            'total_contrat'=>$total_contrat,
+            'total_foncier'=>$total_foncier,
         ]);
     }
 

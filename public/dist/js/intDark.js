@@ -19,26 +19,46 @@ const toggle = document.getElementById("theme-toggle");
 
 const body = document.getElementsByTagName("body")[0];
 const currentTheme = localStorage.getItem("theme");
-    if (currentTheme === "dark") {
+if (currentTheme === "dark") {
+    if (toggle) {
         toggle.innerHTML = sun;
-        localStorage.setItem("theme", "dark");
-        body.setAttribute("data-bs-theme", "dark");
-    }else{
-        toggle.innerHTML = moon;
-        localStorage.setItem("theme", "light");
-        body.setAttribute("data-bs-theme", "");        
     }
-toggle.addEventListener("click", function () {
-    const currentTheme = localStorage.getItem("theme");
-    if (currentTheme === "dark") {
+    localStorage.setItem("theme", "dark");
+    body.setAttribute("data-bs-theme", "dark");
+} else {
+    if (toggle) {
         toggle.innerHTML = moon;
-        localStorage.setItem("theme", "light");
-        body.setAttribute("data-bs-theme", "");
-    }else{
-        toggle.innerHTML = sun;
-        localStorage.setItem("theme", "dark");
-        body.setAttribute("data-bs-theme", "dark");
     }
-});
+    localStorage.setItem("theme", "light");
+    body.setAttribute("data-bs-theme", "");
+}
+if (toggle) {
+    toggle.addEventListener("click", function () {
+        const currentTheme = localStorage.getItem("theme");
+        if (currentTheme === "dark") {
+            if (toggle) {
+                toggle.innerHTML = moon;
+            }
+            localStorage.setItem("theme", "light");
+            body.setAttribute("data-bs-theme", "");
+        } else {
+            if (toggle) {
+                toggle.innerHTML = sun;
+            }
+            localStorage.setItem("theme", "dark");
+            body.setAttribute("data-bs-theme", "dark");
+        }
+    });
+}
 
-
+const show = document.getElementById("show");
+if(show){
+    show.addEventListener("click", () => {
+        const pass = document.getElementById("pass");
+        if (pass.type === "password") {
+            pass.type = "text";
+        } else {
+            pass.type = "password";
+        }
+    });
+}

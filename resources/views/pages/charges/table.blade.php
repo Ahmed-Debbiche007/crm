@@ -117,27 +117,27 @@
 
                                 <label>Sonède & Gaz: </label>
                                 <div class="form-group">
-                                    <input name="sonede" type="number" placeholder="Numero" class="form-control">
+                                    <input name="sonede" type="number" placeholder="Sonède & Gaz" class="form-control">
                                 </div>
 
                                 <label>Syndic: </label>
                                 <div class="form-group">
-                                    <input name="syndic" type="number" placeholder="Numero" class="form-control">
+                                    <input name="syndic" type="number" placeholder="Syndic" class="form-control">
                                 </div>
 
                                 <label>Avocat Promesse: </label>
                                 <div class="form-group">
-                                    <input name="avocat" type="number" placeholder="Numero" class="form-control">
+                                    <input name="avocat" type="number" placeholder="Avocat Promesse" class="form-control">
                                 </div>
 
                                 <label>Avocat Contart: </label>
                                 <div class="form-group">
-                                    <input name="contrat" type="number" placeholder="Numero" class="form-control">
+                                    <input name="contrat" type="number" placeholder="Avocat Contart" class="form-control">
                                 </div>
 
                                 <label>Titre Foncier: </label>
                                 <div class="form-group">
-                                    <input name="foncier" type="number" placeholder="Numero" class="form-control">
+                                    <input name="foncier" type="number" placeholder="Titre Foncier" class="form-control">
                                 </div>
 
 
@@ -197,27 +197,27 @@
                                 <label id="clientEdit"></label>
                                 <label>Sonède & Gaz: </label>
                                 <div class="form-group">
-                                    <input name="sonede" type="number" placeholder="Numero" class="form-control">
+                                    <input name="sonede" type="number" placeholder="Sonède & Gaz" class="form-control">
                                 </div>
 
                                 <label>Syndic: </label>
                                 <div class="form-group">
-                                    <input name="syndic" type="number" placeholder="Numero" class="form-control">
+                                    <input name="syndic" type="number" placeholder="Syndic" class="form-control">
                                 </div>
 
                                 <label>Avocat Promesse: </label>
                                 <div class="form-group">
-                                    <input name="avocat" type="number" placeholder="Numero" class="form-control">
+                                    <input name="avocat" type="number" placeholder="Avocat Promesse" class="form-control">
                                 </div>
 
                                 <label>Avocat Contart: </label>
                                 <div class="form-group">
-                                    <input name="contrat" type="number" placeholder="Numero" class="form-control">
+                                    <input name="contrat" type="number" placeholder="Avocat Contart" class="form-control">
                                 </div>
 
                                 <label>Titre Foncier: </label>
                                 <div class="form-group">
-                                    <input name="foncier" type="number" placeholder="Numero" class="form-control">
+                                    <input name="foncier" type="number" placeholder="Titre Foncier" class="form-control">
                                 </div>
 
                             </div>

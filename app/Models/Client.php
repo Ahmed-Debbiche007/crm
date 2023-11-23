@@ -22,5 +22,6 @@ class Client extends Model
         'email',
         'type',
         'comments',
+        'date_res'
     ];
 }
