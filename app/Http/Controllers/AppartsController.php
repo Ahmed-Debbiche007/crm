@@ -69,11 +69,7 @@ class AppartsController extends Controller
             }
         }
         $appart->save();
-        if ($request->has("client_id")) {
-            $client = Client::findOrFail($request->client_id);
-            $client->date_res = date('Y-m-d');
-            $client->save();
-        }
+        
         return redirect()->back()->with('success', 'Appart saved!');
     }
 
@@ -135,13 +131,7 @@ class AppartsController extends Controller
                 $i++;
             }
         }
-        if ($request->has("client_id")) {
-            if($old_client != $request->client_id){
-                $client = Client::findOrFail($request->client_id);
-                $client->date_res = date('Y-m-d');
-                $client->save();
-            }
-        }
+        
         return redirect()->back()->with('success', 'Appart updated!');
     }
 

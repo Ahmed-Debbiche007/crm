@@ -24,6 +24,7 @@
                                             <th scope="col">Appartement</th>
                                             <th scope="col">Client</th>
                                             <th scope="col">Date</th>
+                                            <th scope="col">Montant Restant</th>
                                             <th scope="col">Montant Avance</th>
                                             <th scope="col">Date Avance</th>
                                             <th scope="col">Preuve Avance</th>
@@ -47,6 +48,15 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $echance->date }}</td>
+                                                @php
+                                                    $totalEchances = 0;
+                                                    $echance->echeance->each(function ($item) use (&$totalEchances) {
+                                                        if ($item->payed == 1) {
+                                                            $totalEchances += $item->montant;
+                                                        }
+                                                    });
+                                                @endphp
+                                                <td>{{$echance->appart->price - $echance->amount_avance - $totalEchances }}</td>
                                                 <td>{{ $echance->amount_avance }}</td>
                                                 <td>{{ $echance->date_avance }}</td>
                                                 <td>

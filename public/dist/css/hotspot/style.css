@@ -30,6 +30,19 @@
   backface-visibilty: hidden;
   transition: all 0.3s ease 0.1, border-radius 0.1s ease 0.2;
 }
+
+.hotspot-label {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  border-radius: 10px;
+  padding: 5px 10px;
+  transition: all 0.3s ease 0.1, border-radius 0.1s ease 0.2;
+  background-color: #994e77;
+  color: white;
+}
 .hotspot.open {
   border-radius: 0 0;
   width: 300px;

@@ -22,16 +22,14 @@
                                         <tr>
                                             <th scope="col">Nom</th>
                                             <th scope="col">Adresse</th>
-                                            <th scope="col">N° du titre Foncier</th>
-                                            <th scope="col">Emplacement</th>
-                                            <th scope="col">N° du permis de bâtir</th>
-                                            <th scope="col">Détail Municipalité</th>
+
                                             <th scope="col">Étages</th>
                                             <th scope="col">Appartements</th>
                                             <th scope="col">Parkings</th>
                                             <th scope="col">Celliers</th>
                                             <th scope="col">Charges</th>
                                             <th scope="col">Échanciers</th>
+
                                             <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
@@ -40,10 +38,8 @@
                                             <tr>
                                                 <td>{{ $residence->name }}</td>
                                                 <td>{{ $residence->address }}</td>
-                                                <td>{{ $residence->nfoncier }}</td>
-                                                <td>{{ $residence->emplacemnt }}</td>
-                                                <td>{{ $residence->npermis }}</td>
-                                                <td>{{ $residence->detailMunicipal }}</td>
+
+
                                                 <td> <a href="{{ route('etages') }}?res={{ $residence->id }}"
                                                         class="badge bg-success">Étages</a> </td>
                                                 <td> <a href="{{ route('apparts') }}?res={{ $residence->id }}"
@@ -87,9 +83,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form method="POST" action="{{ route('residences.store') }}" enctype="multipart/form-data">
@@ -157,9 +155,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form id="formEdit" method="POST" action="{{ route('residences.store') }}"
@@ -234,14 +234,14 @@
 @endsection
 
 @section('scripts')
-    
 
-    
+
+
 
     <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
-    
+
     <script>
         function deleteClient(id) {
             var form = document.getElementById('delete');
@@ -341,10 +341,6 @@
                         required: false,
                         storeAsFile: true,
                         labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
-                        labelButtonDownloadItem: "Télécharger",
-                        allowDrop: false,
-                        allowBrowse: false,
-                        allowPaste: false,
                     }
                     if (residence.detail) {
                         options2.files = [{

@@ -9,6 +9,16 @@
         <div class="container-fluid">
             <div class="row mt-3">
                 <div class="col-lg-12">
+                    @php
+                        $totalEchances = 0;
+                        $echance->echeance->each(function ($item) use (&$totalEchances) {
+                            if ($item->payed == 1) {
+                                $totalEchances += $item->montant;
+                            }
+                        });
+                    @endphp
+                    <h2>Montant Payé: <span style="color: #005841;"> {{$echance->amount_avance + $totalEchances }} DT </span></h2>
+                    <h2>Montant Restant: <span style="color: #fe8900;"> {{ $echance->appart->price - $echance->amount_avance - $totalEchances }} DT </span></h2>
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
@@ -23,6 +33,7 @@
                                             <th scope="col">Appartement</th>
                                             <th scope="col">Client</th>
                                             <th scope="col">Date</th>
+                                            <th scope="col">Montant Restant</th>
                                             <th scope="col">Montant Avance</th>
                                             <th scope="col">Date Avance</th>
                                             <th scope="col">Preuve Avance</th>
@@ -46,24 +57,29 @@
                                                 @endif
                                             </td>
                                             <td>{{ $echance->date }}</td>
+                                            
+                                            <td>{{ $echance->appart->price - $echance->amount_avance - $totalEchances }}
+                                            </td>
                                             <td>{{ $echance->amount_avance }}</td>
                                             <td>{{ $echance->date_avance }}</td>
                                             <td>
-                                                <div
-                                                    class="d-flex flex-column justify-items-center align-items-center ">
+                                                <div class="d-flex flex-column justify-items-center align-items-center ">
                                                     @if ($echance->preuve_avance != null)
                                                         <div>
-                                                            <a href="{{asset($echance->preuve_avance)}}" target="_blank" download class="btn btn-success"><i data-feather="download"></i> Télécharger</a>
+                                                            <a href="{{ asset($echance->preuve_avance) }}" target="_blank"
+                                                                download class="btn btn-success"><i
+                                                                    data-feather="download"></i> Télécharger</a>
                                                         </div>
                                                     @endif
                                                 </div>
                                             </td>
                                             <td>
-                                                <div
-                                                    class="d-flex flex-column justify-items-center align-items-center ">
+                                                <div class="d-flex flex-column justify-items-center align-items-center ">
                                                     @if ($echance->promesse != null)
                                                         <div>
-                                                            <a href="{{asset($echance->promesse)}}" target="_blank" download class="btn btn-success"><i data-feather="download"></i> Télécharger</a>
+                                                            <a href="{{ asset($echance->promesse) }}" target="_blank"
+                                                                download class="btn btn-success"><i
+                                                                    data-feather="download"></i> Télécharger</a>
                                                         </div>
                                                     @endif
                                                     <div>
@@ -80,11 +96,12 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div
-                                                    class="d-flex flex-column justify-items-center align-items-center ">
+                                                <div class="d-flex flex-column justify-items-center align-items-center ">
                                                     @if ($echance->contrat != null)
                                                         <div>
-                                                           <a href="{{asset($echance->contrat)}}" target="_blank" download class="btn btn-success"><i data-feather="download"></i> Télécharger</a>
+                                                            <a href="{{ asset($echance->contrat) }}" target="_blank"
+                                                                download class="btn btn-success"><i
+                                                                    data-feather="download"></i> Télécharger</a>
                                                         </div>
                                                     @endif
                                                     <div>
@@ -104,11 +121,11 @@
                                             <td>
 
                                                 <div class="d-flex">
-                                                   
+
                                                     <button id="{{ $echance->id }}" class="btn btn-warning edit m-1"
                                                         data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
                                                             data-feather="edit"></i>Modifier</button>
-                                                    
+
                                                 </div>
 
                                             </td>
@@ -130,9 +147,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form method="POST" action="{{ route('echances.store') }}" enctype="multipart/form-data">
@@ -245,9 +264,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form id="editForm" method="POST" enctype="multipart/form-data">
@@ -362,7 +383,7 @@
         <div class="overlay toggle-menu"></div>
         <!--end overlay-->
     </div>
-    <div class="content-wrapper mt-0" style="padding-top: 0px ">
+    <div class="content-wrapper mt-3" style="padding-top: 0px ">
         <div class="container-fluid mt-0">
             <div class="row mt-0">
                 <div class="col-lg-12 mt-0">
@@ -432,9 +453,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form method="POST" action="{{ route('echeances.store') }}" enctype="multipart/form-data">
@@ -490,9 +513,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form method="POST" id="editFormEcheance" enctype="multipart/form-data">
@@ -546,14 +571,14 @@
 @endsection
 
 @section('scripts')
-    
 
-    
+
+
 
     <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
-    
+
 
     <script>
         function createFileInput(className) {

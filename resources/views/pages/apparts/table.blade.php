@@ -121,9 +121,11 @@
                                                 <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                                    </svg>
                                                 </button>
                                             </div>
                                             <form method="POST" action="{{ route('apparts.store') }}"
@@ -133,7 +135,7 @@
                                                     <label>Nom: </label>
                                                     <div class="form-group">
                                                         <input type="text" name="name" placeholder="Nom"
-                                                            class="form-control">
+                                                            id="nomAppart" class="form-control">
                                                     </div>
                                                     <label>Résidence: </label>
                                                     <div class="form-group">
@@ -159,67 +161,67 @@
                                                         <input type="hidden" name="y">
 
                                                     </div>
-                                                        <label>Surface: </label>
-                                                        <div class="form-group">
-                                                            <input type="number" name="surface" placeholder="Surface"
-                                                                class="form-control">
-                                                        </div>
-                                                        <label>Type: </label>
-                                                        <div class="form-group">
-                                                            <select name="type" class="form-control">
-                                                                <option value="0">Commerce</option>
-                                                                <option value="1">Duplex</option>
-                                                                <option value="2">Duplex - 1</option>
-                                                                <option value="3">S+1</option>
-                                                                <option value="4">S+2</option>
-                                                                <option value="5">S+3</option>
-                                                            </select>
-                                                        </div>
-                                                        <label>Prix: </label>
-                                                        <div class="form-group">
-                                                            <input type="number" name="price" placeholder="Prix"
-                                                                class="form-control">
-                                                        </div>
-                                                        <label>Client: </label>
-                                                        <div class="form-group">
-                                                            <select name="client_id" class="form-control">
-                                                                <option value="">--</option>
-                                                                @foreach ($clients as $client)
-                                                                    <option value="{{ $client->id }}">
-                                                                        {{ $client->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
+                                                    <label>Surface: </label>
+                                                    <div class="form-group">
+                                                        <input type="number" name="surface" placeholder="Surface"
+                                                            class="form-control">
+                                                    </div>
+                                                    <label>Type: </label>
+                                                    <div class="form-group">
+                                                        <select name="type" class="form-control">
+                                                            <option value="0">Commerce</option>
+                                                            <option value="1">Duplex</option>
+                                                            <option value="2">Duplex - 1</option>
+                                                            <option value="3">S+1</option>
+                                                            <option value="4">S+2</option>
+                                                            <option value="5">S+3</option>
+                                                        </select>
+                                                    </div>
+                                                    <label>Prix: </label>
+                                                    <div class="form-group">
+                                                        <input type="number" name="price" placeholder="Prix"
+                                                            class="form-control">
+                                                    </div>
+                                                    <label>Client: </label>
+                                                    <div class="form-group">
+                                                        <select name="client_id" class="form-control">
+                                                            <option value="">--</option>
+                                                            @foreach ($clients as $client)
+                                                                <option value="{{ $client->id }}">
+                                                                    {{ $client->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
 
-                                                        <label>Statut: </label>
-                                                        <div class="form-group">
-                                                            <select name="bs" class="form-control">
-                                                                <option value= "0"> Libre </option>
-                                                                <option value= "1"> Loué </option>
-                                                                <option value= "2"> Réservé </option>
-                                                                <option value= "3"> Vendu </option>
-                                                            </select>
-                                                        </div>
-                                                        <label>Gallery </label>
-                                                        <input type="file" name="gallery[]"
-                                                            class="multiple-files-filepond" multiple>
-                                                        <label>Commentaires: </label>
-                                                        <div class="form-group">
-                                                            <textarea name="comments" cols="30" rows="10" class="form-control"></textarea>
-                                                        </div>
+                                                    <label>Statut: </label>
+                                                    <div class="form-group">
+                                                        <select name="bs" class="form-control">
+                                                            <option value= "0"> Libre </option>
+                                                            <option value= "1"> Loué </option>
+                                                            <option value= "2"> Réservé </option>
+                                                            <option value= "3"> Vendu </option>
+                                                        </select>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light-secondary"
-                                                            data-bs-dismiss="modal">
-                                                            <i class="bx bx-x d-block d-sm-none"></i>
-                                                            <span class="d-none d-sm-block">Annuler</span>
-                                                        </button>
-                                                        <button type="submit" class="btn btn-primary ml-1">
-                                                            <i class="bx bx-check d-block d-sm-none"></i>
-                                                            <span class="d-none d-sm-block text-white">Ajouter</span>
-                                                        </button>
+                                                    <label>Gallery </label>
+                                                    <input type="file" name="gallery[]"
+                                                        class="multiple-files-filepond" multiple>
+                                                    <label>Commentaires: </label>
+                                                    <div class="form-group">
+                                                        <textarea name="comments" cols="30" rows="10" class="form-control"></textarea>
                                                     </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                                        <span class="d-none d-sm-block">Annuler</span>
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary ml-1">
+                                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                                        <span class="d-none d-sm-block text-white">Ajouter</span>
+                                                    </button>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
@@ -233,9 +235,11 @@
                                                 <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                                    </svg>
                                                 </button>
                                             </div>
                                             <form method="POST" id="formEdit" enctype="multipart/form-data">
@@ -244,7 +248,7 @@
                                                     <input type="hidden" name="id">
                                                     <label>Nom: </label>
                                                     <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Nom"
+                                                        <input type="text" name="name" placeholder="Nom" id="nomAppartEdit"
                                                             class="form-control">
                                                     </div>
                                                     <label>Résidence: </label>
@@ -359,14 +363,14 @@
 
 @section('scripts')
 
-    
 
-    
+
+
 
     <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
-    
+
 
     <script>
         const selectEtages = document.getElementById('residencesAdd')
@@ -375,7 +379,7 @@
         const etagesSelectEdit = document.getElementById('editetage')
         loadEtages(selectEtages.value, 'addetage');
         loadImage(addSelect.value);
-        
+
         selectEtages.addEventListener('change', (e) => {
             const id = e.target.value
 
@@ -396,7 +400,7 @@
         etagesSelectEdit.addEventListener('change', (e) => {
             const id = e.target.value
             const appart = document.getElementById('formEdit').querySelector('input[name="id"]')?.value
-            loadImageEdit(id,appart)
+            loadImageEdit(id, appart)
         })
 
         FilePond.create(document.querySelector(".multiple-files-filepond"), {
@@ -434,7 +438,7 @@
         function loadImage(id) {
             const main = document.querySelector('.cd__main');
             const etages = @json($etages);
-            
+
             const w = 458;
             etages.forEach((etage) => {
                 if (etage.id == id) {
@@ -451,7 +455,7 @@
 
                         div.classList.add('containerH');
 
-                        const path = "{{asset('favicon.ico')}}".replace("favicon.ico", etage.plan)
+                        const path = "{{ asset('favicon.ico') }}".replace("favicon.ico", etage.plan)
                         div.setAttribute('style', "background-image: url('" + path + "'); height: " + w / ratio +
                             "px; width: " + w + "px;");
 
@@ -459,8 +463,18 @@
                             const appart = document.createElement('div');
                             appart.classList.add('hotspot');
                             appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
-                            appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap.name +
+                            appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap
+                                .name +
                                 '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                            const divText = document.createElement('div');
+                            let t = ap.y - 10;
+                            let l = ap.x - 10;
+                            t += 10;
+                            l += 14;
+                            divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
+                            divText.innerHTML = '<div>' + ap.name + '</div>';
+                            divText.classList.add('hotspot-label');
+                            div.appendChild(divText);
                             div.appendChild(appart);
                         })
                         main.appendChild(div);
@@ -472,7 +486,7 @@
         function loadImageEdit(id, appart_id) {
             const main = document.querySelector('.editHotspot');
             const etages = @json($etages);
-            
+
             const w = 458;
             etages.forEach((etage) => {
                 if (etage.id == id) {
@@ -481,28 +495,42 @@
                         main.innerHTML = ''
                         const imageUrl = "../../" + etage.plan;
                         const ratio = etage.wplan / etage.hplan;
-                        
+
                         main.setAttribute('style', 'height: ' + w / ratio +
-                        'px; width: ' + w + 'px;');
-                        
-                        
+                            'px; width: ' + w + 'px;');
+
+
                         const div = document.createElement('div');
                         div.classList.add('containerH');
 
-                        const path = "{{asset('favicon.ico')}}".replace("favicon.ico", etage.plan)
+                        const path = "{{ asset('favicon.ico') }}".replace("favicon.ico", etage.plan)
                         div.setAttribute('style', "background-image: url('" + path + "'); height: " + w / ratio +
                             "px; width: " + w + "px;");
 
                         etage.appart.forEach((ap) => {
                             const appart = document.createElement('div');
+                            const divText = document.createElement('div');
+                            let t = ap.y - 10;
+                            let l = ap.x - 10;
+                            t += 10;
+                            l += 14;
+                            divText.setAttribute('style', 'top: ' + t + '%; left: ' + l +
+                                '%;  ');
+                            divText.innerHTML = '<div>' + ap.name + '</div>';
+                            divText.classList.add('hotspot-label');
+
                             appart.classList.add('hotspot');
                             if (ap.id == appart_id) {
                                 appart.classList.add('added');
+                                divText.classList.add('added');
                             }
-                            
+
                             appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
-                            appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap.name +
+                            appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap
+                                .name +
                                 '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+
+                            div.appendChild(divText);
                             div.appendChild(appart);
                         })
                         main.appendChild(div);
@@ -521,6 +549,17 @@
             form.method = 'DELETE';
             form.submit();
         }
+
+        let nameAppart = "";
+        const inputNom = document.getElementById('nomAppart');
+        inputNom.addEventListener('change', (e)=>{
+            nameAppart = e.target.value;
+        } )
+        const inputNomEdit = document.getElementById('nomAppartEdit');
+        inputNomEdit.addEventListener('change', (e)=>{
+            nameAppart = e.target.value;
+        } )
+        
 
         const editButtons = document.getElementsByClassName('edit');
         editButtons.forEach = Array.prototype.forEach;
@@ -562,6 +601,7 @@
                     })
                     idInput.value = appart.id
                     nameInput.value = appart.name
+                    nameAppart = appart.name;
                     surfaceInput.value = appart.surface
                     typeInput.value = appart.type
                     priceInput.value = appart.price
@@ -605,6 +645,7 @@
             });
         })
 
+        
         $(document).on("click", ".containerH", function(e) {
             const container = $(this); // Get the clicked container element
 
@@ -615,14 +656,21 @@
             const offsetYPercent =
                 ((e.clientY - containerRect.top) / containerRect.height) * 100;
 
-            
+
 
             $('.added').each((index, el) => {
                 $(el).remove(); // Remove each element with the class .added
             });
-
+            
+            let t = offsetYPercent - 10;
+            let l = offsetXPercent - 10;
+            t += 9;
+            l += 14;
             const newElement = $(
-                `<div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
+                `<div class='hotspot-label added' style='top: ${t}%; left: ${l}%;'>
+                    <div>${nameAppart}</div>
+                    </div>
+                <div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
       <div class='icon'>+</div>
       <div class='content'>
         <h4>Eros uns eos sind rebum</h4>

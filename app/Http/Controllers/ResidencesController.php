@@ -91,7 +91,7 @@ class ResidencesController extends Controller
                 foreach ($appart->echance as $echance) {
                     $total_echeance += $echance->amount_avance;
                     foreach ($echance->echeance as $echeance) {
-                        if($echeance->payed == 1){
+                        if($echeance->payed == 0){
                             $total_echeance += $echeance->montant;
                         }
                     }

@@ -16,8 +16,10 @@
                     <h5 class="card-title">N° du permis de bâtir: {{ $residence->npermis }}</h5>
                     <h5 class="card-title">Détail Municipalité: {{ $residence->detailMunicipal }}</h5>
                 </div>
-                <h5 class="card-title">Détails Résidence: <a href="{{ asset($residence->detail) }}" target="_blank" download
-                        class="btn btn-primary mb-1 mt-1"><i data-feather="download"></i> Télécharger</a></h5>
+                @if ($residence->detail)
+                    <h5 class="card-title">Détails Résidence: <a href="{{ asset($residence->detail) }}" target="_blank"
+                            download class="btn btn-primary mb-1 mt-1"><i data-feather="download"></i> Télécharger</a></h5>
+                @endif
                 <h5 class="card-title">Gallery:</h5>
                 @if ($residence->image && count($residence->image) > 0)
 
@@ -161,8 +163,7 @@
                                     <input type="hidden" name="residence_id" value={{ $residence->id }}>
                                     <label>Numero: </label>
                                     <div class="form-group">
-                                        <input type="text" name="name" placeholder="Numero"
-                                            class="form-control">
+                                        <input type="text" name="name" placeholder="Numero" class="form-control">
                                     </div>
                                     <label>Plan: </label>
                                     <input type="file" name="plan" class="image-preview-filepondEtage" />
@@ -287,7 +288,7 @@
                         <div class="d-flex justify-content-between m-3">
                             <h5 class="card-title">Celliers</h5>
                             <button type="button" data-bs-toggle="modal" data-bs-target="#cellier"
-                            class="btn btn-primary">Ajouter</button>
+                                class="btn btn-primary">Ajouter</button>
                         </div>
                         <div class="table-responsive">
                             <table class='table table-striped' id="table1">
@@ -359,31 +360,31 @@
                                     @foreach ($residence->etage as $etage)
                                         @foreach ($etage->appart as $appart)
                                             @if ($appart->client)
-                                            <tr>
-                                                <td>{{ $appart->client->name }}</td>
-                                                <td>{{ $appart->client->lastName }}</td>
-                                                <td>{{ $appart->client->email }}</td>
-                                                <td>{{ $appart->client->phone }}</td>
-                                                <td>{{ $appart->client->cin }}</td>
-                                                <td>
-                                                    @if ($appart->client->type == 0)
-                                                        Client
-                                                    @else
-                                                        Prospect
-                                                    @endif
-                                                </td>
-                                                <td>{{ $appart->client->date_res }}</td>
-                                                <td>{{ $appart->client->comments }}</td>
-                                                <td>
-                                                    <button id="{{ $client->id }}" class="btn btn-warning editClient"
-                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEditClient"><i
-                                                            data-feather="edit"></i>Modifier</button>
-                                                    <button onclick="deleteClient({{ $client->id }})"
-                                                        class="btn btn-danger"><i
-                                                            data-feather="trash"></i>Supprimer</button>
-                                                </td>
-                                            </tr>
-                                                
+                                                <tr>
+                                                    <td>{{ $appart->client->name }}</td>
+                                                    <td>{{ $appart->client->lastName }}</td>
+                                                    <td>{{ $appart->client->email }}</td>
+                                                    <td>{{ $appart->client->phone }}</td>
+                                                    <td>{{ $appart->client->cin }}</td>
+                                                    <td>
+                                                        @if ($appart->client->type == 0)
+                                                            Client
+                                                        @else
+                                                            Prospect
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $appart->client->date_res }}</td>
+                                                    <td>{{ $appart->client->comments }}</td>
+                                                    <td>
+                                                        <button id="{{ $client->id }}"
+                                                            class="btn btn-warning editClient" data-bs-toggle="modal"
+                                                            data-bs-target="#inlineFormEditClient"><i
+                                                                data-feather="edit"></i>Modifier</button>
+                                                        <button onclick="deleteClient({{ $client->id }})"
+                                                            class="btn btn-danger"><i
+                                                                data-feather="trash"></i>Supprimer</button>
+                                                    </td>
+                                                </tr>
                                             @endif
                                         @endforeach
                                     @endforeach
@@ -394,68 +395,76 @@
                 </div>
 
                 <div class="modal fade text-left " id="inlineFormEditClient" tabindex="-1" role="dialog"
-                aria-labelledby="myModalLabel44" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
-                            </button>
+                    aria-labelledby="myModalLabel44" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <form id="editForm" method="POST" action="{{ route('clients.store') }}">
+                                @csrf
+                                <div class="modal-body">
+                                    <label>Nom: </label>
+                                    <div class="form-group">
+                                        <input type="text" name="name" placeholder="Nom" class="form-control">
+                                    </div>
+                                    <label>Prenom: </label>
+                                    <div class="form-group">
+                                        <input type="text" name="lastName" placeholder="Prénom" class="form-control">
+                                    </div>
+                                    <label>Numéro de téléphone: </label>
+                                    <div class="form-group">
+                                        <input type="text" name="phone" placeholder="Numéro de téléphone"
+                                            class="form-control">
+                                    </div>
+                                    <label>Numéro CIN: </label>
+                                    <div class="form-group">
+                                        <input type="text" name="cin" placeholder="Numéro CIN"
+                                            class="form-control">
+                                    </div>
+                                    <label>Email: </label>
+                                    <div class="form-group">
+                                        <input type="text" name="email" placeholder="Email" class="form-control">
+                                    </div>
+                                    <label>Type: </label>
+                                    <div class="form-group">
+                                        <select name="type" id="" class="form-control">
+                                            <option value="0">Client</option>
+                                            <option value="1">Prospect</option>
+                                        </select>
+                                    </div>
+                                    <label>Date Réservation: </label>
+                                    <div class="form-group">
+                                        <input type="date" name="date_res" placeholder="Numéro CIN"
+                                            class="form-control">
+                                    </div>
+                                    <label>Commentaires: </label>
+                                    <div class="form-group">
+                                        <textarea name="comments" id="" cols="30" rows="10" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="edit" class="btn btn-light-secondary"
+                                        data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Annuler</span>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary ml-1">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block text-white">Modifier</span>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <form id="editForm" method="POST" action="{{ route('clients.store') }}">
-                            @csrf
-                            <div class="modal-body">
-                                <label>Nom: </label>
-                                <div class="form-group">
-                                    <input type="text" name="name" placeholder="Nom" class="form-control">
-                                </div>
-                                <label>Prenom: </label>
-                                <div class="form-group">
-                                    <input type="text" name="lastName" placeholder="Prénom" class="form-control">
-                                </div>
-                                <label>Numéro de téléphone: </label>
-                                <div class="form-group">
-                                    <input type="text" name="phone" placeholder="Numéro de téléphone"
-                                        class="form-control">
-                                </div>
-                                <label>Numéro CIN: </label>
-                                <div class="form-group">
-                                    <input type="text" name="cin" placeholder="Numéro CIN" class="form-control">
-                                </div>
-                                <label>Email: </label>
-                                <div class="form-group">
-                                    <input type="text" name="email" placeholder="Email" class="form-control">
-                                </div>
-                                <label>Type: </label>
-                                <div class="form-group">
-                                    <select name="type" id="" class="form-control">
-                                        <option value="0">Client</option>
-                                        <option value="1">Prospect</option>
-                                    </select>
-                                </div>
-                                <label>Commentaires: </label>
-                                <div class="form-group">
-                                    <textarea name="comments" id="" cols="30" rows="10" class="form-control"></textarea>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id="edit" class="btn btn-light-secondary"
-                                    data-bs-dismiss="modal">
-                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">Annuler</span>
-                                </button>
-                                <button type="submit" class="btn btn-primary ml-1">
-                                    <i class="bx bx-check d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block text-white">Modifier</span>
-                                </button>
-                            </div>
-                        </form>
                     </div>
                 </div>
-            </div>
 
                 <div class="card mt-3">
                     <div class="card-body">
@@ -502,7 +511,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between m-3">
                             <h5 class="card-title">Charges</h5>
-                            
+
                         </div>
                         <div class="table-responsive">
                             <table class='table table-striped' id="table1">
@@ -546,7 +555,7 @@
                     </div>
                 </div>
 
-                
+
 
             </div>
             <!--End Row-->
@@ -570,7 +579,8 @@
                                 <input type="hidden" value="{{ $residence->id }}" name="residence_id">
                                 <label>Place Parking: </label>
                                 <div class="form-group">
-                                    <input type="text" name="name" placeholder="Place Parking" class="form-control">
+                                    <input type="text" name="name" placeholder="Place Parking"
+                                        class="form-control">
                                 </div>
                                 <label>Numero: </label>
                                 <div class="form-group">
@@ -624,7 +634,8 @@
                                 <input type="hidden" value="{{ $residence->id }}" name="residence_id">
                                 <label>Place Parking: </label>
                                 <div class="form-group">
-                                    <input type="text" name="name" placeholder="Place Parking" class="form-control">
+                                    <input type="text" name="name" placeholder="Place Parking"
+                                        class="form-control">
                                 </div>
                                 <label>Numero: </label>
                                 <div class="form-group">
@@ -869,10 +880,6 @@
                     required: false,
                     storeAsFile: true,
                     labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
-                    labelButtonDownloadItem: "Télécharger",
-                    allowDrop: false,
-                    allowBrowse: false,
-                    allowPaste: false,
                 }
                 if (residence.detail) {
                     options2.files = [{
@@ -950,7 +957,7 @@
         editClient.forEach((editButton) => {
             editButton.addEventListener('click', function() {
                 const form = document.getElementById('editForm');
-                
+
                 let base = '{{ route('clients.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
@@ -959,6 +966,7 @@
                 const phoneInput = form.querySelector('input[name="phone"]');
                 const cinInput = form.querySelector('input[name="cin"]');
                 const emailInput = form.querySelector('input[name="email"]');
+                const resInput = form.querySelector('input[name="date_res"]');
                 const typeInput = form.querySelector('select[name="type"]');
                 const commentsArea = form.querySelector('textarea[name="comments"]');
                 url = "{{ route('clients.get', 5) }}";
@@ -971,6 +979,7 @@
                     cinInput.value = client.cin;
                     emailInput.value = client.email;
                     typeInput.value = client.type;
+                    resInput.value = client.date_res;
                     commentsArea.innerHTML = client.comments
                 }).catch((error) => {
                     console.log(error)

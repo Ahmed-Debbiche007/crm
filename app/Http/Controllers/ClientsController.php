@@ -26,6 +26,7 @@ class ClientsController extends Controller
             'email' => ['nullable', 'email'],
             'type' => ['nullable', 'integer'],
             'comments' => ['nullable', 'string'],
+            'date_res' => ['nullable', 'date'],
         ]);
 
         $client = Client::create($formFileds);
@@ -48,6 +49,7 @@ class ClientsController extends Controller
             'email' => ['nullable', 'email'],
             'type' => ['nullable', 'integer'],
             'comments' => ['nullable', 'string'],
+            'date_res' => ['nullable', 'date'],
         ]);
 
         $client = Client::findOrFail($id);

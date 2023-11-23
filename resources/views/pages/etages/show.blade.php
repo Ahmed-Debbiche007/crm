@@ -150,7 +150,7 @@
                                                 <div class="modal-body">
                                                     <label>Nom: </label>
                                                     <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Nom"
+                                                        <input type="text" name="name" placeholder="Nom" id="nomAppart"
                                                             class="form-control">
                                                     </div>
 
@@ -266,7 +266,7 @@
                                                 <div class="modal-body">
                                                     <label>Nom: </label>
                                                     <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Nom"
+                                                        <input type="text" name="name" placeholder="Nom" id="nomAppartEdit"
                                                             class="form-control">
                                                     </div>
                                                     <label>Résidence: </label>
@@ -395,8 +395,7 @@
                                     </div>
                                     <label>Numero: </label>
                                     <div class="form-group">
-                                        <input type="text" name="name" placeholder="Numero"
-                                            class="form-control">
+                                        <input type="text" name="name" placeholder="Numero" class="form-control">
                                     </div>
                                     <label>Plan: </label>
                                     <input type="file" name="plan" class="image-preview-filepondEtage" />
@@ -511,6 +510,15 @@
             form.submit();
         }
 
+        let nameAppart = "";
+        const inputNom = document.getElementById('nomAppart');
+        inputNom.addEventListener('change', (e)=>{
+            nameAppart = e.target.value;
+        } )
+        const inputNomEdit = document.getElementById('nomAppartEdit');
+        inputNomEdit.addEventListener('change', (e)=>{
+            nameAppart = e.target.value;
+        } )
         const editButtons = document.getElementsByClassName('edit');
         editButtons.forEach = Array.prototype.forEach;
         editButtons.forEach((editButton) => {
@@ -541,6 +549,7 @@
                     loadEtages(appart.etage_id, 'editetage')
                     loadImageOnEdit(appart.id)
                     nameInput.value = appart.name
+                    nameAppart = appart.name;
                     surfaceInput.value = appart.surface
                     typeInput.value = appart.type
                     priceInput.value = appart.price
@@ -689,6 +698,15 @@
             content.innerHTML = '<h4>' + ap.name + '</h4><p>' + statut + '</p><a href="' + link +
                 '" class="btn">Voir</a>';
 
+            const divText = document.createElement('div');
+            let t = ap.y - 10;
+            let l = ap.x - 10;
+            t += 10;
+            l += 14;
+            divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%; background-color: ' + color + '; ');
+            divText.innerHTML = '<div>' + ap.name + '</div>';
+            divText.classList.add('hotspot-label');
+            div.appendChild(divText);
             appart.appendChild(ht);
             appart.appendChild(content);
             div.appendChild(appart);
@@ -707,7 +725,9 @@
         labelLibre.classList.add('justify-content-center');
         labelLibre.classList.add('align-items-center');
         labelLibre.classList.add('mx-2');
-        labelLibre.setAttribute('style', 'background-color: #005841; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;');
+        labelLibre.setAttribute('style',
+            'background-color: #005841; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;'
+        );
         labelLibre.innerHTML = "+";
         const divLibre = document.createElement('div');
         divLibre.classList.add('d-flex');
@@ -723,7 +743,9 @@
         labelLoué.classList.add('justify-content-center');
         labelLoué.classList.add('align-items-center');
         labelLoué.classList.add('mx-2');
-        labelLoué.setAttribute('style', 'background-color: #fe8900; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;');
+        labelLoué.setAttribute('style',
+            'background-color: #fe8900; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;'
+        );
         labelLoué.innerHTML = "+";
         const divLoué = document.createElement('div');
         divLoué.classList.add('d-flex');
@@ -739,7 +761,9 @@
         labelRéservé.classList.add('justify-content-center');
         labelRéservé.classList.add('align-items-center');
         labelRéservé.classList.add('mx-2');
-        labelRéservé.setAttribute('style', 'background-color: #fde25e; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;');
+        labelRéservé.setAttribute('style',
+            'background-color: #fde25e; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;'
+        );
         labelRéservé.innerHTML = "+";
         const divRéservé = document.createElement('div');
         divRéservé.classList.add('d-flex');
@@ -755,7 +779,9 @@
         labelVendu.classList.add('justify-content-center');
         labelVendu.classList.add('align-items-center');
         labelVendu.classList.add('mx-2');
-        labelVendu.setAttribute('style', 'background-color: #850000; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;');
+        labelVendu.setAttribute('style',
+            'background-color: #850000; border-radius: 50% 50%; color: white;width: 30px; height: 30px; overflow: hidden;'
+        );
         labelVendu.innerHTML = "+";
         const divVendu = document.createElement('div');
         divVendu.classList.add('d-flex');
@@ -800,10 +826,19 @@
                 etage.appart.forEach((ap) => {
                     const appart = document.createElement('div');
                     appart.classList.add('hotspot');
-                    
+
                     appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
                     appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap.name +
                         '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                    const divText = document.createElement('div');
+                    let t = ap.y - 10;
+                    let l = ap.x - 10;
+                    t += 10;
+                    l += 14;
+                    divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%; ');
+                    divText.innerHTML = '<div>' + ap.name + '</div>';
+                    divText.classList.add('hotspot-label');
+                    div.appendChild(divText);
                     div.appendChild(appart);
                 })
                 main.appendChild(div);
@@ -837,13 +872,25 @@
                 etage.appart.forEach((ap) => {
                     const appart = document.createElement('div');
                     appart.classList.add('hotspot');
+                    const divText = document.createElement('div');
+                    let t = ap.y - 10;
+                    let l = ap.x - 10;
+                    t += 10;
+                    l += 14;
+                    divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
+                    divText.innerHTML = '<div>' + ap.name + '</div>';
+                    divText.classList.add('hotspot-label');
                     if (ap.id == appart_id) {
                         appart.classList.add('added');
+                        divText.classList.add('added');
                     }
                     appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
                     appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap.name +
                         '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                    
+                    div.appendChild(divText);
                     div.appendChild(appart);
+
                 })
                 main.appendChild(div);
             };
@@ -866,9 +913,16 @@
             $('.added').each((index, el) => {
                 $(el).remove(); // Remove each element with the class .added
             });
+            let t = offsetYPercent - 10;
+            let l = offsetXPercent - 10;
+            t += 9;
+            l += 14;
 
             const newElement = $(
-                `<div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
+                `<div class='hotspot-label added' style='top: ${t}%; left: ${l}%;'>
+                    <div>${nameAppart}</div>
+                    </div>
+                <div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
       <div class='icon'>+</div>
      
     </div>`
@@ -896,13 +950,17 @@
             $('.added').each((index, el) => {
                 $(el).remove(); // Remove each element with the class .added
             });
+            let t = offsetYPercent - 10;
+            let l = offsetXPercent - 10;
+            t += 9;
+            l += 14;
 
-            const newElement = $(
-                `<div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
-      <div class='icon'>+</div>
-     
-    </div>`
-            );
+            const newElement = 
+                `<div class='hotspot-label added' style='top: ${t}%; left: ${l}%;'>
+                    <div>${nameAppart}</div>
+                    </div>
+                <div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
+      <div class='icon'>+</div> </div>`;
             document.getElementById("formmm").querySelector("input[name='x']").value = offsetXPercent;
             document.getElementById("formmm").querySelector("input[name='y']").value = offsetYPercent;
             document.getElementById("formEdit").querySelector("input[name='x']").value = offsetXPercent;

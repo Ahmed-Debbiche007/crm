@@ -149,9 +149,11 @@
                                                 <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                                    </svg>
                                                 </button>
                                             </div>
                                             <form method="POST" id="formEdit" enctype="multipart/form-data">
@@ -159,8 +161,8 @@
                                                 <div class="modal-body">
                                                     <input type="hidden" name="id">
                                                     <label>Nom: </label>
-                                                    <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Nom"
+                                                    <div class="form-group"> 
+                                                        <input type="text" name="name" placeholder="Nom" id="nomAppart"
                                                             class="form-control">
                                                     </div>
                                                     <label>Résidence: </label>
@@ -392,9 +394,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form method="POST" action="{{ route('echances.store') }}" enctype="multipart/form-data">
@@ -489,9 +493,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form id="editForm" method="POST" enctype="multipart/form-data">
@@ -653,9 +659,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form method="POST" action="{{ route('charges.store') }}" enctype="multipart/form-data">
@@ -666,7 +674,8 @@
 
                                 <label>Sonède & Gaz: </label>
                                 <div class="form-group">
-                                    <input name="sonede" type="number" placeholder="Sonède & Gaz" class="form-control">
+                                    <input name="sonede" type="number" placeholder="Sonède & Gaz"
+                                        class="form-control">
                                 </div>
 
                                 <label>Syndic: </label>
@@ -676,17 +685,20 @@
 
                                 <label>Avocat Promesse: </label>
                                 <div class="form-group">
-                                    <input name="avocat" type="number" placeholder="Avocat Promesse" class="form-control">
+                                    <input name="avocat" type="number" placeholder="Avocat Promesse"
+                                        class="form-control">
                                 </div>
 
                                 <label>Avocat Contart: </label>
                                 <div class="form-group">
-                                    <input name="contrat" type="number" placeholder="Avocat Contart" class="form-control">
+                                    <input name="contrat" type="number" placeholder="Avocat Contart"
+                                        class="form-control">
                                 </div>
 
                                 <label>Titre Foncier: </label>
                                 <div class="form-group">
-                                    <input name="foncier" type="number" placeholder="Titre Foncier" class="form-control">
+                                    <input name="foncier" type="number" placeholder="Titre Foncier"
+                                        class="form-control">
                                 </div>
 
 
@@ -712,9 +724,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form id="editChargeForm" method="POST" enctype="multipart/form-data">
@@ -726,7 +740,8 @@
                                 <label id="clientEdit"></label>
                                 <label>Sonède & Gaz: </label>
                                 <div class="form-group">
-                                    <input name="sonede" type="number" placeholder="Sonède & Gaz" class="form-control">
+                                    <input name="sonede" type="number" placeholder="Sonède & Gaz"
+                                        class="form-control">
                                 </div>
 
                                 <label>Syndic: </label>
@@ -736,17 +751,20 @@
 
                                 <label>Avocat Promesse: </label>
                                 <div class="form-group">
-                                    <input name="avocat" type="number" placeholder="Avocat Promesse" class="form-control">
+                                    <input name="avocat" type="number" placeholder="Avocat Promesse"
+                                        class="form-control">
                                 </div>
 
                                 <label>Avocat Contart: </label>
                                 <div class="form-group">
-                                    <input name="contrat" type="number" placeholder="Avocat Contart" class="form-control">
+                                    <input name="contrat" type="number" placeholder="Avocat Contart"
+                                        class="form-control">
                                 </div>
 
                                 <label>Titre Foncier: </label>
                                 <div class="form-group">
-                                    <input name="foncier" type="number" placeholder="Titre Foncier" class="form-control">
+                                    <input name="foncier" type="number" placeholder="Titre Foncier"
+                                        class="form-control">
                                 </div>
 
                             </div>
@@ -775,18 +793,24 @@
 @endsection
 
 @section('scripts')
-    
 
-    
+
+
 
     <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
-    
+
 
     <script>
         const selectEtagesEdit = document.getElementById('residencesEdit')
         const etagesSelectEdit = document.getElementById('editetage')
+
+        let nameAppart = "";
+        const inputNom = document.getElementById('nomAppart');
+        inputNom.addEventListener('change', (e)=>{
+            nameAppart = e.target.value;
+        } )
 
 
         selectEtagesEdit.addEventListener('change', (e) => {
@@ -870,14 +894,26 @@
                         etage.appart.forEach((ap) => {
                             const appart = document.createElement('div');
                             appart.classList.add('hotspot');
+                            const divText = document.createElement('div');
+                            let t = ap.y - 10;
+                            let l = ap.x - 10;
+                            t += 10;
+                            l += 14;
+                            divText.setAttribute('style', 'top: ' + t + '%; left: ' + l +
+                                '%; ');
+                            divText.innerHTML = '<div>' + ap.name + '</div>';
+                            divText.classList.add('hotspot-label');
                             if (ap.id == appart_id) {
                                 appart.classList.add('added');
+                                divText.classList.add('added');
                             }
 
                             appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
                             appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap
                                 .name +
                                 '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                            
+                            div.appendChild(divText);
                             div.appendChild(appart);
                         })
                         main.appendChild(div);
@@ -926,6 +962,7 @@
                     })
                     idInput.value = appart.id
                     nameInput.value = appart.name
+                    nameAppart = appart.name;
                     surfaceInput.value = appart.surface
                     typeInput.value = appart.type
                     priceInput.value = appart.price
@@ -1197,9 +1234,16 @@
             $('.added').each((index, el) => {
                 $(el).remove(); // Remove each element with the class .added
             });
+            let t = offsetYPercent - 10;
+            let l = offsetXPercent - 10;
+            t += 9;
+            l += 14;
 
             const newElement = $(
-                `<div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
+                `
+                <div class='hotspot-label added' style='top: ${t}%; left: ${l}%;'>
+                    <div>${nameAppart}</div>
+                    </div><div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
       <div class='icon'>+</div>
       <div class='content'>
         <h4>Eros uns eos sind rebum</h4>

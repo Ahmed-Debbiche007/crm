@@ -15,6 +15,7 @@
     <link href="{{ asset('dist/css/demo.min.css?1684106062') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('dist/js/simple-datatables/style.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/js/filepond/filepond.css') }}">
+    <link rel="icon" href="{{ asset('static/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet"
         href="{{ asset('dist/js/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
     <link rel="stylesheet"

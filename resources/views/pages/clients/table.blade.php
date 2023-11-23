@@ -117,6 +117,10 @@
                                         <option value="1">Prospect</option>
                                     </select>
                                 </div>
+                                <label>Date Réservation: </label>
+                                <div class="form-group">
+                                    <input type="date" name="date_res" placeholder="Numéro CIN" class="form-control">
+                                </div>
                                 <label>Commentaires: </label>
                                 <div class="form-group">
                                     <textarea name="comments" id="" cols="30" rows="10" class="form-control"></textarea>
@@ -180,6 +184,10 @@
                                         <option value="1">Prospect</option>
                                     </select>
                                 </div>
+                                <label>Date Réservation: </label>
+                                <div class="form-group">
+                                    <input type="date" name="date_res" placeholder="Numéro CIN" class="form-control">
+                                </div>
                                 <label>Commentaires: </label>
                                 <div class="form-group">
                                     <textarea name="comments" id="" cols="30" rows="10" class="form-control"></textarea>
@@ -242,6 +250,7 @@
                 const phoneInput = form.querySelector('input[name="phone"]');
                 const cinInput = form.querySelector('input[name="cin"]');
                 const emailInput = form.querySelector('input[name="email"]');
+                const resInput = form.querySelector('input[name="date_res"]');
                 const typeInput = form.querySelector('select[name="type"]');
                 const commentsArea = form.querySelector('textarea[name="comments"]');
                 url = "{{ route('clients.get', 5) }}";
@@ -253,6 +262,7 @@
                     phoneInput.value = client.phone;
                     cinInput.value = client.cin;
                     emailInput.value = client.email;
+                    resInput.value = client.date_res;
                     typeInput.value = client.type;
                     commentsArea.innerHTML = client.comments
                 }).catch((error) => {
