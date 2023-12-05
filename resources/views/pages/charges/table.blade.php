@@ -16,6 +16,15 @@
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
+                            <div class="d-flex justify-content-start m-3 col-3">
+                                <h5 class="card-title m-3">Résidence: </h5>
+                                <select name="" id="resSelect" class="form-control">
+                                    <option value="0">Tout</option>
+                                    @foreach ($residences as $residence )
+                                    <option value="{{$residence->id}}">{{$residence->name}}</option>
+                                    @endforeach
+                                </select>                                
+                            </div>
                             <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
@@ -35,7 +44,7 @@
                                     <tbody>
                                         @foreach ($charges as $charge)
                                             <tr>
-                                                <td>{{ $charge->appart->etage->building->name }}</td>
+                                                <td id="{{ $charge->appart->etage->building->id }}">{{ $charge->appart->etage->building->name }}</td>
                                                 <td>{{ $charge->appart->etage->name }}</td>
                                                 <td>{{ $charge->appart->name }}</td>
                                                 <td>
@@ -362,6 +371,24 @@
                     console.log(error)
                 })
             });
+        })
+        const resSelect = document.getElementById('resSelect');
+        resSelect.addEventListener('change', function() {
+            const table = document.getElementById('table1');
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach = Array.prototype.forEach;
+            rows.forEach((row) => {
+                const residence = row.querySelector('td:nth-child(1)').id;
+                if (resSelect.value == 0) {
+                    row.style.display = 'table-row';
+                } else {
+                    if (resSelect.value == residence) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }}
+                
+            })
         })
     </script>
 @endsection

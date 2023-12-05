@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\File;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Models\Residence;
@@ -31,13 +32,19 @@ class ResidencesController extends Controller
 
 
         $residence = Residence::create($formFileds);
-        if ($request->hasFile("details")) {
-            $file = $request->file('details');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $file->move('uploads/residences/', $filename);
-            $residence->detail = 'uploads/residences/' . $filename;
-            $residence->save();
+        if ($request->has("details")) {
+            $i = 0;
+            foreach ($request->file('details') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $filename = $file->getClientOriginalName();
+                $file->move('uploads/residences/', $filename);
+                $file = new File();
+                $file->name = $filename;
+                $file->path = 'uploads/residences/' . $filename;
+                $file->residence_id = $residence->id;
+                $file->save();
+                $i++;
+            }
         }
 
 
@@ -61,13 +68,13 @@ class ResidencesController extends Controller
 
     public function get($id)
     {
-        $residence = Residence::with('image')->findOrFail($id);
+        $residence = Residence::with('image','file')->findOrFail($id);
         return response()->json($residence);
     }
 
     public function show($id)
     {
-        $residence = Residence::with('image', 'etage', 'etage.appart','etage.appart.echance','etage.appart.client','etage.appart.charge', 'etage.appart.echance.echeance', 'parking', 'cellier')->findOrFail($id);
+        $residence = Residence::with('image','file', 'etage', 'etage.appart','etage.appart.echance','etage.appart.client','etage.appart.charge', 'etage.appart.echance.echeance', 'parking', 'cellier')->findOrFail($id);
         $clients = Client::all();
 
         $total_echance = 0;
@@ -127,6 +134,7 @@ class ResidencesController extends Controller
         $residence = Residence::findOrFail($id);
         $residence->update($formFileds);
         $images = Image::where('residence_id', $residence->id)->get();
+        $files = File::where('residence_id', $residence->id)->get();
         foreach ($images as $image) {
             //delete old image
             if (file_exists($image->path)) {
@@ -134,16 +142,29 @@ class ResidencesController extends Controller
             }
             $image->delete();
         }
-        if (file_exists($residence->detail)) {
-            unlink($residence->detail);
+
+        foreach ($files as $file) {
+            //delete old image
+            if (file_exists($file->path)) {
+                unlink($file->path);
+            }
+            $file->delete();
         }
-        if ($request->hasFile("details")) {
-            $file = $request->file('details');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $file->move('uploads/residences/', $filename);
-            $residence->detail = 'uploads/residences/' . $filename;
-            $residence->save();
+
+        
+        if ($request->has("details")) {
+            $i = 0;
+            foreach ($request->file('details') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $filename = $file->getClientOriginalName();
+                $file->move('uploads/residences/', $filename);
+                $file = new File();
+                $file->name = $filename;
+                $file->path = 'uploads/residences/' . $filename;
+                $file->residence_id = $residence->id;
+                $file->save();
+                $i++;
+            }
         }
         if ($request->has("gallery")) {
             $i = 0;

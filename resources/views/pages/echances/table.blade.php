@@ -16,6 +16,51 @@
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
+                            <div class="d-flex justify-content-start m-3 col-12 col-md-3">
+                                <h5 class="card-title m-3">Résidence: </h5>
+                                <select name="" id="resSelect" class="form-control">
+                                    <option value="0">Tout</option>
+                                    @foreach ($residences as $residence)
+                                        <option value="{{ $residence->id }}">{{ $residence->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="d-flex flex-wrap justify-content-between align-items-start m-3 col-5">
+                                <h5 class="card-title mx-3">Promesse: </h5>
+                                <div class="d-flex flex-column justify-content-start">
+                                    <div class='form-check'>
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="checkedLivrée" class="form-check-input">
+                                            <label>Livrée </label>
+                                        </div>
+                                    </div>
+                                    <div class='form-check'>
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="checkedLégalisée" class="form-check-input">
+                                            <label>Légalisée </label>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                                <h5 class="card-title mx-3">Contrat: </h5>
+                                <div class="d-flex flex-column justify-content-start">
+                                    <div class='form-check'>
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="checkedLivré" class="form-check-input">
+                                            <label>Livré </label>
+                                        </div>
+                                    </div>
+                                    <div class='form-check'>
+                                        <div class="checkbox">
+                                            <input type="checkbox" id="checkedEnregistré" class="form-check-input">
+                                            <label>Enregistré </label>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+
                             <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
@@ -23,10 +68,11 @@
                                             <th scope="col">Residence</th>
                                             <th scope="col">Appartement</th>
                                             <th scope="col">Client</th>
+                                            <th scope="col">N° Téléphone</th>
                                             <th scope="col">Date</th>
+                                            <th scope="col">Prix</th>
+                                            <th scope="col">Montant Payé</th>
                                             <th scope="col">Montant Restant</th>
-                                            <th scope="col">Montant Avance</th>
-                                            <th scope="col">Date Avance</th>
                                             <th scope="col">Preuve Avance</th>
                                             <th scope="col">Promesse</th>
                                             <th scope="col">Contrat</th>
@@ -36,18 +82,28 @@
                                     <tbody>
                                         @foreach ($echances as $echance)
                                             <tr>
-                                                <td>{{ $echance->appart->etage->building->name }}</td>
+                                                <td id="{{ $echance->appart->etage->building->id }}">
+                                                    {{ $echance->appart->etage->building->name }}</td>
                                                 <td>{{ $echance->appart->name }}</td>
                                                 <td>
 
-                                                    @if ($echance->client != null)
-                                                        {{ $echance->client->name }}
-                                                        {{ $echance->client->lastName }}
+                                                    @if ($echance->appart->client != null)
+                                                        {{ $echance->appart->client->name }}
+                                                        {{ $echance->appart->client->lastName }}
+                                                    @else
+                                                        --
+                                                    @endif
+                                                </td>
+                                                <td>
+
+                                                    @if ($echance->appart->client != null && $echance->appart->client->phone != null)
+                                                        {{ $echance->appart->client->phone }}
                                                     @else
                                                         --
                                                     @endif
                                                 </td>
                                                 <td>{{ $echance->date }}</td>
+                                                <td>{{ $echance->appart->price }}</td>
                                                 @php
                                                     $totalEchances = 0;
                                                     $echance->echeance->each(function ($item) use (&$totalEchances) {
@@ -56,25 +112,31 @@
                                                         }
                                                     });
                                                 @endphp
-                                                <td>{{$echance->appart->price - $echance->amount_avance - $totalEchances }}</td>
-                                                <td>{{ $echance->amount_avance }}</td>
-                                                <td>{{ $echance->date_avance }}</td>
+                                                <td>{{ $echance->amount_avance + $totalEchances }}</td>
+                                                <td>{{ $echance->appart->price - ($echance->amount_avance + $totalEchances) }}
+                                                </td>
+
                                                 <td>
                                                     <div
                                                         class="d-flex flex-column justify-items-center align-items-center ">
                                                         @if ($echance->preuve_avance != null)
                                                             <div>
-                                                                <a href="{{asset($echance->preuve_avance)}}" target="_blank" download class="btn btn-success"><i data-feather="download"></i> Télécharger</a>
+                                                                <a href="{{ asset($echance->preuve_avance) }}"
+                                                                    target="_blank" download class="btn btn-success"><i
+                                                                        data-feather="download"></i> Télécharger</a>
                                                             </div>
                                                         @endif
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td data-legal="{{ $echance->date_promesse_legal }}"
+                                                    data-livre="{{ $echance->date_promesse_livre }}">
                                                     <div
                                                         class="d-flex flex-column justify-items-center align-items-center ">
                                                         @if ($echance->promesse != null)
                                                             <div>
-                                                                <a href="{{asset($echance->promesse)}}" target="_blank" download class="btn btn-success"><i data-feather="download"></i> Télécharger</a>
+                                                                <a href="{{ asset($echance->promesse) }}" target="_blank"
+                                                                    download class="btn btn-success"><i
+                                                                        data-feather="download"></i> Télécharger</a>
                                                             </div>
                                                         @endif
                                                         <div>
@@ -90,12 +152,15 @@
 
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td data-enreg="{{ $echance->date_contrat_enregistre }}"
+                                                    data-livre="{{ $echance->date_contrat_livre }}">
                                                     <div
                                                         class="d-flex flex-column justify-items-center align-items-center ">
                                                         @if ($echance->contrat != null)
                                                             <div>
-                                                                <a href="{{asset($echance->contrat)}}" target="_blank" download class="btn btn-success"><i data-feather="download"></i> Télécharger</a>
+                                                                <a href="{{ asset($echance->contrat) }}" target="_blank"
+                                                                    download class="btn btn-success"><i
+                                                                        data-feather="download"></i> Télécharger</a>
                                                             </div>
                                                         @endif
                                                         <div>
@@ -148,9 +213,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form method="POST" action="{{ route('echances.store') }}" enctype="multipart/form-data">
@@ -183,7 +250,8 @@
                                 </div>
                                 <label>Avance: </label>
                                 <div class="form-group">
-                                    <input type="number" name="amount_avance" placeholder="Avance" class="form-control">
+                                    <input type="number" name="amount_avance" placeholder="Avance"
+                                        class="form-control">
                                 </div>
                                 <label>Date de l'avance: </label>
                                 <div class="form-group">
@@ -263,9 +331,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form id="editForm" method="POST" enctype="multipart/form-data">
@@ -385,14 +455,14 @@
 @endsection
 
 @section('scripts')
-    
 
-    
+
+
 
     <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
-    
+
 
     <script>
         function createFileInput(className) {
@@ -651,5 +721,102 @@
                 enregistreDate.disabled = true;
             }
         })
+        const resSelect = document.getElementById('resSelect');
+        resSelect.addEventListener('change', function() {
+            const table = document.getElementById('table1');
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach = Array.prototype.forEach;
+            rows.forEach((row) => {
+                const residence = row.querySelector('td:nth-child(1)').id;
+                if (resSelect.value == 0) {
+                    row.style.display = 'table-row';
+                } else {
+                    if (resSelect.value == residence) {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+
+            })
+        })
+        const checkedLivrée = document.getElementById('checkedLivrée');
+        const checkedLégalisée = document.getElementById('checkedLégalisée');
+  
+        const checkedLivré = document.getElementById('checkedLivré');
+        const checkedEnregistré = document.getElementById('checkedEnregistré');
+ 
+        checkedLivrée.addEventListener('click', function() {
+            const table = document.getElementById('table1');
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach = Array.prototype.forEach;
+            rows.forEach((row) => {
+                const livraison = row.querySelector('td:nth-child(9)').getAttribute('data-livre');
+                console.log(livraison)
+                if (checkedLivrée.checked) {
+                    if (livraison != "") {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }else {
+                    row.style.display = 'table-row';
+                }
+            })
+        })
+        checkedLégalisée.addEventListener('click', function() {
+            const table = document.getElementById('table1');
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach = Array.prototype.forEach;
+            rows.forEach((row) => {
+                const legalisation = row.querySelector('td:nth-child(9)').getAttribute('data-legal');
+                if (checkedLégalisée.checked) {
+                    if (legalisation != "") {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+                else {
+                    row.style.display = 'table-row';
+                }
+            })
+        })
+        
+        checkedLivré.addEventListener('click', function() {
+            const table = document.getElementById('table1');
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach = Array.prototype.forEach;
+            rows.forEach((row) => {
+                const livraison = row.querySelector('td:nth-child(10)').getAttribute('data-livre');
+                if (checkedLivré.checked) {
+                    if (livraison != "") {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                } else {
+                    row.style.display = 'table-row';
+                }
+            })
+        })
+        checkedEnregistré.addEventListener('click', function() {
+            const table = document.getElementById('table1');
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach = Array.prototype.forEach;
+            rows.forEach((row) => {
+                const legalisation = row.querySelector('td:nth-child(10)').getAttribute('data-enreg');
+                if (checkedEnregistré.checked) {
+                    if (legalisation != "") {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                } else {
+                    row.style.display = 'table-row';
+                }
+            })
+        })
+      
     </script>
 @endsection

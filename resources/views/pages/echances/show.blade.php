@@ -17,8 +17,10 @@
                             }
                         });
                     @endphp
-                    <h2>Montant Payé: <span style="color: #005841;"> {{$echance->amount_avance + $totalEchances }} DT </span></h2>
-                    <h2>Montant Restant: <span style="color: #fe8900;"> {{ $echance->appart->price - $echance->amount_avance - $totalEchances }} DT </span></h2>
+                    <h2>Montant Payé: <span style="color: #005841;"> {{ $echance->amount_avance + $totalEchances }} DT
+                        </span></h2>
+                    <h2>Montant Restant: <span style="color: #fe8900;">
+                            {{ $echance->appart->price - $echance->amount_avance - $totalEchances }} DT </span></h2>
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
@@ -32,10 +34,11 @@
                                             <th scope="col">Residence</th>
                                             <th scope="col">Appartement</th>
                                             <th scope="col">Client</th>
+                                            <th scope="col">N° Téléphone</th>
                                             <th scope="col">Date</th>
+                                            <th scope="col">Prix</th>
+                                            <th scope="col">Montant Payé</th>
                                             <th scope="col">Montant Restant</th>
-                                            <th scope="col">Montant Avance</th>
-                                            <th scope="col">Date Avance</th>
                                             <th scope="col">Preuve Avance</th>
                                             <th scope="col">Promesse</th>
                                             <th scope="col">Contrat</th>
@@ -49,19 +52,28 @@
                                             <td>{{ $echance->appart->name }}</td>
                                             <td>
 
-                                                @if ($echance->client != null)
-                                                    {{ $echance->client->name }}
-                                                    {{ $echance->client->lastName }}
+                                                @if ($echance->appart->client != null)
+                                                    {{ $echance->appart->client->name }}
+                                                    {{ $echance->appart->client->lastName }}
+                                                @else
+                                                    --
+                                                @endif
+                                            </td>
+                                            <td>
+
+                                                @if ($echance->appart->client != null && $echance->appart->client->phone != null)
+                                                    {{ $echance->appart->client->phone }}
                                                 @else
                                                     --
                                                 @endif
                                             </td>
                                             <td>{{ $echance->date }}</td>
-                                            
-                                            <td>{{ $echance->appart->price - $echance->amount_avance - $totalEchances }}
+                                            <td>{{ $echance->appart->price }}</td>
+                                            <td>{{ $echance->amount_avance + $totalEchances }}
                                             </td>
-                                            <td>{{ $echance->amount_avance }}</td>
-                                            <td>{{ $echance->date_avance }}</td>
+                                            <td>{{ $echance->appart->price - ($echance->amount_avance + $totalEchances) }}
+                                            </td>
+
                                             <td>
                                                 <div class="d-flex flex-column justify-items-center align-items-center ">
                                                     @if ($echance->preuve_avance != null)
@@ -520,7 +532,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <form method="POST" id="editFormEcheance" enctype="multipart/form-data">
+                        <form method="GET" id="editFormEcheance" enctype="multipart/form-data">
                             <div class="modal-body">
                                 <input type="hidden" name="echance_id" value="{{ $echance->id }}">
                                 <label>Date: </label>
@@ -529,7 +541,7 @@
                                 </div>
                                 <label>Montant: </label>
                                 <div class="form-group">
-                                    <input type="number" name="amount" placeholder="Montant" class="form-control">
+                                    <input type="number" name="montant" placeholder="Montant" class="form-control">
                                 </div>
                                 <label>Modalité: </label>
                                 <div class="form-group">
@@ -550,17 +562,17 @@
                                 </div>
 
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Close</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block text-white">Modifier</span>
+                                </button>
+                            </div>
                         </form>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                <i class="bx bx-x d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Close</span>
-                            </button>
-                            <button type="submit" class="btn btn-primary ml-1">
-                                <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block text-white">Modifier</span>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -845,20 +857,19 @@
 
                 const form = document.getElementById('editFormEcheance');
 
-                let base = '{{ route('echeances.update', '5') }}';
+                let base = "{{ route('echeances.update', '5') }}";
                 base = base.replace('5', editEcheance.id);
                 form.action = base;
+                
                 const dateInput = form.querySelector('input[ name="date"]')
-                const montantInput = form.querySelector('input[ name="amount"]')
+                const montantInput = form.querySelector('input[ name="montant"]')
                 const modaliteInput = form.querySelector('select[name="modalite"]')
                 const payedInput = form.querySelector('select[name="payed"]')
 
                 url = "{{ route('echeances.get', 5) }}";
                 url = url.replace('5', editEcheance.id);
                 axios.get(url).then((reponse) => {
-                    console.log("object")
                     const client = reponse.data;
-                    console.log(client)
                     dateInput.value = client.date;
                     montantInput.value = client.montant;
                     modaliteInput.value = client.modalite;
@@ -866,35 +877,11 @@
                 }).catch((error) => {
                     console.log(error)
                 })
+            
             });
         })
     </script>
     <script>
-        const forms = document.querySelectorAll('form');
-
-        forms.forEach((form) => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = new FormData(form);
-                if (form.method != 'get') {
-                    fetch(form.action, {
-                            method: form.method,
-                            body: formData,
-                        })
-                        .then((response) => {
-                            window.location.reload();
-                        })
-                        .catch((error) => {
-                            console.error('An error occurred:', error);
-                        });
-                } else {
-                    axios.get(form.action).then((reponse) => {
-                        window.location.reload();
-                    }).catch((error) => {
-                        console.log(error)
-                    })
-                }
-            });
-        });
+        
     </script>
 @endsection

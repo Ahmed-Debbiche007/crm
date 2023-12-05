@@ -16,9 +16,15 @@
                     <h5 class="card-title">N° du permis de bâtir: {{ $residence->npermis }}</h5>
                     <h5 class="card-title">Détail Municipalité: {{ $residence->detailMunicipal }}</h5>
                 </div>
-                @if ($residence->detail)
-                    <h5 class="card-title">Détails Résidence: <a href="{{ asset($residence->detail) }}" target="_blank"
-                            download class="btn btn-primary mb-1 mt-1"><i data-feather="download"></i> Télécharger</a></h5>
+                @if ($residence->file && count($residence->file) > 0)
+                    <h5 class="card-title">Détails Résidence: </h5> <br>
+                    <div class="d-flex flex-wrap">
+                        @foreach ($residence->file as $file)
+                            <a href="{{ asset($file->path) }}" target="_blank" download class="btn btn-primary m-1 "><i
+                                    data-feather="download"></i> {{ $file->name }}</a>
+                            <br>
+                        @endforeach
+                    </div>
                 @endif
                 <h5 class="card-title">Gallery:</h5>
                 @if ($residence->image && count($residence->image) > 0)
@@ -674,7 +680,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="card-title" id="myModalLabel33">Ajouter </h4>
+                            <h4 class="card-title" id="myModalLabel33">Modifier </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
@@ -722,7 +728,7 @@
                                         class="form-control">
                                 </div>
                                 <label>Detail Résidence </label>
-                                <input type="file" name="details" class="image-preview-filepondEdit" />
+                                <input type="file" name="details[]" class="image-preview-filepondEdit" />
 
                                 <label>Gallery </label>
                                 <input type="file" name="gallery[]" class="multiple-files-filepondEdit" multiple>
@@ -734,7 +740,7 @@
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
                                     <i class="bx bx-check d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block text-white">Ajouter</span>
+                                    <span class="d-none d-sm-block text-white">Modifier</span>
                                 </button>
                             </div>
                         </form>
@@ -875,16 +881,26 @@
                 const options2 = {
                     credits: null,
                     allowImagePreview: false,
-                    allowMultiple: false,
-                    allowFileEncode: false,
+                    allowImageFilter: false,
+                    allowImageExifOrientation: false,
+                    allowMultiple: true,
                     required: false,
                     storeAsFile: true,
+                    fileValidateTypeDetectType: (source, type) =>
+                        new Promise((resolve, reject) => {
+                            resolve(type);
+                        }),
                     labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
                 }
-                if (residence.detail) {
-                    options2.files = [{
-                        source: '{{ route('dashboard') }}/' + residence.detail
-                    }]
+                if (residence.file) {
+                    const files = []
+                    residence.file.forEach((img) => {
+
+                        files.push({
+                            source: '{{ route('dashboard') }}/' + img.path,
+                        })
+                    })
+                    options2.files = files
                 }
                 FilePond.create(document.querySelector('.image-preview-filepondEdit'),
                     options2);

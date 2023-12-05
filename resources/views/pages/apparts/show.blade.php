@@ -278,6 +278,7 @@
                                         <tr>
 
                                             <th scope="col">Client</th>
+                                            <th scope="col">N° Téléphone</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Montant Avance</th>
                                             <th scope="col">Date Avance</th>
@@ -293,9 +294,17 @@
 
                                                 <td>
 
-                                                    @if ($echance->client != null)
-                                                        {{ $echance->client->name }}
-                                                        {{ $echance->client->lastName }}
+                                                    @if ($echance->appart->client != null )
+                                                        {{ $echance->appart->client->name }}
+                                                        {{ $echance->appart->client->lastName }}
+                                                    @else
+                                                        --
+                                                    @endif
+                                                </td>
+                                                <td>
+
+                                                    @if ($echance->appart->client != null && $echance->appart->client->phone != null )
+                                                        {{ $echance->appart->client->phone }}
                                                     @else
                                                         --
                                                     @endif

@@ -127,7 +127,7 @@
                                 </div>
 
                                 <label>Detail Résidence </label>
-                                <input type="file" name="details" class="image-preview-filepond" />
+                                <input type="file" name="details[]" class="image-preview-filepond" multiple />
 
 
                                 <label>Gallery </label>
@@ -201,7 +201,7 @@
                                 </div>
 
                                 <label>Detail Résidence </label>
-                                <input type="file" name="details" class="image-preview-filepondEdit" />
+                                <input type="file" name="details[]" class="image-preview-filepondEdit" multiple />
                                 <label>Gallery </label>
                                 <input type="file" name="gallery[]" class="multiple-files-filepondEdit" multiple>
                             </div>
@@ -272,12 +272,17 @@
 
             FilePond.create(document.querySelector(className), {
                 credits: null,
-                allowImagePreview: false,
-                allowMultiple: false,
-                allowFileEncode: false,
+                allowImagePreview: false ,
+                allowImageFilter: false,
+                allowImageExifOrientation: false,
+                allowMultiple: true,
                 required: false,
                 storeAsFile: true,
-                labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
+                fileValidateTypeDetectType: (source, type) =>
+                    new Promise((resolve, reject) => {
+                        resolve(type);
+                    }),
+                labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`
             });
         }
         createFileInput(".image-preview-filepond");
@@ -336,16 +341,26 @@
                     const options2 = {
                         credits: null,
                         allowImagePreview: false,
-                        allowMultiple: false,
-                        allowFileEncode: false,
+                        allowImageFilter: false,
+                        allowImageExifOrientation: false,
+                        allowMultiple: true,
                         required: false,
                         storeAsFile: true,
+                        fileValidateTypeDetectType: (source, type) =>
+                            new Promise((resolve, reject) => {
+                                resolve(type);
+                            }),
                         labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
                     }
-                    if (residence.detail) {
-                        options2.files = [{
-                            source: '{{ route('dashboard') }}/' + residence.detail
-                        }]
+                    if (residence.file) {
+                        const files = []
+                        residence.file.forEach((img) => {
+
+                            files.push({
+                                source: '{{ route('dashboard') }}/' + img.path,
+                            })
+                        })
+                        options2.files = files
                     }
                     FilePond.create(document.querySelector('.image-preview-filepondEdit'),
                         options2);

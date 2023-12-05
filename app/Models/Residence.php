@@ -29,6 +29,11 @@ class Residence extends Model
         return $this->hasMany(Image::class);
     }
 
+    public function file()
+    {
+        return $this->hasMany(File::class);
+    }
+
     protected $fillable = [
         'name',
         'address',

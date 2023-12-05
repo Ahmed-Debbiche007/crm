@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CelliersController;
 use App\Http\Controllers\ChargesController;
 use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EchancesController;
 use App\Http\Controllers\EcheancesController;
 use App\Http\Controllers\EtagesController;
@@ -31,9 +32,7 @@ Route::group(['middleware' => ['guest']], function () {
 });
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout.perform');
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', function () {
-        return redirect()->route('residences');
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
     Route::post('/clients', [ClientsController::class, 'store'])->name('clients.store');
     Route::post('/clients/{id}', [ClientsController::class, 'update'])->name('clients.update');
@@ -89,7 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
     
     Route::get('/echeances',[EcheancesController::class, 'index'])->name('echeances');
     Route::post('/echeances',[EcheancesController::class, 'store'])->name('echeances.store');
-    Route::post('/echeances/{id}',[EcheancesController::class, 'update'])->name('echeances.update');
+    Route::get('/echeances/update/{id}',[EcheancesController::class, 'update'])->name('echeances.update');
     Route::get('/echeances/{id}',[EcheancesController::class, 'destroy'])->name('echeances.destroy');
     Route::get('/echeance/{id}',[EcheancesController::class, 'get'])->name('echeances.get');
 });

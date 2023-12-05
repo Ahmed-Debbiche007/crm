@@ -17,19 +17,30 @@
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
+                            <div class="d-flex justify-content-start m-3 col-3">
+                                <h5 class="card-title m-3">Résidence: </h5>
+                                <select name="" id="resSelect" class="form-control">
+                                    <option value="0">Tout</option>
+                                    @foreach ($residences as $residence )
+                                    <option value="{{$residence->id}}">{{$residence->name}}</option>
+                                    @endforeach
+                                </select>                                
+                            </div>
                             <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
                                             <th scope="col">Appartement</th>
                                             <th scope="col">Client</th>
+                                            <th scope="col">N° Téléphone</th>
+                                            <th scope="col">N° CIN</th>
                                             <th scope="col">Etage</th>
                                             <th scope="col">Résidence</th>
                                             <th scope="col">Surface</th>
                                             <th scope="col">Type</th>
                                             <th scope="col">Prix</th>
                                             <th scope="col">Statut</th>
-                                            <th scope="col">Commentaire</th>
+                                            
                                             <th scope="col">Charges</th>
                                             <th scope="col">Échanciers</th>
 
@@ -47,8 +58,22 @@
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>{{ $appart->etage->name }}</td>
-                                                <td>{{ $appart->etage->building->name }}</td>
+                                                <td>
+                                                    @if ($appart->client)
+                                                        {{ $appart->client->phone }}
+                                                    @else
+                                                        --
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($appart->client)
+                                                        {{ $appart->client->cin }}
+                                                    @else
+                                                        --
+                                                    @endif
+                                                </td>
+                                                <td id="{{ $appart->etage->id }}">{{ $appart->etage->name }}</td>
+                                                <td id="{{ $appart->etage->building->id }}">{{ $appart->etage->building->name }}</td>
                                                 <td>{{ $appart->surface }}</td>
                                                 <td>
                                                     @if ($appart->type == 0)
@@ -86,7 +111,7 @@
                                                     @endif
                                                 </td>
 
-                                                <td>{{ $appart->comments }}</td>
+                                                
                                                 <td> <a href="{{ route('charges') }}?appart={{ $appart->id }}"
                                                         class="badge bg-success">Charges</a> </td>
                                                 <td> <a href="{{ route('echances') }}?appart={{ $appart->id }}"
@@ -688,5 +713,24 @@
 
             container.append(newElement);
         });
+
+        const resSelect = document.getElementById('resSelect');
+        resSelect.addEventListener('change', function() {
+            const table = document.getElementById('table1');
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach = Array.prototype.forEach;
+            rows.forEach((row) => {
+                const residence = row.querySelector('td:nth-child(6)').id;
+                if (resSelect.value == 0) {
+                    row.style.display = 'table-row';
+                } else {
+                    if (resSelect.value == residence) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }}
+                
+            })
+        })
     </script>
 @endsection

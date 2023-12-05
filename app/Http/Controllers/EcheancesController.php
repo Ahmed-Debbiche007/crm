@@ -14,6 +14,7 @@ class EcheancesController extends Controller
 
     public function store(Request $request)
     {
+        
         $formFileds = $request->validate([
             'echance_id' =>['required', 'exists:echances,id'],
             'date' =>['required', 'date'],
@@ -30,8 +31,9 @@ class EcheancesController extends Controller
         return response()->json($echance);
     }
 
-    public function update(Request $request, Echeances $echeance)
-    {
+    public function update(Request $request, $id)
+    {   
+        $echance = Echeances::findOrFail($id);
         $formFileds = $request->validate([
             'echance_id' =>['required', 'exists:echances,id'],
             'date' =>['required', 'date'],
@@ -39,7 +41,7 @@ class EcheancesController extends Controller
             'payed' =>['required', 'boolean'],
             'modalite' =>['required', 'string']
         ]);
-        $echeance->update($formFileds);
+        $echance->update($formFileds);
         return redirect()->back();
     }
 
