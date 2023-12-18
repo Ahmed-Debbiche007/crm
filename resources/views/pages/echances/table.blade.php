@@ -40,7 +40,7 @@
                                             <label>Légalisée </label>
                                         </div>
                                     </div>
-                                   
+
                                 </div>
                                 <h5 class="card-title mx-3">Contrat: </h5>
                                 <div class="d-flex flex-column justify-content-start">
@@ -56,7 +56,7 @@
                                             <label>Enregistré </label>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
@@ -103,7 +103,7 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $echance->date }}</td>
-                                                <td>{{ $echance->appart->price }}</td>
+                                                <td>{{ $echance->price }}</td>
                                                 @php
                                                     $totalEchances = 0;
                                                     $echance->echeance->each(function ($item) use (&$totalEchances) {
@@ -113,7 +113,7 @@
                                                     });
                                                 @endphp
                                                 <td>{{ $echance->amount_avance + $totalEchances }}</td>
-                                                <td>{{ $echance->appart->price - ($echance->amount_avance + $totalEchances) }}
+                                                <td>{{ $echance->price - ($echance->amount_avance + $totalEchances) }}
                                                 </td>
 
                                                 <td>
@@ -244,6 +244,7 @@
 
                                     </select>
                                 </div>
+                                <div id="details" class="d-flex justify-content-between"></div>
                                 <label>Date: </label>
                                 <div class="form-group">
                                     <input type="date" name="date" placeholder="Numero" class="form-control">
@@ -363,6 +364,7 @@
 
                                     </select>
                                 </div>
+                                <div id="detailsEdit" class="d-flex justify-content-between"></div>
                                 <label>Date: </label>
                                 <div class="form-group">
                                     <input type="date" name="date" placeholder="Numero" class="form-control">
@@ -498,6 +500,30 @@
             }
             FilePond.create(document.querySelector(className), options);
         }
+        const getDetailsAppart = (id, select) => {
+            let route = '{{ route('apparts.get', '5') }}';
+            route = route.replace('5', id);
+            axios.get(route).then((reponse) => {
+                const appart = reponse.data;
+                const divDetails = document.getElementById(select);
+                const detailsClient = document.createElement('h4');
+                const detailsPrice = document.createElement('h4');
+                divDetails.innerHTML = '';
+                if (appart.client) {
+                    detailsClient.innerHTML = 'Client: ' + appart.client.name + ' ' + appart.client.lastName;
+                    divDetails.appendChild(detailsClient);
+                }
+                if (appart.price) {
+                    detailsPrice.innerHTML = 'Prix: ' + appart.price + 'TND';
+                    divDetails.appendChild(detailsPrice);
+                }
+
+
+
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
 
         function loadEtages(id, etageId) {
             const selectEtage = document.getElementById(etageId)
@@ -532,19 +558,25 @@
                 })
             })
         }
+
         const selectEtages = document.getElementById('residencesAdd')
+        const listApparts = document.getElementById('appartAdd');
+        const listAppartsEdit = document.getElementById('appartEdit');
         loadEtages(selectEtages.value, 'addetage');
         const selectApparts = document.getElementById('addetage');
         loadApparts(selectApparts.value, 'appartAdd');
+        getDetailsAppart(listApparts.value, 'details');
         selectEtages.addEventListener('change', (e) => {
             const id = e.target.value
             loadEtages(id, 'addetage')
             const selectApparts = document.getElementById('addetage');
             loadApparts(selectApparts.value, 'appartAdd');
+            getDetailsAppart(listApparts.value, 'details');
         })
         selectApparts.addEventListener('change', (e) => {
             const id = e.target.value
-            loadApparts(id, 'appartAdd')
+            loadApparts(id, 'appartAdd');
+            getDetailsAppart(listApparts.value, 'details')
         })
 
         const selectEtagesEdit = document.getElementById('residencesEdit')
@@ -554,11 +586,28 @@
             loadEtages(id, 'editetage')
             const selectApparts = document.getElementById('editetage');
             loadApparts(selectApparts.value, 'appartEdit');
+            getDetailsAppart(listAppartsEdit.value, 'detailsEdit');
         })
         selectAppartsEdit.addEventListener('change', (e) => {
             const id = e.target.valueOf()
-            loadApparts(id, 'appartEdit')
+            loadApparts(id, 'appartEdit');
+            getDetailsAppart(listAppartsEdit.value, 'detailsEdit')
+
         })
+
+        listApparts.addEventListener('change', (e) => {
+            const id = e.target.value;
+            getDetailsAppart(id, 'details');
+
+        })
+
+        listAppartsEdit.addEventListener('change', (e) => {
+            const id = e.target.value;
+            getDetailsAppart(id, 'detailsEdit');
+
+        })
+
+
 
         const editButtons = document.getElementsByClassName('edit');
         editButtons.forEach = Array.prototype.forEach;
@@ -598,6 +647,7 @@
                                     etage_idInput.value = etage.id;
                                     loadApparts(etage.id, 'appartEdit');
                                     appart_idInput.value = appart.id;
+                                    getDetailsAppart(appart.id, 'detailsEdit');
                                 }
                             })
                         })
@@ -742,10 +792,10 @@
         })
         const checkedLivrée = document.getElementById('checkedLivrée');
         const checkedLégalisée = document.getElementById('checkedLégalisée');
-  
+
         const checkedLivré = document.getElementById('checkedLivré');
         const checkedEnregistré = document.getElementById('checkedEnregistré');
- 
+
         checkedLivrée.addEventListener('click', function() {
             const table = document.getElementById('table1');
             const rows = table.querySelectorAll('tbody tr');
@@ -759,7 +809,7 @@
                     } else {
                         row.style.display = 'none';
                     }
-                }else {
+                } else {
                     row.style.display = 'table-row';
                 }
             })
@@ -776,13 +826,12 @@
                     } else {
                         row.style.display = 'none';
                     }
-                }
-                else {
+                } else {
                     row.style.display = 'table-row';
                 }
             })
         })
-        
+
         checkedLivré.addEventListener('click', function() {
             const table = document.getElementById('table1');
             const rows = table.querySelectorAll('tbody tr');
@@ -817,6 +866,5 @@
                 }
             })
         })
-      
     </script>
 @endsection

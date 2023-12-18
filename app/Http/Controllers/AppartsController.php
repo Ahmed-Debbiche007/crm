@@ -75,7 +75,7 @@ class AppartsController extends Controller
 
     public function get($id)
     {
-        $appart = Appart::with('image')->findOrFail($id);
+        $appart = Appart::with('image','client')->findOrFail($id);
         return response()->json($appart);
     }
 

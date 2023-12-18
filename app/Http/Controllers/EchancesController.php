@@ -62,7 +62,9 @@ class EchancesController extends Controller
             'date_contrat_livre' => ['nullable', 'date'],
             'date_contrat_enregistre' => ['nullable', 'date']
         ]);
-        $formFileds['client_id'] = Appart::findOrFail($formFileds['appart_id'])->client_id;
+        $appart = Appart::findOrFail($formFileds['appart_id']);
+        $formFileds['client_id']=$appart->client_id;
+        $formFileds['price']=$appart->price;
         $echance = Echance::create($formFileds);
         $i = 0;
         if ($request->hasFile("promesse")) {
@@ -125,7 +127,9 @@ class EchancesController extends Controller
             'date_contrat_livre' => ['nullable', 'date'],
             'date_contrat_enregistre' => ['nullable', 'date']
         ]);
-        $formFileds['client_id'] = Appart::findOrFail($formFileds['appart_id'])->client_id;
+        $appart = Appart::findOrFail($formFileds['appart_id']);
+        $formFileds['client_id']=$appart->client_id;
+        $formFileds['price']=$appart->price;
         $echance = Echance::findOrFail($id);
         if (file_exists($echance->promesse)) {
             unlink($echance->promesse);

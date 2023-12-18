@@ -36,6 +36,7 @@ class Echance extends Model
         'date_promesse_legal',
         'contrat',
         'date_contrat_livre',
-        'date_contrat_enregistre'
+        'date_contrat_enregistre',
+        'price'
     ];
 }

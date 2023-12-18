@@ -177,13 +177,14 @@
 
                     appart.echance.forEach((echeancier) => {
                         echeanciers += echeancier.amount_avance;
+                        prix += echeancier.price;
                         echeancier.echeance.forEach((echeance) => {
                             if (echeance.payed == 1) {
                                 echeanciers += echeance.montant;
                             }
                         })
                     })
-                    prix += appart.price;
+                    
                     prix = prix - echeanciers;
 
                 })

@@ -20,7 +20,7 @@
                     <h2>Montant Payé: <span style="color: #005841;"> {{ $echance->amount_avance + $totalEchances }} DT
                         </span></h2>
                     <h2>Montant Restant: <span style="color: #fe8900;">
-                            {{ $echance->appart->price - $echance->amount_avance - $totalEchances }} DT </span></h2>
+                            {{ $echance->price - $echance->amount_avance - $totalEchances }} DT </span></h2>
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
@@ -68,10 +68,10 @@
                                                 @endif
                                             </td>
                                             <td>{{ $echance->date }}</td>
-                                            <td>{{ $echance->appart->price }}</td>
+                                            <td>{{ $echance->price }}</td>
                                             <td>{{ $echance->amount_avance + $totalEchances }}
                                             </td>
-                                            <td>{{ $echance->appart->price - ($echance->amount_avance + $totalEchances) }}
+                                            <td>{{ $echance->price - ($echance->amount_avance + $totalEchances) }}
                                             </td>
 
                                             <td>
@@ -190,6 +190,7 @@
 
                                     </select>
                                 </div>
+                                <div id="details" class="d-flex justify-content-between"></div>
                                 <label>Date: </label>
                                 <div class="form-group">
                                     <input type="date" name="date" placeholder="Numero" class="form-control">
@@ -308,6 +309,7 @@
 
                                     </select>
                                 </div>
+                                <div id="detailsEdit" class="d-flex justify-content-between"></div>
                                 <label>Date: </label>
                                 <div class="form-group">
                                     <input type="date" name="date" placeholder="Numero" class="form-control">
@@ -609,6 +611,31 @@
         createFileInput(".image-preview-filepondPromesse");
         createFileInput(".image-preview-filepondContrat");
 
+        const getDetailsAppart = (id, select) => {
+            let route = '{{ route('apparts.get', '5') }}';
+            route = route.replace('5', id);
+            axios.get(route).then((reponse) => {
+                const appart = reponse.data;
+                const divDetails = document.getElementById(select);
+                const detailsClient = document.createElement('h4');
+                const detailsPrice = document.createElement('h4');
+                divDetails.innerHTML = '';
+                if (appart.client) {
+                    detailsClient.innerHTML = 'Client: ' + appart.client.name + ' ' + appart.client.lastName;
+                    divDetails.appendChild(detailsClient);
+                }
+                if (appart.price) {
+                    detailsPrice.innerHTML = 'Prix: ' + appart.price + 'TND';
+                    divDetails.appendChild(detailsPrice);
+                }
+
+
+
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+
         function createFileInputEdit(className, image) {
             const options = {
                 credits: null,
@@ -660,19 +687,28 @@
                 })
             })
         }
+        const listApparts = document.getElementById('appartAdd');
+        const listAppartsEdit = document.getElementById('appartEdit');
         const selectEtages = document.getElementById('residencesAdd')
         loadEtages(selectEtages.value, 'addetage');
         const selectApparts = document.getElementById('addetage');
         loadApparts(selectApparts.value, 'appartAdd');
+        getDetailsAppart(listApparts.value, 'details');
         selectEtages.addEventListener('change', (e) => {
             const id = e.target.value
             loadEtages(id, 'addetage')
             const selectApparts = document.getElementById('addetage');
             loadApparts(selectApparts.value, 'appartAdd');
+            getDetailsAppart(listApparts.value, 'details');
         })
         selectApparts.addEventListener('change', (e) => {
             const id = e.target.value
             loadApparts(id, 'appartAdd')
+            getDetailsAppart(listApparts.value, 'details');
+        })
+        listApparts.addEventListener('change', (e) => {
+            const id = e.target.value
+            getDetailsAppart(id, 'details');
         })
 
         const selectEtagesEdit = document.getElementById('residencesEdit')
@@ -682,10 +718,16 @@
             loadEtages(id, 'editetage')
             const selectApparts = document.getElementById('editetage');
             loadApparts(selectApparts.value, 'appartEdit');
+            getDetailsAppart(listAppartsEdit.value, 'detailsEdit');
         })
         selectAppartsEdit.addEventListener('change', (e) => {
             const id = e.target.valueOf()
             loadApparts(id, 'appartEdit')
+            getDetailsAppart(listAppartsEdit.value, 'detailsEdit');
+        })
+        listAppartsEdit.addEventListener('change', (e) => {
+            const id = e.target.value
+            getDetailsAppart(id, 'detailsEdit');
         })
 
         const editButtons = document.getElementsByClassName('edit');
@@ -726,6 +768,7 @@
                                     etage_idInput.value = etage.id;
                                     loadApparts(etage.id, 'appartEdit');
                                     appart_idInput.value = appart.id;
+                                    getDetailsAppart(appart.id, 'detailsEdit');
                                 }
                             })
                         })
