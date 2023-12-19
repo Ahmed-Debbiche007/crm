@@ -30,6 +30,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.perform');
 });
+Route::get('/publique', [DashboardController::class, 'publicPage'])->name('public');
+Route::get('/publique/{id}', [DashboardController::class, 'publicPageShow'])->name('public.show');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout.perform');
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

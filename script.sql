@@ -503,37 +503,13 @@ RENAME TABLE `temp_residence` TO `old_residence`;
 
 RENAME TABLE `temp_users` TO `old_users`;
 
-RENAME TABLE `crm_residences` TO `residences`;
-
-RENAME TABLE `crm_users` TO `users`;
-
-RENAME TABLE `crm_clients` TO `clients`;
-
-RENAME TABLE `crm_etages` TO `etages`;
-
-RENAME TABLE `crm_apparts` TO `apparts`;
-
-RENAME TABLE `crm_celliers` TO `celliers`;
-
-RENAME TABLE `crm_charges` TO `charges`;
-
-RENAME TABLE `crm_echances` TO `echances`;
-
-RENAME TABLE `crm_echeances` TO `echeances`;
-
-RENAME TABLE `crm_files` TO `files`;
-
-RENAME TABLE `crm_images` TO `images`;
-
-RENAME TABLE `crm_parkings` TO `parkings`;
-
-ALTER TABLE `echances`
+ALTER TABLE `crm_echances`
 ADD CONSTRAINT `crm_echances_appart_id_foreign_ff`
 FOREIGN KEY (`appart_id`) 
-REFERENCES `apparts`(`id`);
+REFERENCES `crm_apparts`(`id`);
 
-ALTER TABLE `echeances`
+ALTER TABLE `crm_echeances`
 ADD CONSTRAINT `crm_echeances_echance_id_foreign`
 FOREIGN KEY (`echance_id`)
-REFERENCES `echances`(`id`)
+REFERENCES `crm_echances`(`id`)
 ON DELETE CASCADE;
