@@ -21,7 +21,7 @@ class ClientsController extends Controller
         $formFileds = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastName' => ['required', 'string', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:255', 'regex:/^(\+216\d{8}|\d{8})$/'],
+            'phone' => ['nullable'],
             'cin' => ['nullable', 'string', 'max:255', 'regex:/^\d{8}$/'],
             'email' => ['nullable', 'email'],
             'type' => ['nullable', 'integer'],
@@ -44,7 +44,7 @@ class ClientsController extends Controller
         $formFileds = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastName' => ['required', 'string', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:255', 'regex:/^(\+216\d{8}|\d{8})$/'],
+            'phone' => ['nullable'],
             'cin' => ['nullable', 'string', 'max:255', 'regex:/^\d{8}$/'],
             'email' => ['nullable', 'email'],
             'type' => ['nullable', 'integer'],

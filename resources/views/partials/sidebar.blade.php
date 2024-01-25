@@ -82,7 +82,7 @@
                             </svg>
                         </span>
                         <span class="nav-link-title">
-                            Appartements
+                            Biens Immobiliers
                         </span>
                     </a>
                 </li>

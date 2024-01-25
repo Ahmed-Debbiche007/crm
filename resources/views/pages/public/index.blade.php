@@ -30,6 +30,8 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('dist/css/hotspot/hotspot-public.css') }}" rel="stylesheet" />
+    <link href="{{ asset('dist/css/hotspot/style-public.css') }}" rel="stylesheet" />
 </head>
 
 <body>
@@ -47,7 +49,8 @@
         <!-- Navbar Start -->
         <div class="container-fluid nav-bar bg-transparent">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
-                <a href="{{route('public')}}" class="navbar-brand d-flex align-items-center text-center">
+                <a href="{{ route('public', $residence->id) }}"
+                    class="navbar-brand d-flex align-items-center text-center">
                     <div class="icon p-2 me-2">
                         <img class="img-fluid" src="{{ asset('static/logo.gif') }}" alt="Icon"
                             style="width: 30px; height: 30px;">
@@ -148,78 +151,16 @@
                 </div>
                 <div class="tab-content">
                     <div id="tab-1" class="tab-pane fade show p-0 active">
-                        <div class="row g-4">
-                            @foreach ($residences as $residence)
-                                @foreach ($residence->etage as $etage)
-                                    @foreach ($etage->appart as $appart)
-                                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                                            <div class="property-item rounded overflow-hidden">
-                                                <div class="position-relative overflow-hidden">
-                                                    <a href="{{route('public.show',$appart->id)}}" class="d-flex justify-content-center align-items-center ">
-                                                        @if ($appart->image && $appart->image->count() > 0)
-                                                        <img class="img-fluid" style="height: 250px; object-fit: contain;" src="{{asset($appart->image[0]->path)}}" alt="" />
-                                                        @else
-                                                        <img class="img-fluid" style="height: 250px; object-fit: contain;" src="{{asset('public/img/property-2.jpg')}}" alt="" />
-                                                            @endif
-                                                    </a>
-                                                    
-                                                    <div
-                                                        class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
-                                                        @if ($appart->type == 0)
-                                                            Commerce
-                                                        @endif
-                                                        @if ($appart->type == 1)
-                                                            Duplex
-                                                        @endif
-                                                        @if ($appart->type == 2)
-                                                            Duplex - 1
-                                                        @endif
-                                                        @if ($appart->type == 3)
-                                                            S+1
-                                                        @endif
-                                                        @if ($appart->type == 4)
-                                                            S+2
-                                                        @endif
-                                                        @if ($appart->type == 5)
-                                                            S+3
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="p-4 pb-0">
-                                                    <h5 class="text-primary mb-3">{{ $appart->price }} TND</h5>
-                                                    <a class="d-block h5 mb-2" href="{{route('public.show',$appart->id)}}">@if ($appart->type == 0)
-                                                        Commerce
-                                                    @endif
-                                                    @if ($appart->type == 1)
-                                                        Duplex
-                                                    @endif
-                                                    @if ($appart->type == 2)
-                                                        Duplex - 1
-                                                    @endif
-                                                    @if ($appart->type == 3)
-                                                        S+1
-                                                    @endif
-                                                    @if ($appart->type == 4)
-                                                        S+2
-                                                    @endif
-                                                    @if ($appart->type == 5)
-                                                        S+3
-                                                    @endif à {{$residence->name}}</a>
-                                                    <p><i class="fa fa-map-marker-alt text-primary me-2"></i>{{$residence->address}}</p>
-                                                    <p><i class="fa fa-ruler-combined text-primary me-2"></i>{{$appart->surface}} m²</p>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @endforeach
+                        <div class="d-flex flex-column g-4">
+                            @foreach ($residence->etage as $etage)
+                                <h3>Etage: {{ $etage->name }}</h3>
+                                <main class="main_plan" style="display: block;" id="main_plan_{{ $etage->id }}">
+
+                                </main>
                             @endforeach
-                            
-
-
                         </div>
                     </div>
-               
+
                 </div>
             </div>
         </div>
@@ -235,10 +176,10 @@
                 <div class="row g-5">
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Nous contacter</h5>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Adresse</p>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>{{ $residence->address }}</p>
                         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
                         <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                        <div class="d-flex pt-2">
+                        {{-- <div class="d-flex pt-2">
                             <a class="btn btn-outline-light btn-social" href=""><i
                                     class="fab fa-twitter"></i></a>
                             <a class="btn btn-outline-light btn-social" href=""><i
@@ -247,30 +188,23 @@
                                     class="fab fa-youtube"></i></a>
                             <a class="btn btn-outline-light btn-social" href=""><i
                                     class="fab fa-linkedin-in"></i></a>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="col-lg-6 col-md-10">
                         <h5 class="text-white mb-4">Photo Gallery</h5>
                         <div class="row g-2 pt-2">
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-1.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-2.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-3.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-4.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-5.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-6.jpg" alt="">
-                            </div>
+                            @php $count = 0; @endphp
+                            @foreach ($residence->image as $img)
+                                @if ($count < 6)
+                                    <div class="col-4">
+                                        <img class="img-fluid rounded bg-light p-1"
+                                            style="height: 200px; object-fit: contain;" src="{{ asset($img->path) }}"
+                                            alt="">
+                                    </div>
+                                @endif
+                                @php $count++; @endphp
+                            @endforeach
                         </div>
                     </div>
 
@@ -295,6 +229,7 @@
     </div>
 
     <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('public/lib/wow/wow.min.js') }}"></script>
@@ -304,6 +239,101 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('public/js/main.js') }}"></script>
+    <script>
+        const mains = document.querySelectorAll('.main_plan');
+        mains.forEach(main => {
+            let url = "{{ route('public.etages.get', 5) }}".replace('5', main.id.split('_')[2]);
+            axios.get(url).then((response) => {
+                const etage = response.data;
+                const ratio = etage.wplan / etage.hplan
+                main.style.width = '1000px';
+                main.style.height = (1000 / ratio) + 'px';
+                const div = document.createElement('div');
+                div.classList.add('containerD');
+                const wid = 1000;
+                const path = "{{ asset('favicon.ico') }}".replace("favicon.ico", etage.plan)
+                div.setAttribute('style', "background-image: url('" + path + "'); height: " + wid / ratio +
+                    "px; width: " + wid + "px;");
+                etage.appart.forEach((ap) => {
+                    if (ap.bs == 0) {
+                        const appart = document.createElement('div');
+                        appart.classList.add('hotspot');
+                        const styleAp = 'top: ' + ap.y + '%; left: ' + ap.x + '%;';
+                        appart.setAttribute('style', styleAp);
+                        let statut = "A vendre";
+                        let color = "#005841";
+                        switch (ap.type) {
+                            case 0:
+                                statut = "Commerce";
+                                break;
+                            case 1:
+                                statut = "Duplex";
+                                break;
+                            case 2:
+                                statut = "Duplex - 1";
+                                break;
+                            case 3:
+                                statut = "S+1";
+                                break;
+                            case 4:
+                                statut = "S+2";
+                                break;
+                            case 4:
+                                statut = "S+3";
+                                break;
+                            default:
+                                break;
+                        }
+                        const link = "{{ route('public.show', 5) }}".replace('5', ap.id);
+                        const ht = document.createElement('div');
+                        ht.classList.add('icon');
+                        ht.classList.add('hotspot');
+                        ht.setAttribute('style', 'background-color: ' + color + ';');
+                        ht.innerHTML = "+";
+                        ht.addEventListener('click', function() {
+                            var parent = this.parentElement;
+                            parent.classList.toggle('open');
+                            parent.setAttribute('style', parent.getAttribute('style') +
+                                'background-color: ' + color +
+                                '; color:black; ');
+                            var hotspots = document.querySelectorAll('.hotspot.open');
+                            hotspots.forEach(function(hotspot) {
+                                if (hotspot !== parent) {
+                                    hotspot.classList.remove('open');
+                                }
+                            });
+                        });
+                        const content = document.createElement('div');
+                        content.classList.add('content');
+                        content.setAttribute('style', 'background-color: ' + color + ';');
+                        content.innerHTML = '<a href=' + link +
+                            ' class="fs-3 fw-bolder text-decoration-underline" style="color: white">' +
+                            ap.name +
+                            '</a><p style="color: white">' + statut +
+                            '</p>';
+
+                        const divText = document.createElement('div');
+                        let t = ap.y - 10;
+                        let l = ap.x - 10;
+                        t += 10;
+                        l += 12;
+                        divText.setAttribute('style', 'top: ' + t + '%; left: ' + l +
+                            '%; background-color: ' +
+                            color + '; ');
+                        divText.innerHTML = '<div>' + ap.name + '</div>';
+                        divText.classList.add('hotspot-label');
+                        div.appendChild(divText);
+                        appart.appendChild(ht);
+                        appart.appendChild(content);
+                        div.appendChild(appart);
+                    }
+                })
+
+                main.appendChild(div);
+
+            })
+        });
+    </script>
 </body>
 
 </html>

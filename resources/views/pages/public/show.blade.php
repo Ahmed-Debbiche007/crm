@@ -50,7 +50,8 @@
                 <a href="#" id="back">
                     <i class="fa fa-solid fa-arrow-left text-primary me-2"></i>
                 </a>
-                <a href="{{route('public')}}" class="navbar-brand d-flex align-items-center text-center">
+                <a href="{{ route('public', $appart->etage->building) }}"
+                    class="navbar-brand d-flex align-items-center text-center">
                     <div class="icon p-2 me-2">
                         <img class="img-fluid" src="{{ asset('static/logo.gif') }}" alt="Icon"
                             style="width: 30px; height: 30px;">
@@ -116,26 +117,27 @@
                         <span class="text-primary">
                             {{ $appart->etage->building->name }}</span>
                     </h1>
-                    <h3> <i class="fa fa-solid fa-coins text-primary me-2"></i>{{$appart->price}} TND</h3>
-                    <h5><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $appart->etage->building->address }}</h5>
+                    <h3> <i class="fa fa-solid fa-coins text-primary me-2"></i>{{ $appart->price }} TND</h3>
+                    <h5><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $appart->etage->building->address }}
+                    </h5>
                     <h5><i class="fa fa-ruler-combined text-primary me-2"></i>{{ $appart->surface }} m²</h5>
-                    <p class="animated fadeIn mb-4 pb-2">{{$appart->comments}}</p>
+                    <p class="animated fadeIn mb-4 pb-2">{{ $appart->comments }}</p>
 
                 </div>
                 <div class="col-md-6 animated fadeIn">
                     <div class="owl-carousel header-carousel">
-                        @forelse ($appart->image as $img )
-                        <div class="owl-carousel-item">
-                            <img class="img-fluid" style="width: 900px; object-fit: contain;"
-                                src="{{ asset($img->path) }}" alt="">
-                        </div>
+                        @forelse ($appart->image as $img)
+                            <div class="owl-carousel-item">
+                                <img class="img-fluid" style="width: 900px; object-fit: contain;"
+                                    src="{{ asset($img->path) }}" alt="">
+                            </div>
                         @empty
-                        <div class="owl-carousel-item">
-                            <img class="img-fluid" style="width: 900px; object-fit: contain;"
-                                src="{{ asset('public/img/carousel-1.jpg') }}" alt="">
-                        </div>
+                            <div class="owl-carousel-item">
+                                <img class="img-fluid" style="width: 900px; object-fit: contain;"
+                                    src="{{ asset('public/img/carousel-1.jpg') }}" alt="">
+                            </div>
                         @endforelse
-                        
+
                     </div>
 
                 </div>
@@ -154,10 +156,11 @@
                 <div class="row g-5">
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Nous contacter</h5>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Adresse</p>
+                        <p class="mb-2"><i
+                                class="fa fa-map-marker-alt me-3"></i>{{ $appart->etage->building->address }}</p>
                         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
                         <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                        <div class="d-flex pt-2">
+                        {{-- <div class="d-flex pt-2">
                             <a class="btn btn-outline-light btn-social" href=""><i
                                     class="fab fa-twitter"></i></a>
                             <a class="btn btn-outline-light btn-social" href=""><i
@@ -166,30 +169,23 @@
                                     class="fab fa-youtube"></i></a>
                             <a class="btn btn-outline-light btn-social" href=""><i
                                     class="fab fa-linkedin-in"></i></a>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="col-lg-6 col-md-10">
                         <h5 class="text-white mb-4">Photo Gallery</h5>
                         <div class="row g-2 pt-2">
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-1.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-2.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-3.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-4.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-5.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-6.jpg" alt="">
-                            </div>
+                            @php $count = 0; @endphp
+                            @foreach ($appart->etage->building->image as $img)
+                                @if ($count < 6)
+                                    <div class="col-4">
+                                        <img class="img-fluid rounded bg-light p-1"
+                                            style="height: 200px; object-fit: contain;" src="{{ asset($img->path) }}"
+                                            alt="">
+                                    </div>
+                                @endif
+                                @php $count++; @endphp
+                            @endforeach
                         </div>
                     </div>
 

@@ -10,13 +10,13 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $residences = Residence::with('etage','parking','cellier','image','file','etage.appart', 'etage.appart.charge', 'etage.appart.echance.echeance','etage.appart.echance.echeance')->get();
+        $residences = Residence::with('etage','parking','cellier','image','file','etage.appart', 'etage.appart.charge', 'etage.appart.echance', 'etage.appart.echance.appart','etage.appart.echance.echeance')->get();
         return view('pages.dashboard.index',['residences'=>$residences]);
     }
 
-    public function publicPage(){
-        $residences = Residence::with('etage','parking','cellier','image','file','etage.appart', 'etage.appart.charge', 'etage.appart.echance.echeance','etage.appart.echance.echeance')->get();
-        return view('pages.public.index',['residences'=>$residences]);
+    public function publicPage($id){
+        $residence = Residence::with('etage','parking','cellier','image','file','etage.appart', 'etage.appart.charge', 'etage.appart.echance.echeance','etage.appart.echance.echeance')->where('id',$id)->first();
+        return view('pages.public.index',['residence'=>$residence]);
     }
 
     public function publicPageShow($id){

@@ -27,16 +27,16 @@
                                 
                             </div>
 
-                            <div class="table-responsive">
+                            <div class="table-responsive" >
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
                                             <th scope="col">Residence</th>
                                             <th scope="col">Numero</th>
-                                            <th scope="col">Appartements</th>
-                                            <th scope="col">Charges</th>
-                                            <th scope="col">Échanciers</th>
-                                            <th scope="col">Actions</th>
+                                            <th scope="col" class="noExport">Biens Immobiliers</th>
+                                            <th scope="col" class="noExport">Charges</th>
+                                            <th scope="col" class="noExport">Échanciers</th>
+                                            <th scope="col" class="noExport">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -45,7 +45,7 @@
                                                 <td id="{{ $etage->building->id }}">{{ $etage->building->name }}</td>
                                                 <td>{{ $etage->name }}</td>
                                                 <td> <a href="{{ route('apparts') }}?etage={{ $etage->id }}"
-                                                        class="badge bg-success">Appartements</a> </td>
+                                                        class="badge bg-success">Biens Immobiliers</a> </td>
                                                 <td> <a href="{{ route('charges') }}?etage={{ $etage->id }}"
                                                         class="badge bg-success">Charges</a> </td>
                                                 <td> <a href="{{ route('echances') }}?etage={{ $etage->id }}"
@@ -191,7 +191,12 @@
 
     
 
-    <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
     
@@ -226,10 +231,11 @@
 
         const editButtons = document.getElementsByClassName('edit');
         editButtons.forEach = Array.prototype.forEach;
-        editButtons.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('edit')) {
                 const form = document.getElementById('formEdit');
-
+                const editButton = target;
                 let base = '{{ route('etages.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
@@ -265,24 +271,22 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
 
         const resSelect = document.getElementById('resSelect');
+        const resId = window.location.search.split('=')[1];
+        if (resId){
+            resSelect.value = resId;
+        }
+        else{
+            resSelect.value = 0;
+        }
         resSelect.addEventListener('change', function() {
-            const table = document.getElementById('table1');
-            const rows = table.querySelectorAll('tbody tr');
-            rows.forEach = Array.prototype.forEach;
-            rows.forEach((row) => {
-                const residence = row.querySelector('td:nth-child(1)').id;
-                if (resSelect.value == 0) {
-                    row.style.display = 'table-row';
-                } else if (resSelect.value == residence) {
-                    row.style.display = 'table-row';
-                } else {
-                    row.style.display = 'none';
-                }
-            })
+            if (this.value == 0)
+                window.location.href = "{{ route('etages') }}";
+            else
+            window.location.href = "{{ route('etages') }}" + "?res=" + this.value;
         })
     </script>
 @endsection

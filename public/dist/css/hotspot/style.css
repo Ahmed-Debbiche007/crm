@@ -24,7 +24,7 @@
   height: 30px;
   overflow: hidden;
   border-radius: 50% 50%;
-  background-color: #994e77;
+  background-color: #005841;
   color: white;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
   backface-visibilty: hidden;
@@ -40,7 +40,7 @@
   border-radius: 10px;
   padding: 5px 10px;
   transition: all 0.3s ease 0.1, border-radius 0.1s ease 0.2;
-  background-color: #994e77;
+  background-color: #005841;
   color: white;
 }
 .hotspot.open {

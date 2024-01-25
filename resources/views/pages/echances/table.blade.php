@@ -66,17 +66,18 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Residence</th>
-                                            <th scope="col">Appartement</th>
+                                            <th scope="col">Bien Immobilier</th>
                                             <th scope="col">Client</th>
-                                            <th scope="col">N° Téléphone</th>
+
                                             <th scope="col">Date</th>
                                             <th scope="col">Prix</th>
                                             <th scope="col">Montant Payé</th>
                                             <th scope="col">Montant Restant</th>
-                                            <th scope="col">Preuve Avance</th>
+                                            <th scope="col">Avance</th>
                                             <th scope="col">Promesse</th>
                                             <th scope="col">Contrat</th>
-                                            <th scope="col">Actions</th>
+                                            <th scope="col">Acte de précision</th>
+                                            <th scope="col" class="noExport">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -94,16 +95,11 @@
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>
 
-                                                    @if ($echance->appart->client != null && $echance->appart->client->phone != null)
-                                                        {{ $echance->appart->client->phone }}
-                                                    @else
-                                                        --
-                                                    @endif
+                                                <td>
+                                                    {{ $echance->date ? \Illuminate\Support\Carbon::parse($echance->date)->format('d-m-Y') : '' }}
                                                 </td>
-                                                <td>{{ $echance->date }}</td>
-                                                <td>{{ $echance->price }}</td>
+                                                <td>{{ number_format(floatval($echance->appart->price), 3, '.', ',') }}</td>
                                                 @php
                                                     $totalEchances = 0;
                                                     $echance->echeance->each(function ($item) use (&$totalEchances) {
@@ -112,20 +108,29 @@
                                                         }
                                                     });
                                                 @endphp
-                                                <td>{{ $echance->amount_avance + $totalEchances }}</td>
-                                                <td>{{ $echance->price - ($echance->amount_avance + $totalEchances) }}
+                                                <td>{{ number_format(floatval($echance->amount_avance + $totalEchances), 3, '.', ',') }}
+                                                </td>
+                                                <td>{{ number_format(floatval($echance->appart->price - ($echance->amount_avance + $totalEchances)), 3, '.', ',') }}
+                                                </td>
                                                 </td>
 
                                                 <td>
+
                                                     <div
                                                         class="d-flex flex-column justify-items-center align-items-center ">
+                                                        <div>
+                                                            {{ number_format(floatval($echance->amount_avance), 3, '.', ',') }}
+                                                        </div>
                                                         @if ($echance->preuve_avance != null)
                                                             <div>
-                                                                <a href="{{ asset($echance->preuve_avance) }}"
-                                                                    target="_blank" download class="btn btn-success"><i
+                                                                <a href="{{ asset($echance->preuve_avance) }}" target="_blank"
+                                                                    download class="btn btn-success"><i
                                                                         data-feather="download"></i> Télécharger</a>
                                                             </div>
                                                         @endif
+
+
+
                                                     </div>
                                                 </td>
                                                 <td data-legal="{{ $echance->date_promesse_legal }}"
@@ -171,6 +176,30 @@
                                                         <div>
                                                             @if ($echance->date_contrat_livre != null)
                                                                 Livré: {{ $echance->date_contrat_livre }}
+                                                            @endif
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div
+                                                        class="d-flex flex-column justify-items-center align-items-center ">
+                                                        @if ($echance->acte != null)
+                                                            <div>
+                                                                <a href="{{ asset($echance->acte) }}" target="_blank"
+                                                                    download class="btn btn-success"><i
+                                                                        data-feather="download"></i> Télécharger</a>
+                                                            </div>
+                                                        @endif
+                                                        <div>
+                                                            @if ($echance->date_acte_enreg != null)
+                                                                Enregistré: {{ $echance->date_acte_enreg }}
+                                                            @endif
+                                                        </div>
+                                                        <div>
+                                                            @if ($echance->date_acte_livre != null)
+                                                                Livré: {{ $echance->date_acte_livre }}
                                                             @endif
                                                         </div>
 
@@ -238,7 +267,7 @@
 
                                     </select>
                                 </div>
-                                <label>Appartement: </label>
+                                <label>Bien Immobilier: </label>
                                 <div class="form-group">
                                     <select name="appart_id" id="appartAdd" class="form-control">
 
@@ -310,6 +339,30 @@
                                         class="form-control">
                                 </div>
 
+                                <label>Acte de précision: </label>
+                                <input type="file" name="acte" class="image-preview-filepondActe" />
+                                <div class='form-check'>
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="livraisonActe" class="form-check-input">
+                                        <label>Date Livraison: </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="date" id="livraisonActeDate" disabled name="date_acte_livre"
+                                        class="form-control">
+                                </div>
+
+                                <div class='form-check'>
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="enregistreActe" class="form-check-input">
+                                        <label>Date Enregistrement: </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="date" id="enregistreDateActe" disabled name="date_acte_enreg"
+                                        class="form-control">
+                                </div>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -358,7 +411,7 @@
 
                                     </select>
                                 </div>
-                                <label>Appartement: </label>
+                                <label>Bien Immobilier: </label>
                                 <div class="form-group">
                                     <select name="appart_id" id="appartEdit" class="form-control">
 
@@ -430,6 +483,30 @@
                                         class="form-control">
                                 </div>
 
+                                <label>Acte de précision: </label>
+                                <input type="file" name="acte" class="image-preview-filepondActeEdit" />
+                                <div class='form-check'>
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="livraisonActeEdit" class="form-check-input">
+                                        <label>Date Livraison: </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="date" id="livraisonActeDateEdit" disabled name="date_acte_livre"
+                                        class="form-control">
+                                </div>
+
+                                <div class='form-check'>
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="enregistreEditActe" class="form-check-input">
+                                        <label>Date Enregistrement: </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="date" id="enregistreDateEditActe" disabled name="date_acte_enreg"
+                                        class="form-control">
+                                </div>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -461,7 +538,12 @@
 
 
 
-    <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    <script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -482,6 +564,7 @@
         createFileInput(".image-preview-filepondAvance");
         createFileInput(".image-preview-filepondPromesse");
         createFileInput(".image-preview-filepondContrat");
+        createFileInput(".image-preview-filepondActe");
 
         function createFileInputEdit(className, image) {
             const options = {
@@ -606,15 +689,37 @@
             getDetailsAppart(id, 'detailsEdit');
 
         })
+        const resSelect = document.getElementById('resSelect');
+        const resId = window.location.search.split('=')[1];
+        if (resId) {
+            resSelect.value = resId;
+            selectEtages.value = resId;
+            loadEtages(selectEtages.value, 'addetage');
+            loadApparts(selectApparts.value, 'appartAdd');
+            getDetailsAppart(listApparts.value, 'details');
 
+        } else {
+            resSelect.value = 0;
+            selectEtages.value = 1;
+            loadEtages(selectEtages.value, 'addetage');
+            loadApparts(selectApparts.value, 'appartAdd');
+            getDetailsAppart(listApparts.value, 'details');
+        }
+        resSelect.addEventListener('change', function() {
+            if (this.value == 0)
+                window.location.href = "{{ route('echances') }}";
+            else
+                window.location.href = "{{ route('echances') }}" + "?res=" + this.value;
+        })
 
 
         const editButtons = document.getElementsByClassName('edit');
         editButtons.forEach = Array.prototype.forEach;
-        editButtons.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('edit')) {
                 const form = document.getElementById('editForm');
-
+                const editButton = target;
                 let base = '{{ route('echances.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
@@ -628,10 +733,14 @@
                 const date_promesse_legal = form.querySelector('input[name="date_promesse_legal"]');
                 const date_contrat_livre = form.querySelector('input[name="date_contrat_livre"]');
                 const date_contrat_enregistre = form.querySelector('input[name="date_contrat_enregistre"]');
+                const date_acte_livre = form.querySelector('input[name="date_acte_livre"]');
+                const date_acte_enreg = form.querySelector('input[name="date_acte_enreg"]');
                 const livraisonDateEdit = form.querySelector("input[id=livraisonEdit]")
                 const legalDateEdit = form.querySelector("input[id=legalEdit]")
                 const livraisonPromesseDateEdit = form.querySelector("input[id=livraisonPromesseEdit]")
                 const enregistreDateEdit = form.querySelector("input[id=enregistreEdit]")
+                const livraisonActeDateEdit = form.querySelector("input[id=livraisonActeEdit]")
+                const enregistreDateActeEdit = form.querySelector("input[id=enregistreEditActe]")
 
                 url = "{{ route('echances.get', 5) }}";
                 url = url.replace('5', editButton.id);
@@ -686,14 +795,31 @@
                         date_contrat_enregistre.disabled = true
                         enregistreDateEdit.checked = false;
                     }
+                    if (client.date_acte_livre) {
+                        livraisonActeDateEdit.checked = true;
+                        date_acte_livre.disabled = false;
+                    } else {
+                        date_acte_livre.disabled = true
+                        livraisonActeDateEdit.checked = false;
+                    }
+                    date_acte_livre.value = client.date_acte_livre
+                    if (client.date_acte_enreg) {
+                        enregistreDateActeEdit.checked = true;
+                        date_acte_enreg.disabled = false;
+                    } else {
+                        date_acte_enreg.disabled = true
+                        enregistreDateActeEdit.checked = false;
+                    }
+                    date_acte_enreg.value = client.date_acte_enreg
                     date_contrat_enregistre.value = client.date_contrat_enregistre
                     createFileInputEdit(".image-preview-filepondAvanceEdit", client.preuve_avance);
                     createFileInputEdit(".image-preview-filepondPromesseEdit", client.promesse);
                     createFileInputEdit(".image-preview-filepondContratEdit", client.contrat);
+                    createFileInputEdit(".image-preview-filepondActeEdit", client.acte);
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
 
         const livraison = document.getElementById("livraison");
@@ -739,6 +865,19 @@
         const livraisonPromesseEdit = document.getElementById("livraisonPromesseEdit");
         const enregistreEdit = document.getElementById("enregistreEdit");
 
+        const livraisonActe = document.getElementById("livraisonActe");
+        livraisonActe.addEventListener('click', () => {
+            const livraisonActeDate = document.getElementById("livraisonActeDate");
+            livraisonActeDate.disabled = livraisonActe.checked ? false : true;
+        })
+        const enregistreActe = document.getElementById("enregistreActe");
+        enregistreActe.addEventListener('click', () => {
+            const enregistreDateActe = document.getElementById("enregistreDateActe");
+            enregistreDateActe.disabled = enregistreActe.checked ? false : true;
+        })
+
+
+
         livraisonEdit.addEventListener('click', function() {
             const livraisonDate = document.getElementById("livraisonDateEdit");
             if (livraisonEdit.checked) {
@@ -771,25 +910,7 @@
                 enregistreDate.disabled = true;
             }
         })
-        const resSelect = document.getElementById('resSelect');
-        resSelect.addEventListener('change', function() {
-            const table = document.getElementById('table1');
-            const rows = table.querySelectorAll('tbody tr');
-            rows.forEach = Array.prototype.forEach;
-            rows.forEach((row) => {
-                const residence = row.querySelector('td:nth-child(1)').id;
-                if (resSelect.value == 0) {
-                    row.style.display = 'table-row';
-                } else {
-                    if (resSelect.value == residence) {
-                        row.style.display = 'table-row';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                }
 
-            })
-        })
         const checkedLivrée = document.getElementById('checkedLivrée');
         const checkedLégalisée = document.getElementById('checkedLégalisée');
 

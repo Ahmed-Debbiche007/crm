@@ -1,5 +1,5 @@
 @extends('welcome')
-@section('title', 'Appartements')
+@section('title', 'Biens Immobiliers')
 @section('styles')
     <link href="{{ asset('dist/css/hotspot/hotspot.css') }}" rel="stylesheet" />
     <link href="{{ asset('dist/css/hotspot/style.css') }}" rel="stylesheet" />
@@ -45,14 +45,14 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
-                                <h5 class="card-title">Appartement</h5>
+                                <h5 class="card-title">Bien Immobilier</h5>
 
                             </div>
-                            <div class="table-responsive">
+                            <div class="table-responsive" >
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Appartement</th>
+                                            <th scope="col">Bien Immobilier</th>
                                             <th scope="col">Client</th>
                                             <th scope="col">Etage</th>
                                             <th scope="col">Résidence</th>
@@ -61,10 +61,10 @@
                                             <th scope="col">Prix</th>
                                             <th scope="col">Statut</th>
                                             <th scope="col">Commentaire</th>
-                                            <th scope="col">Charges</th>
-                                            <th scope="col">Échanciers</th>
+                                            <th scope="col" class="noExport">Charges</th>
+                                            <th scope="col" class="noExport">Échanciers</th>
 
-                                            <th scope="col">Actions</th>
+                                            <th scope="col" class="noExport">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -82,29 +82,29 @@
                                             <td>{{ $appart->etage->building->name }}</td>
                                             <td>{{ $appart->surface }}</td>
                                             <td>
-                                                @if ($appart->bs == 0)
+                                                @if ($appart->type == 0)
                                                     Commerce
                                                 @endif
-                                                @if ($appart->bs == 1)
+                                                @if ($appart->type == 1)
                                                     Duplex
                                                 @endif
-                                                @if ($appart->bs == 2)
+                                                @if ($appart->type == 2)
                                                     Duplex - 1
                                                 @endif
-                                                @if ($appart->bs == 3)
+                                                @if ($appart->type == 3)
                                                     S+1
                                                 @endif
-                                                @if ($appart->bs == 4)
+                                                @if ($appart->type == 4)
                                                     S+2
                                                 @endif
-                                                @if ($appart->bs == 5)
+                                                @if ($appart->type == 5)
                                                     S+3
                                                 @endif
                                             </td>
-                                            <td>{{ $appart->price }}</td>
+                                            <td>{{ number_format(floatval($appart->price),3,'.',',') }}</td>
                                             <td>
                                                 @if ($appart->bs == 0)
-                                                    Libre
+                                                A vendre
                                                 @endif
                                                 @if ($appart->bs == 1)
                                                     Loué
@@ -161,9 +161,9 @@
                                                 <div class="modal-body">
                                                     <input type="hidden" name="id">
                                                     <label>Nom: </label>
-                                                    <div class="form-group"> 
-                                                        <input type="text" name="name" placeholder="Nom" id="nomAppart"
-                                                            class="form-control">
+                                                    <div class="form-group">
+                                                        <input type="text" name="name" placeholder="Nom"
+                                                            id="nomAppart" class="form-control">
                                                     </div>
                                                     <label>Résidence: </label>
                                                     <div class="form-group">
@@ -226,7 +226,7 @@
                                                     <label>Statut: </label>
                                                     <div class="form-group">
                                                         <select name="bs" class="form-control">
-                                                            <option value= "0"> Libre </option>
+                                                            <option value= "0"> A vendre </option>
                                                             <option value= "1"> Loué </option>
                                                             <option value= "2"> Réservé </option>
                                                             <option value= "3"> Vendu </option>
@@ -272,20 +272,21 @@
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineEchance"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
-                            <div class="table-responsive">
+                            <div class="table-responsive" >
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
 
                                             <th scope="col">Client</th>
-                                            <th scope="col">N° Téléphone</th>
+
                                             <th scope="col">Date</th>
-                                            <th scope="col">Montant Avance</th>
-                                            <th scope="col">Date Avance</th>
-                                            <th scope="col">Preuve Avance</th>
+                                            <th scope="col">Prix</th>
+                                            <th scope="col">Montant Payé</th>
+                                            <th scope="col">Montant Restant</th>
+                                            <th scope="col">Avance</th>
                                             <th scope="col">Promesse</th>
                                             <th scope="col">Contrat</th>
-                                            <th scope="col">Actions</th>
+                                            <th scope="col" class="noExport">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -294,40 +295,38 @@
 
                                                 <td>
 
-                                                    @if ($echance->appart->client != null )
+                                                    @if ($echance->appart->client != null)
                                                         {{ $echance->appart->client->name }}
                                                         {{ $echance->appart->client->lastName }}
                                                     @else
                                                         --
                                                     @endif
                                                 </td>
+                                              
                                                 <td>
-
-                                                    @if ($echance->appart->client != null && $echance->appart->client->phone != null )
-                                                        {{ $echance->appart->client->phone }}
-                                                    @else
-                                                        --
-                                                    @endif
+                                                    {{ $echance->date ? \Illuminate\Support\Carbon::parse($echance->date)->format('d-m-Y') : "" }}
                                                 </td>
-                                                <td>{{ $echance->date }}</td>
-                                                <td>{{ $echance->amount_avance }}</td>
-                                                <td>{{ $echance->date_avance }}</td>
-                                                <td>
-                                                    <div
-                                                        class="d-flex flex-column justify-items-center align-items-center ">
-                                                        @if ($echance->preuve_avance != null)
-                                                            <div>
-                                                                <a href="/" class="btn btn-success">Télécharger</a>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </td>
-                                                <td>
+                                                <td>{{ number_format(floatval($appart->price),3,'.',',') }}</td>
+                                                @php
+                                                    $totalEchances = 0;
+                                                    $echance->echeance->each(function ($item) use (&$totalEchances) {
+                                                        if ($item->payed == 1) {
+                                                            $totalEchances += $item->montant;
+                                                        }
+                                                    });
+                                                @endphp
+                                                <td>{{ number_format(floatval($echance->amount_avance + $totalEchances),3,'.',',') }}</td>
+                                                <td>{{ number_format(floatval($appart->price - ($echance->amount_avance + $totalEchances)),3,'.',',') }}</td>
+                                                <td>{{ number_format(floatval($echance->amount_avance),3,'.',',') }}</td>
+                                                <td data-legal="{{ $echance->date_promesse_legal }}"
+                                                    data-livre="{{ $echance->date_promesse_livre }}">
                                                     <div
                                                         class="d-flex flex-column justify-items-center align-items-center ">
                                                         @if ($echance->promesse != null)
                                                             <div>
-                                                                <a href="/" class="btn btn-success">Télécharger</a>
+                                                                <a href="{{ asset($echance->promesse) }}" target="_blank"
+                                                                    download class="btn btn-success"><i
+                                                                        data-feather="download"></i> Télécharger</a>
                                                             </div>
                                                         @endif
                                                         <div>
@@ -343,12 +342,15 @@
 
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td data-enreg="{{ $echance->date_contrat_enregistre }}"
+                                                    data-livre="{{ $echance->date_contrat_livre }}">
                                                     <div
                                                         class="d-flex flex-column justify-items-center align-items-center ">
                                                         @if ($echance->contrat != null)
                                                             <div>
-                                                                <a href="/" class="btn btn-success">Télécharger</a>
+                                                                <a href="{{ asset($echance->contrat) }}" target="_blank"
+                                                                    download class="btn btn-success"><i
+                                                                        data-feather="download"></i> Télécharger</a>
                                                             </div>
                                                         @endif
                                                         <div>
@@ -603,7 +605,7 @@
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineCharge"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
-                            <div class="table-responsive">
+                            <div class="table-responsive" >
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
@@ -611,10 +613,9 @@
                                             <th scope="col">Client</th>
                                             <th scope="col">Sonède & Gaz</th>
                                             <th scope="col">Syndic</th>
-                                            <th scope="col">Avocat - Promesse</th>
-                                            <th scope="col">Avocat - Contrat</th>
+                                            <th scope="col">Avocat </th>
                                             <th scope="col">Titre Foncier</th>
-                                            <th scope="col">Actions</th>
+                                            <th scope="col" class="noExport">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -629,11 +630,10 @@
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>{{ $charge->sonede }}</td>
-                                                <td>{{ $charge->syndic }}</td>
-                                                <td>{{ $charge->avocat }}</td>
-                                                <td>{{ $charge->contrat }}</td>
-                                                <td>{{ $charge->foncier }}</td>
+                                                <td>{{ number_format(floatval($charge->sonede),3,'.',',') }}</td>
+                                                <td>{{ number_format(floatval($charge->syndic),3,'.',',') }}</td>
+                                                <td>{{ number_format(floatval($charge->contrat),3,'.',',') }}</td>
+                                                <td>{{ number_format(floatval($charge->foncier),3,'.',',') }}</td>
                                                 <td>
 
                                                     <div class="d-flex">
@@ -692,13 +692,8 @@
                                     <input name="syndic" type="number" placeholder="Syndic" class="form-control">
                                 </div>
 
-                                <label>Avocat Promesse: </label>
-                                <div class="form-group">
-                                    <input name="avocat" type="number" placeholder="Avocat Promesse"
-                                        class="form-control">
-                                </div>
 
-                                <label>Avocat Contart: </label>
+                                <label>Avocat: </label>
                                 <div class="form-group">
                                     <input name="contrat" type="number" placeholder="Avocat Contart"
                                         class="form-control">
@@ -758,13 +753,8 @@
                                     <input name="syndic" type="number" placeholder="Syndic" class="form-control">
                                 </div>
 
-                                <label>Avocat Promesse: </label>
-                                <div class="form-group">
-                                    <input name="avocat" type="number" placeholder="Avocat Promesse"
-                                        class="form-control">
-                                </div>
 
-                                <label>Avocat Contart: </label>
+                                <label>Avocat: </label>
                                 <div class="form-group">
                                     <input name="contrat" type="number" placeholder="Avocat Contart"
                                         class="form-control">
@@ -806,7 +796,12 @@
 
 
 
-    <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -817,9 +812,9 @@
 
         let nameAppart = "";
         const inputNom = document.getElementById('nomAppart');
-        inputNom.addEventListener('change', (e)=>{
+        inputNom.addEventListener('change', (e) => {
             nameAppart = e.target.value;
-        } )
+        })
 
 
         selectEtagesEdit.addEventListener('change', (e) => {
@@ -921,7 +916,7 @@
                             appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap
                                 .name +
                                 '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
-                            
+
                             div.appendChild(divText);
                             div.appendChild(appart);
                         })
@@ -933,10 +928,11 @@
 
         const editButtons = document.getElementsByClassName('edit');
         editButtons.forEach = Array.prototype.forEach;
-        editButtons.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('edit')) {
                 const form = document.getElementById('formEdit');
-
+                const editButton = target;
                 let base = '{{ route('apparts.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
@@ -1012,7 +1008,7 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
     </script>
     <script>
@@ -1053,8 +1049,10 @@
 
         const editEchance = document.getElementsByClassName('editEchance');
         editEchance.forEach = Array.prototype.forEach;
-        editEchance.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('editEchance')) {
+                const editButton = target;
                 const form = document.getElementById('editForm');
 
                 let base = '{{ route('echances.update', '5') }}';
@@ -1121,7 +1119,7 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
 
         const livraison = document.getElementById("livraison");
@@ -1202,8 +1200,10 @@
 
         const editCharge = document.getElementsByClassName('editCharge');
         editCharge.forEach = Array.prototype.forEach;
-        editCharge.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('editCharge')) {
+                const editButton = target;
                 const formm = document.getElementById('editChargeForm');
                 let base = '{{ route('echances.update', '5') }}';
                 base = base.replace('5', editButton.id);
@@ -1226,7 +1226,7 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
         $(document).on("click", ".containerH", function(e) {
             const container = $(this); // Get the clicked container element

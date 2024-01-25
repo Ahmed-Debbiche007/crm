@@ -59,9 +59,10 @@
                                         @endphp
                                         <div class="d-flex flex-column">
                                             <a href="{{ route('apparts') }}?res={{ $residence->id }}"
-                                                class="badge bg-success mx-2">Appartements</a>
-                                            <h5 class="m-2">Nombre d'appartements: {{ $totalAppartCount }}</h5>
+                                                class="badge bg-success mx-2">Bien Immobilier</a>
+                                            <h5 class="m-2">Nombre de biens immobiliers: {{ $totalAppartCount }}</h5>
                                         </div>
+
                                         <div class="d-flex flex-column">
                                             <a href="{{ route('parkings') }}?res={{ $residence->id }}"
                                                 class="badge bg-success mx-2">Parkings</a>
@@ -81,13 +82,36 @@
                                                 class="badge bg-success mx-2">Charges</a>
                                         </div>
                                         @if ($totalAppartCount > 0)
-                                            <br>
-                                            <div class="d-flex justify-content-center align-items-center col-12">
-                                                <div class="pie mt-3" id="{{ $residence->id }}"></div>
+                                            <div class="d-flex flex-column w-100 mt-2">
+                                                <h5>Bien Immobiliers:</h5>
+                                                <div class="d-flex justify-content-center align-items-center col-12">
+                                                    <div class="pie mt-3" id="{{ $residence->id }}"></div>
+                                                </div>
+                                                @if ($residence->parking->count() > 0)
+                                                <h5>Parkings:</h5>
+                                                    <div class="d-flex justify-content-center align-items-center col-12">
+                                                        <div class="parking mt-3" id="{{ $residence->id }}"></div>
+                                                    </div>
+                                                @else
+                                                    <div class="d-flex flex-column">
+                                                        <a href="#" class="badge bg-danger mx-2">Pas de Parkings</a>
+                                                    </div>
+                                                @endif
+                                                @if ($residence->parking->count() > 0)
+                                                <h5>Celliers:</h5>
+                                                    <div class="d-flex justify-content-center align-items-center col-12">
+                                                        <div class="cellier mt-3" id="{{ $residence->id }}"></div>
+                                                    </div>
+                                                @else
+                                                <div class="d-flex flex-column mt-2">
+                                                    <a href="#" class="badge bg-danger mx-2">Pas de Celliers</a>
+                                                </div>
+                                                @endif
+                                                <div class="d-flex justify-content-center align-items-center col-12">
+                                                    <div class="bar mt-3" id="{{ $residence->id }}"></div>
+                                                </div>
                                             </div>
-                                            <div class="d-flex justify-content-center align-items-center col-12">
-                                                <div class="bar mt-3" id="{{ $residence->id }}"></div>
-                                            </div>
+                                            
                                         @endif
                                     </div>
                                 </div>
@@ -112,6 +136,8 @@
     <script>
         const pies = document.querySelectorAll('.pie');
         const bars = document.querySelectorAll('.bar');
+        const parking = document.querySelectorAll('.parking');
+        const cellier = document.querySelectorAll('.cellier');
         const residences = @json($residences);
         pies.forEach((pie) => {
             const div = document.createElement('div');
@@ -139,30 +165,118 @@
             data.push(reserve);
             data.push(loue);
             data.push(vendu);
+
             var options = {
                 chart: {
                     type: 'pie',
                 },
                 series: data,
-                labels: ['Libre', 'Réservé', 'Loué', 'Vendu'],
+                labels: ['A vendre', 'Réservé', 'Loué', 'Vendu'],
                 colors: ["#005841", "#fe8900", "#fde25e", "#850000"],
                 tooltip: {
                     y: {
                         formatter: function(value) {
-                            return value + " Appartement(s)"
+                            return value + " Bien(s) Immobilier(s)"
                         }
                     }
                 }
             };
+
             var bar = new ApexCharts(div, options);
             bar.render();
+        })
+
+        parking.forEach((p) => {
+            const div = document.createElement('div');
+            p.appendChild(div);
+            const residence = residences.find((res) => res.id == p.id);
+
+            let parkingVide = 0;
+            let parkingReserve = 0;
+
+            const parkings = [];
+
+            residence.parking.forEach((parking) => {
+                if (parking.client_id == null || parking.client_id == 0 || parking.client_id == "" ||
+                    parking.client_id == undefined) {
+                    parkingVide++;
+                } else {
+                    parkingReserve++;
+                }
+            })
+
+
+            parkings.push(parkingVide);
+            parkings.push(parkingReserve);
+
+            console.log(parkings, p.id)
+            var parkingOptions = {
+                chart: {
+                    type: 'pie',
+                },
+                series: parkings,
+                labels: ['Libre', 'Réservé'],
+                colors: ["#005841", "#fe8900"],
+                tooltip: {
+                    y: {
+                        formatter: function(value) {
+                            return value + " Parking(s)"
+                        }
+                    }
+                }
+            };
+
+
+            var parkingChart = new ApexCharts(div, parkingOptions);
+            parkingChart.render();
+        })
+
+        cellier.forEach((c) => {
+            const div = document.createElement('div');
+            c.appendChild(div);
+            const residence = residences.find((res) => res.id == c.id);
+            let cellierVide = 0;
+            let cellierReserve = 0;
+
+            const celliers = [];
+
+            residence.cellier.forEach((cellier) => {
+                if (cellier.client_id == null || cellier.client_id == 0 || cellier.client_id == "" ||
+                    cellier.client_id == undefined) {
+                    cellierVide++;
+                } else {
+                    cellierReserve++;
+                }
+            })
+
+            celliers.push(cellierVide);
+            celliers.push(cellierReserve);
+            console.log(c.id, celliers)
+            var cellierOptions = {
+                chart: {
+                    type: 'pie',
+                },
+                series: celliers,
+                labels: ['Libre', 'Réservé'],
+                colors: ["#005841", "#fe8900"],
+                tooltip: {
+                    y: {
+                        formatter: function(value) {
+                            return value + " Cellier(s)"
+                        }
+                    }
+                }
+            };
+
+            var cellierChart = new ApexCharts(div, cellierOptions);
+            cellierChart.render();
         })
         bars.forEach((bar) => {
             const div = document.createElement('div');
             bar.appendChild(div);
             const residence = residences.find((res) => res.id == bar.id);
             let charges = 0;
-            let echeanciers = 0;
+            let echeancers = 0;
             let prix = 0;
             residence.etage.forEach((etage) => {
                 etage.appart.forEach((appart) => {
@@ -176,16 +290,16 @@
                     })
 
                     appart.echance.forEach((echeancier) => {
-                        echeanciers += echeancier.amount_avance;
-                        prix += echeancier.price;
+                        prix += echeancier.appart.price;
+                        echeancers += echeancier.amount_avance;
                         echeancier.echeance.forEach((echeance) => {
-                            if (echeance.payed == 1) {
-                                echeanciers += echeance.montant;
+                            if (echeance.payed == 0) {
+                                echeancers += echeance.montant;
                             }
                         })
                     })
+
                     
-                    prix = prix - echeanciers;
 
                 })
             })
@@ -196,11 +310,11 @@
                     },
                     {
                         name: "Échanciers Payés",
-                        data: [echeanciers],
+                        data: [echeancers],
                     },
                     {
                         name: "Échanciers Restants",
-                        data: [prix],
+                        data: [prix - echeancers],
                     },
                 ],
                 chart: {
@@ -208,7 +322,7 @@
                     width: 300,
                 },
                 colors: ["#fe8900", "#005841", "#850000"],
-                
+
                 dataLabels: {
                     enabled: false,
                 },
@@ -236,7 +350,7 @@
                     },
                 },
                 toolbar: {
-                    show: false, 
+                    show: false,
                 }
             };
             var bar = new ApexCharts(div, barOptions);

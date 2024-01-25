@@ -19,12 +19,24 @@ class Parking extends Model
         return $this->belongsTo(Residence::class);
     }
 
+    public function etage()
+    {
+        return $this->belongsTo(Etage::class);
+    }
+
+    public function appart()
+    {
+        return $this->belongsTo(Appart::class);
+    }
+
 
     protected $fillable = [
         'name',
         'number',
         'client_id',
         'residence_id',
+        'etage_id',
+        'appart_id'
 
     ];
 }

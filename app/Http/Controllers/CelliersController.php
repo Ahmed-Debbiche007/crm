@@ -16,7 +16,7 @@ class CelliersController extends Controller
         if($residence){
             $celliers = Cellier::with('client', 'residence')->where('residence_id', $residence)->get();
         }
-        $residences = Residence::all();
+        $residences = Residence::with('etage','etage.appart','etage.appart.client','cellier')->get();
         $clients = Client::all();
         return view('pages.celliers.table', [
             'celliers' => $celliers,
@@ -32,6 +32,8 @@ class CelliersController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'residence_id' => ['required', 'exists:residences,id'],
             'client_id' => ['nullable', 'exists:clients,id'],
+            'etage_id' => ['nullable', 'exists:etages,id'],
+            'appart_id' => ['nullable']
         ]);
 
         $cellier = Cellier::create($formFileds);
@@ -40,7 +42,7 @@ class CelliersController extends Controller
 
     public function get($id)
     {
-        $cellier = Cellier::findOrFail($id);
+        $cellier = Cellier::with('client')->findOrFail($id);
         return response()->json($cellier);
     }
 
@@ -52,6 +54,8 @@ class CelliersController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'residence_id' => ['required', 'exists:residences,id'],
             'client_id' => ['nullable', 'exists:clients,id'],
+            'etage_id' => ['nullable', 'exists:etages,id'],
+            'appart_id' => ['nullable']
         ]);
 
         $cellier = Cellier::findOrFail($id);

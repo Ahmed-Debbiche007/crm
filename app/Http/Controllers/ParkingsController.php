@@ -16,7 +16,7 @@ class ParkingsController extends Controller
         if($residence){
             $parkings = Parking::with('client', 'residence')->where('residence_id', $residence)->get();
         }
-        $residences = Residence::all();
+        $residences = Residence::with('etage','etage.appart','etage.appart.client','cellier')->get();
         $clients = Client::all();
         return view('pages.parkings.table', [
             'parkings' => $parkings,
@@ -32,6 +32,8 @@ class ParkingsController extends Controller
             'residence_id' => ['required', 'exists:residences,id'],
             'client_id' => ['nullable', 'exists:clients,id'],
             'number' => ['required', 'string'],
+            'etage_id' => ['nullable', 'exists:etages,id'],
+            'appart_id' => ['nullable']
 
         ]);
 
@@ -41,7 +43,7 @@ class ParkingsController extends Controller
 
     public function get($id)
     {
-        $parking = Parking::findOrFail($id);
+        $parking = Parking::with('client')->findOrFail($id);
         return response()->json($parking);
     }
 
@@ -54,6 +56,8 @@ class ParkingsController extends Controller
             'residence_id' => ['required', 'exists:residences,id'],
             'client_id' => ['nullable', 'exists:clients,id'],
             'number' => ['required', 'string'],
+            'etage_id' => ['nullable', 'exists:etages,id'],
+            'appart_id' => ['nullable']
         ]);
 
         $parking = Parking::findOrFail($id);

@@ -25,6 +25,7 @@ class Echance extends Model
 
 
     protected $fillable = [
+        'id',
         'appart_id',
         'date',
         'client_id',
@@ -37,6 +38,9 @@ class Echance extends Model
         'contrat',
         'date_contrat_livre',
         'date_contrat_enregistre',
-        'price'
+        'price',
+        'acte',
+        'date_acte_livre',
+        'date_acte_enreg',
     ];
 }

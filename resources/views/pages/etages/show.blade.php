@@ -14,7 +14,7 @@
                     <div class="d-flex justify-content-between flex-wrap">
                         <h5 class="card-title">Résidence: {{ $etage->building->name }}</h5>
                         <h5 class="card-title">Étage: {{ $etage->name }}</h5>
-                        <h5 class="card-title">Nombre d'appartements: {{ $etage->appart->count() }}</h5>
+                        <h5 class="card-title">Nombre de biens immobiliers: {{ $etage->appart->count() }}</h5>
                     </div>
                     <h5 class="card-title">Plan:</h5>
                     <div class="pb-5">
@@ -29,7 +29,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
-                                <h5 class="card-title">Appartements</h5>
+                                <h5 class="card-title">Biens Immobiliers</h5>
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
@@ -37,7 +37,7 @@
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Appartement</th>
+                                            <th scope="col">Bien Immobilier</th>
                                             <th scope="col">Client</th>
                                             <th scope="col">Etage</th>
                                             <th scope="col">Résidence</th>
@@ -46,10 +46,10 @@
                                             <th scope="col">Prix</th>
                                             <th scope="col">Statut</th>
                                             <th scope="col">Commentaire</th>
-                                            <th scope="col">Charges</th>
-                                            <th scope="col">Échanciers</th>
+                                            <th scope="col" class="noExport">Charges</th>
+                                            <th scope="col" class="noExport">Échanciers</th>
 
-                                            <th scope="col">Actions</th>
+                                            <th scope="col" class="noExport">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,7 +89,7 @@
                                                 <td>{{ $appart->price }}</td>
                                                 <td>
                                                     @if ($appart->bs == 0)
-                                                        Libre
+                                                        A vendre
                                                     @endif
                                                     @if ($appart->bs == 1)
                                                         Loué
@@ -150,13 +150,14 @@
                                                 <div class="modal-body">
                                                     <label>Nom: </label>
                                                     <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Nom" id="nomAppart"
-                                                            class="form-control">
+                                                        <input type="text" name="name" placeholder="Nom"
+                                                            id="nomAppart" class="form-control">
                                                     </div>
 
                                                     <label>Résidence: </label>
                                                     <div class="form-group">
-                                                        <select name="residence_id" class="form-control" id="residencesAdd">
+                                                        <select name="residence_id" class="form-control"
+                                                            id="residencesAdd">
                                                             @foreach ($residences as $residence)
                                                                 <option value="{{ $residence->id }}">
                                                                     {{ $residence->name }}
@@ -207,7 +208,7 @@
                                                             <option value="">--</option>
                                                             @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
-                                                                    {{ $client->name }}
+                                                                    {{ $client->name }} {{ $client->lastName }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -216,7 +217,7 @@
                                                     <label>Statut: </label>
                                                     <div class="form-group">
                                                         <select name="bs" class="form-control">
-                                                            <option value= "0"> Libre </option>
+                                                            <option value= "0"> A vendre </option>
                                                             <option value= "1"> Loué </option>
                                                             <option value= "2"> Réservé </option>
                                                             <option value= "3"> Vendu </option>
@@ -266,8 +267,8 @@
                                                 <div class="modal-body">
                                                     <label>Nom: </label>
                                                     <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Nom" id="nomAppartEdit"
-                                                            class="form-control">
+                                                        <input type="text" name="name" placeholder="Nom"
+                                                            id="nomAppartEdit" class="form-control">
                                                     </div>
                                                     <label>Résidence: </label>
                                                     <div class="form-group">
@@ -323,7 +324,7 @@
                                                             <option value="">--</option>
                                                             @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
-                                                                    {{ $client->name }}
+                                                                    {{ $client->name }} {{ $client->lastName }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -332,7 +333,7 @@
                                                     <label>Statut: </label>
                                                     <div class="form-group">
                                                         <select name="bs" class="form-control">
-                                                            <option value= "0"> Libre </option>
+                                                            <option value= "0"> A vendre </option>
                                                             <option value= "1"> Loué </option>
                                                             <option value= "2"> Réservé </option>
                                                             <option value= "3"> Vendu </option>
@@ -354,7 +355,7 @@
                                                     </button>
                                                     <button type="submit" class="btn btn-primary ml-1">
                                                         <i class="bx bx-check d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block text-white">Ajouter</span>
+                                                        <span class="d-none d-sm-block text-white">Modifier</span>
                                                     </button>
                                                 </div>
                                             </form>
@@ -401,7 +402,8 @@
                                     <input type="file" name="plan" class="image-preview-filepondEtage" />
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <button type="button" class="btn btn-light-secondary close" data-bs-dismiss="modal"
+                                        label="Close">
                                         <i class="bx bx-x d-block d-sm-none"></i>
                                         <span class="d-none d-sm-block">Close</span>
                                     </button>
@@ -419,7 +421,42 @@
 
             </div>
             <!--End Row-->
+            <div class="modal fade" id="imageCarouselModal" tabindex="-1" role="dialog"
+                aria-labelledby="imageCarouselModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="imageCarouselModalLabel">Gallerie</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner" id="galleryCarrousel">
+                                    <!-- Add your images here -->
 
+                                    <!-- Add more items as needed -->
+                                </div>
+                                <a class="carousel-control-prev" href="#imageCarousel" id="carouselPrev" role="button"
+                                    data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only text-color-black">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#imageCarousel" id="carouselNext"
+                                    role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only text-color-black">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
             <!--start overlay-->
@@ -435,7 +472,12 @@
 
 
 
-    <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    <script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -512,19 +554,20 @@
 
         let nameAppart = "";
         const inputNom = document.getElementById('nomAppart');
-        inputNom.addEventListener('change', (e)=>{
+        inputNom.addEventListener('change', (e) => {
             nameAppart = e.target.value;
-        } )
+        })
         const inputNomEdit = document.getElementById('nomAppartEdit');
-        inputNomEdit.addEventListener('change', (e)=>{
+        inputNomEdit.addEventListener('change', (e) => {
             nameAppart = e.target.value;
-        } )
+        })
         const editButtons = document.getElementsByClassName('edit');
         editButtons.forEach = Array.prototype.forEach;
-        editButtons.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('edit')) {
                 const form = document.getElementById('formEdit');
-
+                const editButton = target;
                 let base = '{{ route('apparts.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
@@ -590,14 +633,15 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
         const editButtonEt = document.getElementsByClassName('editEt');
         editButtonEt.forEach = Array.prototype.forEach;
-        editButtonEt.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('editEt')) {
                 const form = document.getElementById('formEtage');
-
+                const editButton = target;
                 let base = '{{ route('etages.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
@@ -634,17 +678,17 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
 
         const main = document.querySelector('.main_plan');
         const etage = @json($etage);
         const ratio = etage.wplan / etage.hplan
-        main.style.width = '500px';
-        main.style.height = (500 / ratio) + 'px';
+        main.style.width = '1000px';
+        main.style.height = (1000 / ratio) + 'px';
         const div = document.createElement('div');
         div.classList.add('containerD');
-        const wid = 458;
+        const wid = 1000;
         const path = "{{ asset('favicon.ico') }}".replace("favicon.ico", etage.plan)
         div.setAttribute('style', "background-image: url('" + path + "'); height: " + wid / ratio +
             "px; width: " + wid + "px;");
@@ -657,7 +701,7 @@
             let color = "";
             switch (ap.bs) {
                 case 0:
-                    statut = "Libre";
+                    statut = "A vendre";
                     color = "#005841";
                     break;
                 case 1:
@@ -680,17 +724,36 @@
             ht.setAttribute('style', 'background-color: ' + color + ';');
             ht.innerHTML = "+";
             ht.addEventListener('click', function() {
-                var parent = this.parentElement;
-                parent.classList.toggle('open');
-                parent.setAttribute('style', parent.getAttribute('style') + 'background-color: ' + color +
-                    '; color:black;');
-                var hotspots = document.querySelectorAll('.hotspot.open');
-                hotspots.forEach(function(hotspot) {
-                    if (hotspot !== parent) {
-                        hotspot.setAttribute('style', 'background-color: ' + color + ';');
-                        hotspot.classList.remove('open');
-                    }
-                });
+                axios.get("{{ route('apparts.get', 5) }}".replace(5, ap.id)).then(res => {
+
+                    const galleryImages = res.data.image;
+                    const gallery = document.getElementById('galleryCarrousel');
+                    gallery.innerHTML = '';
+
+                    galleryImages.forEach((img) => {
+                        const div = document.createElement('div');
+                        div.classList.add('carousel-item');
+                        if (img == galleryImages[0]) {
+                            div.classList.add('active');
+                        }
+                        div.innerHTML = '<img src="{{ route('dashboard') }}/' + img.path +
+                            '" class="d-block w-100" alt="...">';
+                        gallery.appendChild(div);
+                    })
+                    $('#imageCarouselModal').modal('show');
+                    var carousel = new bootstrap.Carousel(document.getElementById(
+                        'imageCarousel'), {
+                        interval: false // Disable automatic sliding
+                    });
+                    document.getElementById('carouselPrev').addEventListener('click', function() {
+                        carousel.prev();
+                    });
+
+                    // Next button click event
+                    document.getElementById('carouselNext').addEventListener('click', function() {
+                        carousel.next();
+                    });
+                })
             });
             const content = document.createElement('div');
             content.classList.add('content');
@@ -702,7 +765,7 @@
             let t = ap.y - 10;
             let l = ap.x - 10;
             t += 10;
-            l += 14;
+            l += 12;
             divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%; background-color: ' + color + '; ');
             divText.innerHTML = '<div>' + ap.name + '</div>';
             divText.classList.add('hotspot-label');
@@ -718,7 +781,7 @@
         container.classList.add('d-flex');
         container.classList.add('justify-content-between');
         const textLibre = document.createElement('div');
-        textLibre.innerHTML = "Libre";
+        textLibre.innerHTML = "A vendre";
         const labelLibre = document.createElement('div');
         labelLibre.classList.add('icon');
         labelLibre.classList.add('d-flex');
@@ -887,7 +950,7 @@
                     appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
                     appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap.name +
                         '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
-                    
+
                     div.appendChild(divText);
                     div.appendChild(appart);
 
@@ -955,7 +1018,7 @@
             t += 9;
             l += 14;
 
-            const newElement = 
+            const newElement =
                 `<div class='hotspot-label added' style='top: ${t}%; left: ${l}%;'>
                     <div>${nameAppart}</div>
                     </div>

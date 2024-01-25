@@ -52,50 +52,73 @@ class EchancesController extends Controller
 
     public function store(Request $request)
     {
+        
         $formFileds = $request->validate([
             'appart_id' => ['required', 'exists:apparts,id'],
-            'date_avance' => ['required', 'date'],
-            'amount_avance' => ['required', 'numeric'],
-            'date' => ['required', 'date'],
+            'date_avance' => ['nullable', 'date'],
+            'amount_avance' => ['nullable', 'numeric'],
+            'date' => ['nullable', 'date'],
             'date_promesse_livre' => ['nullable', 'date'],
             'date_promesse_legal' => ['nullable', 'date'],
             'date_contrat_livre' => ['nullable', 'date'],
-            'date_contrat_enregistre' => ['nullable', 'date']
+            'date_contrat_enregistre' => ['nullable', 'date'],
+            'date_acte_livre'=> ['nullable', 'date'],
+            'date_acte_enreg'=> ['nullable', 'date'],
         ]);
         $appart = Appart::findOrFail($formFileds['appart_id']);
+        if ($formFileds['amount_avance'] == null || $formFileds['amount_avance'] == "") {
+            $formFileds['amount_avance'] = 0;
+        } 
+        
         $formFileds['client_id']=$appart->client_id;
         $formFileds['price']=$appart->price;
-        $echance = Echance::create($formFileds);
+        // get the latest id 
+        $latest = Echance::orderBy('id', 'desc')->first();
+        if($latest){
+            $formFileds['id'] = intval($latest->id) + 1;
+        }else{
+            $formFileds['id'] = 1;
+        }
         $i = 0;
         if ($request->hasFile("promesse")) {
             $file = $request->file('promesse');
             $extension = $file->getClientOriginalExtension();
-            $filename = $i . time() . $i . '.' . $extension;
+            $filename = time() . md5($file->getClientOriginalName()) . '.' . $extension;
             $file->move('uploads/echanciers/', $filename);
-            $echance->promesse = 'uploads/echanciers/' . $filename;
-            $echance->save();
+            $formFileds['promesse'] = 'uploads/echanciers/' . $filename;
             $i++;
         }
         $i = 0;
         if ($request->hasFile("preuve_avance")) {
             $file = $request->file('preuve_avance');
             $extension = $file->getClientOriginalExtension();
-            $filename = $i . time() . $i . '.' . $extension;
+            $filename = time() . md5($file->getClientOriginalName()) . '.' . $extension;
             $file->move('uploads/echanciers/', $filename);
-            $echance->preuve_avance = 'uploads/echanciers/' . $filename;
-            $echance->save();
+            $formFileds['preuve_avance'] = 'uploads/echanciers/' . $filename;
             $i++;
         }
         $i = 0;
         if ($request->hasFile("contrat")) {
             $file = $request->file('contrat');
             $extension = $file->getClientOriginalExtension();
-            $filename = $i . time() . $i . '.' . $extension;
+            $filename = time() . md5($file->getClientOriginalName()) . '.' . $extension;
             $file->move('uploads/echanciers/', $filename);
-            $echance->contrat = 'uploads/echanciers/' . $filename;
-            $echance->save();
+            $formFileds['contrat'] = 'uploads/echanciers/' . $filename;
             $i++;
         }
+        $j = 0;
+        if ($request->hasFile("acte")) {
+            $file = $request->file('acte');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . md5($file->getClientOriginalName()) . '.' . $extension;
+            $file->move('uploads/echanciers/', $filename);
+            $formFileds['acte'] = 'uploads/echanciers/' . $filename;
+            $i++;
+            $j++;
+        }
+        
+        $echance = Echance::create($formFileds);
+        
         return redirect()->back()->with('success', 'Echance saved!');
     }
 
@@ -119,15 +142,20 @@ class EchancesController extends Controller
     {
         $formFileds = $request->validate([
             'appart_id' => ['required', 'exists:apparts,id'],
-            'date_avance' => ['required', 'date'],
-            'amount_avance' => ['required', 'numeric'],
-            'date' => ['required', 'date'],
+            'date_avance' => ['nullable', 'date'],
+            'amount_avance' => ['nullable', 'numeric'],
+            'date' => ['nullable', 'date'],
             'date_promesse_livre' => ['nullable', 'date'],
             'date_promesse_legal' => ['nullable', 'date'],
             'date_contrat_livre' => ['nullable', 'date'],
-            'date_contrat_enregistre' => ['nullable', 'date']
+            'date_contrat_enregistre' => ['nullable', 'date'],
+            'date_acte_livre'=> ['nullable', 'date'],
+            'date_acte_enreg'=> ['nullable', 'date'],
         ]);
         $appart = Appart::findOrFail($formFileds['appart_id']);
+        if ($formFileds['amount_avance'] == null || $formFileds['amount_avance'] == "") {
+            $formFileds['amount_avance'] = 0;
+        }
         $formFileds['client_id']=$appart->client_id;
         $formFileds['price']=$appart->price;
         $echance = Echance::findOrFail($id);
@@ -140,35 +168,45 @@ class EchancesController extends Controller
         if (file_exists($echance->contrat)) {
             unlink($echance->contrat);
         }
+        if (file_exists($echance->acte)) {
+            unlink($echance->acte);
+        }
         $i = 0;
         if ($request->hasFile("promesse")) {
             $file = $request->file('promesse');
             $extension = $file->getClientOriginalExtension();
-            $filename = $i . time() . $i . '.' . $extension;
+            $filename = time() . md5($file->getClientOriginalName()) . '.' . $extension;
             $file->move('uploads/echanciers/', $filename);
-            $echance->promesse = 'uploads/echanciers/' . $filename;
-            $echance->save();
+            $formFileds['promesse'] = 'uploads/echanciers/' . $filename;
             $i++;
         }
         $i = 0;
         if ($request->hasFile("preuve_avance")) {
             $file = $request->file('preuve_avance');
             $extension = $file->getClientOriginalExtension();
-            $filename = $i . time() . $i . '.' . $extension;
+            $filename = time() . md5($file->getClientOriginalName()) . '.' . $extension;
             $file->move('uploads/echanciers/', $filename);
-            $echance->preuve_avance = 'uploads/echanciers/' . $filename;
-            $echance->save();
+            $formFileds['preuve_avance'] = 'uploads/echanciers/' . $filename;
             $i++;
         }
         $i = 0;
         if ($request->hasFile("contrat")) {
             $file = $request->file('contrat');
             $extension = $file->getClientOriginalExtension();
-            $filename = $i . time() . $i . '.' . $extension;
+            $filename = time() . md5($file->getClientOriginalName()) . '.' . $extension;
             $file->move('uploads/echanciers/', $filename);
-            $echance->contrat = 'uploads/echanciers/' . $filename;
-            $echance->save();
+            $formFileds['contrat'] = 'uploads/echanciers/' . $filename;
             $i++;
+        }
+        $j = 0;
+        if ($request->hasFile("acte")) {
+            $file = $request->file('acte');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . md5($file->getClientOriginalName()) . '.' . $extension;
+            $file->move('uploads/echanciers/', $filename);
+            $formFileds['acte'] = 'uploads/echanciers/' . $filename;
+            $i++;
+            $j++;
         }
         $echance->update($formFileds);
         return redirect()->back()->with('success', 'Echance updated!');

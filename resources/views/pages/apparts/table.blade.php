@@ -1,5 +1,5 @@
 @extends('welcome')
-@section('title', 'Appartements')
+@section('title', 'Biens Immobiliers')
 @section('styles')
     <link href="{{ asset('dist/css/hotspot/hotspot.css') }}" rel="stylesheet" />
     <link href="{{ asset('dist/css/hotspot/style.css') }}" rel="stylesheet" />
@@ -13,7 +13,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
-                                <h5 class="card-title">Appartements</h5>
+                                <h5 class="card-title">Biens Immobiliers</h5>
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
@@ -21,16 +21,16 @@
                                 <h5 class="card-title m-3">Résidence: </h5>
                                 <select name="" id="resSelect" class="form-control">
                                     <option value="0">Tout</option>
-                                    @foreach ($residences as $residence )
-                                    <option value="{{$residence->id}}">{{$residence->name}}</option>
+                                    @foreach ($residences as $residence)
+                                        <option value="{{ $residence->id }}">{{ $residence->name }}</option>
                                     @endforeach
-                                </select>                                
+                                </select>
                             </div>
                             <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Appartement</th>
+                                            <th scope="col">Bien Immobilier</th>
                                             <th scope="col">Client</th>
                                             <th scope="col">N° Téléphone</th>
                                             <th scope="col">N° CIN</th>
@@ -40,11 +40,11 @@
                                             <th scope="col">Type</th>
                                             <th scope="col">Prix</th>
                                             <th scope="col">Statut</th>
-                                            
-                                            <th scope="col">Charges</th>
-                                            <th scope="col">Échanciers</th>
 
-                                            <th scope="col">Actions</th>
+                                            <th scope="col" class="noExport">Charges</th>
+                                            <th scope="col" class="noExport">Échanciers</th>
+
+                                            <th scope="col" class="noExport">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -73,7 +73,8 @@
                                                     @endif
                                                 </td>
                                                 <td id="{{ $appart->etage->id }}">{{ $appart->etage->name }}</td>
-                                                <td id="{{ $appart->etage->building->id }}">{{ $appart->etage->building->name }}</td>
+                                                <td id="{{ $appart->etage->building->id }}">
+                                                    {{ $appart->etage->building->name }}</td>
                                                 <td>{{ $appart->surface }}</td>
                                                 <td>
                                                     @if ($appart->type == 0)
@@ -95,10 +96,10 @@
                                                         S+3
                                                     @endif
                                                 </td>
-                                                <td>{{ $appart->price }}</td>
+                                                <td>{{ number_format(floatval($appart->price),3,'.',',') }}</td>
                                                 <td>
                                                     @if ($appart->bs == 0)
-                                                        Libre
+                                                        A vendre
                                                     @endif
                                                     @if ($appart->bs == 1)
                                                         Loué
@@ -111,7 +112,7 @@
                                                     @endif
                                                 </td>
 
-                                                
+
                                                 <td> <a href="{{ route('charges') }}?appart={{ $appart->id }}"
                                                         class="badge bg-success">Charges</a> </td>
                                                 <td> <a href="{{ route('echances') }}?appart={{ $appart->id }}"
@@ -140,7 +141,7 @@
 
                                 <div class="modal fade text-left " id="inlineForm" tabindex="-1" role="dialog"
                                     aria-labelledby="myModalLabel33" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
@@ -178,14 +179,14 @@
 
                                                         </select>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <main class="cd__main" style="display: none;">
 
-                                                        </main>
-                                                        <input type="hidden" name="x">
-                                                        <input type="hidden" name="y">
+                                                    <main class="cd__main" style="display: none;">
 
-                                                    </div>
+                                                    </main>
+                                                    <input type="hidden" name="x">
+                                                    <input type="hidden" name="y">
+
+
                                                     <label>Surface: </label>
                                                     <div class="form-group">
                                                         <input type="number" name="surface" placeholder="Surface"
@@ -213,7 +214,7 @@
                                                             <option value="">--</option>
                                                             @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
-                                                                    {{ $client->name }}
+                                                                    {{ $client->name }} {{ $client->lastName }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -222,7 +223,7 @@
                                                     <label>Statut: </label>
                                                     <div class="form-group">
                                                         <select name="bs" class="form-control">
-                                                            <option value= "0"> Libre </option>
+                                                            <option value= "0"> A vendre </option>
                                                             <option value= "1"> Loué </option>
                                                             <option value= "2"> Réservé </option>
                                                             <option value= "3"> Vendu </option>
@@ -254,7 +255,7 @@
 
                                 <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
                                     aria-labelledby="myModalLabel33" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
@@ -273,8 +274,8 @@
                                                     <input type="hidden" name="id">
                                                     <label>Nom: </label>
                                                     <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Nom" id="nomAppartEdit"
-                                                            class="form-control">
+                                                        <input type="text" name="name" placeholder="Nom"
+                                                            id="nomAppartEdit" class="form-control">
                                                     </div>
                                                     <label>Résidence: </label>
                                                     <div class="form-group">
@@ -328,7 +329,7 @@
                                                             <option value="">--</option>
                                                             @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
-                                                                    {{ $client->name }}
+                                                                    {{ $client->name }} {{ $client->lastName }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -337,7 +338,7 @@
                                                     <label>Statut: </label>
                                                     <div class="form-group">
                                                         <select name="bs" class="form-control">
-                                                            <option value= "0"> Libre </option>
+                                                            <option value= "0"> A vendre </option>
                                                             <option value= "1"> Loué </option>
                                                             <option value= "2"> Réservé </option>
                                                             <option value= "3"> Vendu </option>
@@ -392,7 +393,12 @@
 
 
 
-    <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    <script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -464,16 +470,17 @@
             const main = document.querySelector('.cd__main');
             const etages = @json($etages);
 
-            const w = 458;
+            const w = 900;
             etages.forEach((etage) => {
                 if (etage.id == id) {
                     if (etage.hplan != 'undefined' && etage.wplan != 'undefined') {
                         main.style.display = 'block'
                         main.innerHTML = ''
+                        main.classList.add('mt-3')
                         const imageUrl = "../../" + etage.plan;
                         const div = document.createElement('div');
+                        
                         const ratio = etage.wplan / etage.hplan;
-
                         main.setAttribute('style', 'height: ' + w / ratio +
                             'px; width: ' + w + 'px;');
 
@@ -495,7 +502,7 @@
                             let t = ap.y - 10;
                             let l = ap.x - 10;
                             t += 10;
-                            l += 14;
+                            l += 12;
                             divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
                             divText.innerHTML = '<div>' + ap.name + '</div>';
                             divText.classList.add('hotspot-label');
@@ -512,7 +519,7 @@
             const main = document.querySelector('.editHotspot');
             const etages = @json($etages);
 
-            const w = 458;
+            const w = 900;
             etages.forEach((etage) => {
                 if (etage.id == id) {
                     if (etage.hplan != 'undefined' && etage.wplan != 'undefined') {
@@ -538,7 +545,7 @@
                             let t = ap.y - 10;
                             let l = ap.x - 10;
                             t += 10;
-                            l += 14;
+                            l += 12;
                             divText.setAttribute('style', 'top: ' + t + '%; left: ' + l +
                                 '%;  ');
                             divText.innerHTML = '<div>' + ap.name + '</div>';
@@ -577,19 +584,19 @@
 
         let nameAppart = "";
         const inputNom = document.getElementById('nomAppart');
-        inputNom.addEventListener('change', (e)=>{
+        inputNom.addEventListener('change', (e) => {
             nameAppart = e.target.value;
-        } )
+        })
         const inputNomEdit = document.getElementById('nomAppartEdit');
-        inputNomEdit.addEventListener('change', (e)=>{
+        inputNomEdit.addEventListener('change', (e) => {
             nameAppart = e.target.value;
-        } )
-        
+        })
 
-        const editButtons = document.getElementsByClassName('edit');
-        editButtons.forEach = Array.prototype.forEach;
-        editButtons.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('edit')) {
+                const editButton = target;
                 const form = document.getElementById('formEdit');
 
                 let base = '{{ route('apparts.update', '5') }}';
@@ -667,10 +674,10 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
-        })
+            };
+        });
 
-        
+
         $(document).on("click", ".containerH", function(e) {
             const container = $(this); // Get the clicked container element
 
@@ -686,11 +693,11 @@
             $('.added').each((index, el) => {
                 $(el).remove(); // Remove each element with the class .added
             });
-            
+
             let t = offsetYPercent - 10;
             let l = offsetXPercent - 10;
             t += 9;
-            l += 14;
+            l += 11;
             const newElement = $(
                 `<div class='hotspot-label added' style='top: ${t}%; left: ${l}%;'>
                     <div>${nameAppart}</div>
@@ -715,22 +722,17 @@
         });
 
         const resSelect = document.getElementById('resSelect');
+        const resId = window.location.search.split('=')[1];
+        if (resId) {
+            resSelect.value = resId;
+        } else {
+            resSelect.value = 0;
+        }
         resSelect.addEventListener('change', function() {
-            const table = document.getElementById('table1');
-            const rows = table.querySelectorAll('tbody tr');
-            rows.forEach = Array.prototype.forEach;
-            rows.forEach((row) => {
-                const residence = row.querySelector('td:nth-child(6)').id;
-                if (resSelect.value == 0) {
-                    row.style.display = 'table-row';
-                } else {
-                    if (resSelect.value == residence) {
-                    row.style.display = 'table-row';
-                } else {
-                    row.style.display = 'none';
-                }}
-                
-            })
+            if (this.value == 0)
+                window.location.href = "{{ route('apparts') }}";
+            else
+                window.location.href = "{{ route('apparts') }}" + "?res=" + this.value;
         })
     </script>
 @endsection

@@ -46,7 +46,7 @@ class EtagesController extends Controller
 
     public function get($id)
     {
-        $etage = Etage::findOrFail($id);
+        $etage = Etage::with('appart', 'appart.charge', 'appart.etage', 'appart.client', 'building')->findOrFail($id);
         return response()->json($etage);
     }
 

@@ -102,7 +102,7 @@
                             <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                 class="btn btn-primary">Ajouter</button>
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive" >
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
@@ -110,7 +110,7 @@
                                         <th scope="col">Place Parking</th>
                                         <th scope="col">Numéro</th>
                                         <th scope="col">Client</th>
-                                        <th scope="col">Actions</th>
+                                        <th scope="col" class="noExport">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -296,14 +296,14 @@
                             <button type="button" data-bs-toggle="modal" data-bs-target="#cellier"
                                 class="btn btn-primary">Ajouter</button>
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive" >
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
 
                                         <th scope="col">Numéro</th>
                                         <th scope="col">Client</th>
-                                        <th scope="col">Actions</th>
+                                        <th scope="col" class="noExport">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -347,7 +347,7 @@
                             <h5 class="card-title">Clients</h5>
 
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive" >
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
@@ -359,7 +359,7 @@
                                         <th scope="col">Type</th>
                                         <th scope="col">Date Réservation</th>
                                         <th scope="col">Commentaires</th>
-                                        <th scope="col">Actions</th>
+                                        <th scope="col" class="noExport">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -478,22 +478,22 @@
                             <h5 class="card-title">Échéanciers</h5>
 
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive" >
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
                                         <th scope="col">Total Échanciers</th>
                                         <th scope="col">Total Payé</th>
                                         <th scope="col">Total Restant</th>
-                                        <th scope="col">Actions</th>
+                                        <th scope="col" class="noExport">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     <tr>
-                                        <td>{{ $total_echance }}</td>
-                                        <td>{{ $total_echeance }}</td>
-                                        <td>{{ $total_echance - $total_echeance }}</td>
+                                        <td>{{ number_format(floatval($total_echance),3,'.',',') }}</td>
+                                        <td>{{ number_format(floatval($total_echeance),3,'.',',') }}</td>
+                                        <td>{{ number_format(floatval($total_echance - $total_echeance),3,'.',',') }}</td>
 
 
                                         <td>
@@ -519,7 +519,7 @@
                             <h5 class="card-title">Charges</h5>
 
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive" >
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
@@ -527,21 +527,20 @@
                                         <th scope="col">Total Syndic</th>
                                         <th scope="col">Total Avocat</th>
                                         <th scope="col">Total Contrat</th>
-                                        <th scope="col">Total Fncier</th>
+                                        <th scope="col">Total Foncier</th>
                                         <th scope="col">Total</th>
-                                        <th scope="col">Actions</th>
+                                        <th scope="col" class="noExport">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     <tr>
-                                        <td>{{ $total_sonede }}</td>
-                                        <td>{{ $total_syndic }}</td>
-                                        <td>{{ $total_avocat }}</td>
-                                        <td>{{ $total_contrat }}</td>
-                                        <td>{{ $total_foncier }}</td>
-                                        <td>{{ $total_sonede + $total_syndic + $total_avocat + $total_contrat + $total_foncier }}
-                                        </td>
+                                        <td>{{ number_format(floatval($total_sonede),3,'.',',') }}</td>
+                                        <td>{{ number_format(floatval($total_syndic),3,'.',',') }}</td>
+                                        <td>{{ number_format(floatval($total_avocat),3,'.',',') }}</td>
+                                        <td>{{ number_format(floatval($total_contrat),3,'.',',') }}</td>
+                                        <td>{{ number_format(floatval($total_foncier),3,'.',',') }}</td>
+                                        <td>{{ number_format(floatval($total_sonede + $total_syndic + $total_avocat + $total_contrat + $total_foncier),3,'.',',') }}</td>
 
 
                                         <td>
@@ -764,7 +763,12 @@
 
 
 
-    <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -772,10 +776,11 @@
     <script>
         const editButtons = document.getElementsByClassName('editCellier');
         editButtons.forEach = Array.prototype.forEach;
-        editButtons.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('editCellier')) {
                 const form = document.getElementById('formEdit');
-
+                const editButton = target;
                 let base = '{{ route('celliers.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
@@ -793,17 +798,18 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
     </script>
 
     <script>
         const editButtonsParking = document.getElementsByClassName('edit');
         editButtonsParking.forEach = Array.prototype.forEach;
-        editButtonsParking.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('edit')) {
                 const form = document.getElementById('formEditParking');
-
+                const editButton = target;
                 let base = '{{ route('parkings.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
@@ -822,7 +828,7 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
     </script>
     <script>
@@ -970,10 +976,11 @@
 
         const editClient = document.getElementsByClassName('editClient');
         editClient.forEach = Array.prototype.forEach;
-        editClient.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('editClient')) {
                 const form = document.getElementById('editForm');
-
+                const editButton = target;
                 let base = '{{ route('clients.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
@@ -1000,7 +1007,7 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
     </script>
 @endsection

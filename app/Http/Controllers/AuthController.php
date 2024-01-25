@@ -43,7 +43,7 @@ class AuthController extends Controller
     {
         // Check if user has been authenticated successfully and then redirect
         if (Auth::check()) {
-            return redirect()->route('residences');
+            return redirect()->route('dashboard');
         }
 
         // Handle the case when authentication fails

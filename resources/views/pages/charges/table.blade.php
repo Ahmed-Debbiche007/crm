@@ -20,31 +20,32 @@
                                 <h5 class="card-title m-3">Résidence: </h5>
                                 <select name="" id="resSelect" class="form-control">
                                     <option value="0">Tout</option>
-                                    @foreach ($residences as $residence )
-                                    <option value="{{$residence->id}}">{{$residence->name}}</option>
+                                    @foreach ($residences as $residence)
+                                        <option value="{{ $residence->id }}">{{ $residence->name }}</option>
                                     @endforeach
-                                </select>                                
+                                </select>
                             </div>
-                            <div class="table-responsive">
+                            <div class="table-responsive" >
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
                                             <th scope="col">Residence</th>
                                             <th scope="col">Etage</th>
-                                            <th scope="col">Appartement</th>
+                                            <th scope="col">Bien Immobilier</th>
                                             <th scope="col">Client</th>
                                             <th scope="col">Sonède & Gaz</th>
                                             <th scope="col">Syndic</th>
-                                            <th scope="col">Avocat - Promesse</th>
-                                            <th scope="col">Avocat - Contrat</th>
+                                            
+                                            <th scope="col">Avocat </th>
                                             <th scope="col">Titre Foncier</th>
-                                            <th scope="col">Actions</th>
+                                            <th scope="col" class="noExport">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($charges as $charge)
                                             <tr>
-                                                <td id="{{ $charge->appart->etage->building->id }}">{{ $charge->appart->etage->building->name }}</td>
+                                                <td id="{{ $charge->appart->etage->building->id }}">
+                                                    {{ $charge->appart->etage->building->name }}</td>
                                                 <td>{{ $charge->appart->etage->name }}</td>
                                                 <td>{{ $charge->appart->name }}</td>
                                                 <td>
@@ -55,11 +56,10 @@
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>{{ $charge->sonede }}</td>
-                                                <td>{{ $charge->syndic }}</td>
-                                                <td>{{ $charge->avocat }}</td>
-                                                <td>{{ $charge->contrat }}</td>
-                                                <td>{{ $charge->foncier }}</td>
+                                                <td>{{ number_format(floatval($charge->sonede),3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($charge->syndic),3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($charge->contrat),3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($charge->foncier),3, '.', ',') }}</td>
                                                 <td>
 
                                                     <div class="d-flex">
@@ -93,9 +93,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form method="POST" action="{{ route('charges.store') }}" enctype="multipart/form-data">
@@ -134,19 +136,17 @@
                                     <input name="syndic" type="number" placeholder="Syndic" class="form-control">
                                 </div>
 
-                                <label>Avocat Promesse: </label>
-                                <div class="form-group">
-                                    <input name="avocat" type="number" placeholder="Avocat Promesse" class="form-control">
-                                </div>
 
-                                <label>Avocat Contart: </label>
+                                <label>Avocat : </label>
                                 <div class="form-group">
-                                    <input name="contrat" type="number" placeholder="Avocat Contart" class="form-control">
+                                    <input name="contrat" type="number" placeholder="Avocat Contart"
+                                        class="form-control">
                                 </div>
 
                                 <label>Titre Foncier: </label>
                                 <div class="form-group">
-                                    <input name="foncier" type="number" placeholder="Titre Foncier" class="form-control">
+                                    <input name="foncier" type="number" placeholder="Titre Foncier"
+                                        class="form-control">
                                 </div>
 
 
@@ -172,9 +172,11 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
                             </button>
                         </div>
                         <form id="editForm" method="POST" enctype="multipart/form-data">
@@ -206,7 +208,8 @@
                                 <label id="clientEdit"></label>
                                 <label>Sonède & Gaz: </label>
                                 <div class="form-group">
-                                    <input name="sonede" type="number" placeholder="Sonède & Gaz" class="form-control">
+                                    <input name="sonede" type="number" placeholder="Sonède & Gaz"
+                                        class="form-control">
                                 </div>
 
                                 <label>Syndic: </label>
@@ -214,19 +217,18 @@
                                     <input name="syndic" type="number" placeholder="Syndic" class="form-control">
                                 </div>
 
-                                <label>Avocat Promesse: </label>
-                                <div class="form-group">
-                                    <input name="avocat" type="number" placeholder="Avocat Promesse" class="form-control">
-                                </div>
+                                
 
-                                <label>Avocat Contart: </label>
+                                <label>Avocat: </label>
                                 <div class="form-group">
-                                    <input name="contrat" type="number" placeholder="Avocat Contart" class="form-control">
+                                    <input name="contrat" type="number" placeholder="Avocat Contart"
+                                        class="form-control">
                                 </div>
 
                                 <label>Titre Foncier: </label>
                                 <div class="form-group">
-                                    <input name="foncier" type="number" placeholder="Titre Foncier" class="form-control">
+                                    <input name="foncier" type="number" placeholder="Titre Foncier"
+                                        class="form-control">
                                 </div>
 
                             </div>
@@ -256,14 +258,19 @@
 @endsection
 
 @section('scripts')
-    
 
-    
 
-    <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
+
+
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
-    
+
 
     <script>
         function loadEtages(id, etageId) {
@@ -329,11 +336,13 @@
 
         const editButtons = document.getElementsByClassName('edit');
         editButtons.forEach = Array.prototype.forEach;
-        editButtons.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('edit')) {
+                const editButton = target;
                 const form = document.getElementById('editForm');
 
-                let base = '{{ route('echances.update', '5') }}';
+                let base = '{{ route('charges.update', '5') }}';
                 base = base.replace('5', editButton.id);
                 form.action = base;
                 const residence_idInput = form.querySelector('select[name="residence_id"]')
@@ -341,7 +350,6 @@
                 const appart_idInput = form.querySelector('select[name="appart_id"]')
                 const sonedeInput = form.querySelector('input[name="sonede"]');
                 const syndicInput = form.querySelector('input[name="syndic"]');
-                const avocatInput = form.querySelector('input[name="avocat"]');
                 const contratInput = form.querySelector('input[name="contrat"]');
                 const foncierInput = form.querySelector('input[name="foncier"]');
                 url = "{{ route('charges.get', 5) }}";
@@ -364,31 +372,26 @@
                     })
                     sonedeInput.value = client.sonede;
                     syndicInput.value = client.syndic;
-                    avocatInput.value = client.avocat;
                     contratInput.value = client.contrat;
                     foncierInput.value = client.foncier;
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
         const resSelect = document.getElementById('resSelect');
+        const resId = window.location.search.split('=')[1];
+        if (resId){
+            resSelect.value = resId;
+        }
+        else{
+            resSelect.value = 0;
+        }
         resSelect.addEventListener('change', function() {
-            const table = document.getElementById('table1');
-            const rows = table.querySelectorAll('tbody tr');
-            rows.forEach = Array.prototype.forEach;
-            rows.forEach((row) => {
-                const residence = row.querySelector('td:nth-child(1)').id;
-                if (resSelect.value == 0) {
-                    row.style.display = 'table-row';
-                } else {
-                    if (resSelect.value == residence) {
-                    row.style.display = 'table-row';
-                } else {
-                    row.style.display = 'none';
-                }}
-                
-            })
+            if (this.value == 0)
+                window.location.href = "{{ route('charges') }}";
+            else
+            window.location.href = "{{ route('charges') }}" + "?res=" + this.value;
         })
     </script>
 @endsection

@@ -74,7 +74,7 @@ class ResidencesController extends Controller
 
     public function show($id)
     {
-        $residence = Residence::with('image','file', 'etage', 'etage.appart','etage.appart.echance','etage.appart.client','etage.appart.charge', 'etage.appart.echance.echeance', 'parking', 'cellier')->findOrFail($id);
+        $residence = Residence::with('image','file', 'etage', 'etage.appart' ,'etage.appart.echance','etage.appart.echance.appart','etage.appart.client','etage.appart.charge', 'etage.appart.echance.echeance', 'parking', 'cellier')->findOrFail($id);
         $clients = Client::all();
 
         $total_echance = 0;
@@ -94,8 +94,9 @@ class ResidencesController extends Controller
                     $total_foncier += $charge->foncier;
 
                 }
+              
                 foreach ($appart->echance as $echance) {
-                    $total_echance += $echance->price;
+                    $total_echance += $echance->appart->price;
                     $total_echeance += $echance->amount_avance;
                     foreach ($echance->echeance as $echeance) {
                         if($echeance->payed == 0){

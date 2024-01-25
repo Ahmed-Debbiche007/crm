@@ -16,21 +16,21 @@
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
-                            <div class="table-responsive">
-                                <table class='table table-striped' id="table1">
+                            <div class="table-responsive" >
+                                <table class='table table-striped' id="table1" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th scope="col">Nom</th>
                                             <th scope="col">Adresse</th>
 
-                                            <th scope="col">Étages</th>
-                                            <th scope="col">Appartements</th>
-                                            <th scope="col">Parkings</th>
-                                            <th scope="col">Celliers</th>
-                                            <th scope="col">Charges</th>
-                                            <th scope="col">Échanciers</th>
+                                            <th scope="col" class="noExport">Étages</th>
+                                            <th scope="col" class="noExport">Biens Immobiliers</th>
+                                            <th scope="col" class="noExport">Parkings</th>
+                                            <th scope="col" class="noExport">Celliers</th>
+                                            <th scope="col" class="noExport">Charges</th>
+                                            <th scope="col" class="noExport">Échanciers</th>
 
-                                            <th scope="col">Actions</th>
+                                            <th scope="col" class="noExport">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -43,7 +43,7 @@
                                                 <td> <a href="{{ route('etages') }}?res={{ $residence->id }}"
                                                         class="badge bg-success">Étages</a> </td>
                                                 <td> <a href="{{ route('apparts') }}?res={{ $residence->id }}"
-                                                        class="badge bg-success">Appartements</a> </td>
+                                                        class="badge bg-success">Biens Immobiliers</a> </td>
                                                 <td> <a href="{{ route('parkings') }}?res={{ $residence->id }}"
                                                         class="badge bg-success">Parkings</a> </td>
                                                 <td> <a href="{{ route('celliers') }}?res={{ $residence->id }}"
@@ -238,7 +238,12 @@
 
 
 
-    <script src="{{ asset('dist/js/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -289,10 +294,11 @@
 
         const editButtons = document.getElementsByClassName('edit');
         editButtons.forEach = Array.prototype.forEach;
-        editButtons.forEach((editButton) => {
-            editButton.addEventListener('click', function() {
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('edit')) {
                 const form = document.getElementById('formEdit');
-
+                const editButton = target;
                 let base = "{{ route('residences.update', '5') }}";
                 base = base.replace('5', editButton.id);
                 form.action = base;
@@ -372,7 +378,7 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            });
+            };
         })
     </script>
 @endsection
