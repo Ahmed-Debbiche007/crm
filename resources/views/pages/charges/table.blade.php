@@ -381,11 +381,19 @@
         })
         const resSelect = document.getElementById('resSelect');
         const resId = window.location.search.split('=')[1];
-        if (resId){
+        if (resId) {
             resSelect.value = resId;
-        }
-        else{
+            selectEtages.value = resId;
+            loadEtages(selectEtages.value, 'addetage');
+            loadApparts(selectApparts.value, 'appartAdd');
+            
+
+        } else {
             resSelect.value = 0;
+            selectEtages.value = 1;
+            loadEtages(selectEtages.value, 'addetage');
+            loadApparts(selectApparts.value, 'appartAdd');
+            
         }
         resSelect.addEventListener('change', function() {
             if (this.value == 0)

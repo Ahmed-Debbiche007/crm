@@ -88,7 +88,7 @@
                                                 <div class="modal-body">
                                                     <label>Residence: </label>
                                                     <div class="form-group">
-                                                        <select name="residence_id" class="form-control">
+                                                        <select name="residence_id" id="selectResidences" class="form-control">
                                                             @foreach ($residences as $residence)
                                                                 <option value="{{ $residence->id }}">
                                                                     {{ $residence->name }}
@@ -275,12 +275,19 @@
         })
 
         const resSelect = document.getElementById('resSelect');
+        const selectResidences = document.getElementById('selectResidences');
         const resId = window.location.search.split('=')[1];
-        if (resId){
+        if (resId) {
             resSelect.value = resId;
-        }
-        else{
+            selectResidences.value = resId;
+   
+            
+
+        } else {
             resSelect.value = 0;
+            selectResidences.value = 1;
+       
+            
         }
         resSelect.addEventListener('change', function() {
             if (this.value == 0)

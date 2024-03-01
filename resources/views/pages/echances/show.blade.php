@@ -76,13 +76,7 @@
                                                     <div>
                                                         {{ number_format(floatval($echance->amount_avance), 3, '.', ',') }}
                                                     </div>
-                                                    @if ($echance->preuve_avance != null)
-                                                        <div>
-                                                            <a href="{{ asset($echance->preuve_avance) }}" target="_blank"
-                                                                download class="btn btn-success"><i
-                                                                    data-feather="download"></i> Télécharger</a>
-                                                        </div>
-                                                    @endif
+                                                    
 
 
 
@@ -90,13 +84,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-items-center align-items-center ">
-                                                    @if ($echance->promesse != null)
-                                                        <div>
-                                                            <a href="{{ asset($echance->promesse) }}" target="_blank"
-                                                                download class="btn btn-success"><i
-                                                                    data-feather="download"></i> Télécharger</a>
-                                                        </div>
-                                                    @endif
+                                                    
                                                     <div>
                                                         @if ($echance->date_promesse_legal != null)
                                                             Légalisé: {{ $echance->date_promesse_legal }}
@@ -112,13 +100,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-items-center align-items-center ">
-                                                    @if ($echance->contrat != null)
-                                                        <div>
-                                                            <a href="{{ asset($echance->contrat) }}" target="_blank"
-                                                                download class="btn btn-success"><i
-                                                                    data-feather="download"></i> Télécharger</a>
-                                                        </div>
-                                                    @endif
+                                                    
                                                     <div>
                                                         @if ($echance->date_contrat_enregistre != null)
                                                             Enregistré: {{ $echance->date_contrat_enregistre }}
@@ -135,13 +117,7 @@
 
                                             <td>
                                                 <div class="d-flex flex-column justify-items-center align-items-center ">
-                                                    @if ($echance->acte != null)
-                                                        <div>
-                                                            <a href="{{ asset($echance->acte) }}" target="_blank" download
-                                                                class="btn btn-success"><i data-feather="download"></i>
-                                                                Télécharger</a>
-                                                        </div>
-                                                    @endif
+                                                   
                                                     <div>
                                                         @if ($echance->date_acte_enreg != null)
                                                             Enregistré: {{ $echance->date_acte_enreg }}
@@ -350,11 +326,9 @@
                                     <input type="date" name="date_avance" placeholder="Numero" class="form-control">
                                 </div>
 
-                                <label>Preuve Avance: </label>
-                                <input type="file" name="preuve_avance" class="image-preview-filepondAvanceEdit" />
 
                                 <label>Promesse: </label>
-                                <input type="file" name="promesse" class="image-preview-filepondPromesseEdit" />
+                                
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonEdit" class="form-check-input">
@@ -378,7 +352,7 @@
                                 </div>
 
                                 <label>Contrat: </label>
-                                <input type="file" name="contrat" class="image-preview-filepondContratEdit" />
+                                
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonPromesseEdit" class="form-check-input">
@@ -402,7 +376,7 @@
                                 </div>
 
                                 <label>Acte de précision: </label>
-                                <input type="file" name="acte" class="image-preview-filepondActeEdit" />
+                                
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonActeEdit" class="form-check-input">
@@ -654,21 +628,7 @@
 
 
     <script>
-        function createFileInput(className) {
-            const options = {
-                credits: null,
-                allowImagePreview: false,
-                allowMultiple: false,
-                allowFileEncode: false,
-                required: false,
-                storeAsFile: true,
-                labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
-            }
-            FilePond.create(document.querySelector(className), options);
-        }
-        createFileInput(".image-preview-filepondAvance");
-        createFileInput(".image-preview-filepondPromesse");
-        createFileInput(".image-preview-filepondContrat");
+        
 
         const getDetailsAppart = (id, select) => {
             let route = '{{ route('apparts.get', '5') }}';
@@ -695,23 +655,7 @@
             })
         }
 
-        function createFileInputEdit(className, image) {
-            const options = {
-                credits: null,
-                allowImagePreview: false,
-                allowMultiple: false,
-                allowFileEncode: false,
-                required: false,
-                storeAsFile: true,
-                labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
-            }
-            if (image != null) {
-                options.files = [{
-                    source: '{{ route('dashboard') }}/' + image,
-                }]
-            }
-            FilePond.create(document.querySelector(className), options);
-        }
+       
 
         function loadEtages(id, etageId) {
             const selectEtage = document.getElementById(etageId)
@@ -887,10 +831,7 @@
                         enregistreDateActeEdit.checked = false;
                     }
                     date_acte_enreg.value = client.date_acte_enreg
-                    createFileInputEdit(".image-preview-filepondAvanceEdit", client.preuve_avance);
-                    createFileInputEdit(".image-preview-filepondPromesseEdit", client.promesse);
-                    createFileInputEdit(".image-preview-filepondContratEdit", client.contrat);
-                    createFileInputEdit(".image-preview-filepondActeEdit", client.acte);
+                    
                 }).catch((error) => {
                     console.log(error)
                 })

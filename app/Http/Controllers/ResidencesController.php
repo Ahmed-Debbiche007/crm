@@ -186,7 +186,10 @@ class ResidencesController extends Controller
 
     public function destroy($id)
     {
-        $residence = Residence::findOrFail($id);
+        $residence = Residence::with('etage')->findOrFail($id);
+        foreach ($residence->etage as $etage) {
+            $etage->delete();
+        }
         $residence->delete();
         return redirect()->back()->with('success', 'Residence deleted!');
     }

@@ -725,14 +725,23 @@
         const resId = window.location.search.split('=')[1];
         if (resId) {
             resSelect.value = resId;
+            selectEtages.value = resId;
+            loadEtages(selectEtages.value, 'addetage');
+            loadImage(addSelect.value);
+            
+
         } else {
             resSelect.value = 0;
+            selectEtages.value = 1;
+            loadEtages(selectEtages.value, 'addetage');
+            loadImage(addSelect.value);
+            
         }
         resSelect.addEventListener('change', function() {
             if (this.value == 0)
                 window.location.href = "{{ route('apparts') }}";
             else
-                window.location.href = "{{ route('apparts') }}" + "?res=" + this.value;
+            window.location.href = "{{ route('apparts') }}" + "?res=" + this.value;
         })
     </script>
 @endsection

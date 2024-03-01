@@ -278,19 +278,7 @@
             };
         })
 
-        const resSelect = document.getElementById('resSelect');
-        const resId = window.location.search.split('=')[1];
-        if (resId) {
-            resSelect.value = resId;
-        } else {
-            resSelect.value = 0;
-        }
-        resSelect.addEventListener('change', function() {
-            if (this.value == 0)
-                window.location.href = "{{ route('celliers') }}";
-            else
-                window.location.href = "{{ route('celliers') }}" + "?res=" + this.value;
-        })
+        
 
 
         function loadEtages(id, etageId) {
@@ -397,6 +385,29 @@
             const id = e.target.value;
             getDetailsAppart(id, 'detailsEdit');
 
+        })
+
+        const resSelect = document.getElementById('resSelect');
+        const resId = window.location.search.split('=')[1];
+        if (resId) {
+            resSelect.value = resId;
+            selectEtages.value = resId;
+            loadEtages(selectEtages.value, 'addetage');
+            loadApparts(selectApparts.value, 'appartAdd');
+            
+
+        } else {
+            resSelect.value = 0;
+            selectEtages.value = 1;
+            loadEtages(selectEtages.value, 'addetage');
+            loadApparts(selectApparts.value, 'appartAdd');
+            
+        }
+        resSelect.addEventListener('change', function() {
+            if (this.value == 0)
+                window.location.href = "{{ route('celliers') }}";
+            else
+            window.location.href = "{{ route('celliers') }}" + "?res=" + this.value;
         })
     </script>
 @endsection
