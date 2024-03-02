@@ -30,6 +30,7 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
+    @laravelPWA
 </head>
 
 <body>
