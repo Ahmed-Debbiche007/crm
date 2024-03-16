@@ -75,9 +75,11 @@
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
+    <script src="{{ asset('dist/js/jquery.min.js') }}"></script>
     <script src="{{asset('dist/js/tabler.min.js?1684106062')}}" defer></script>
     <script src="{{asset('dist/js/demo.min.js?1684106062')}}" defer></script>
     <script src="{{asset('dist/js/intDark.js')}}"></script>
+    <script src="{{ asset('main.js') }}"></script>
   
   </body>
 </html>

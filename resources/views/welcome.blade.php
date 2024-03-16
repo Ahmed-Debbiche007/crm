@@ -13,13 +13,12 @@
     <link href="{{ asset('dist/css/tabler-payments.min.css?1684106062') }}" rel="stylesheet" />
     <link href="{{ asset('dist/css/tabler-vendors.min.css?1684106062') }}" rel="stylesheet" />
     <link href="{{ asset('dist/css/demo.min.css?1684106062') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{asset("dist/js/datatables.net-bs5/css/dataTables.bootstrap5.min.css")}}">
+    <link rel="stylesheet" href="{{ asset('dist/js/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/js/filepond/filepond.css') }}">
     <link rel="icon" href="{{ asset('static/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet"
         href="{{ asset('dist/js/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('dist/js/filepond-plugin-get-file/filepond-plugin-get-file.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/js/filepond-plugin-get-file/filepond-plugin-get-file.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/js/toastify-js/src/toastify.css') }}">
     @yield('styles')
     <style>
@@ -39,10 +38,10 @@
 <body>
     <script src="{{ asset('dist/js/demo-theme.min.js?1684106062') }}"></script>
     <div class="page">
-        @include('partials.navbar') 
+        @include('partials.navbar')
         @include('partials.sidebar')
         <!-- Navbar -->
-       
+
         <div class="page-wrapper">
             @yield('content')
             @include('partials.footer')
@@ -51,27 +50,24 @@
     <script src="{{ asset('dist/js/jquery.min.js') }}"></script>
     <!-- Libs JS -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="{{asset('dist/libs/apexcharts/dist/apexcharts.min.js?1684106062')}}" defer></script>
-    <script src="{{asset('dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1684106062')}}" defer></script>
-    <script src="{{asset('dist/libs/jsvectormap/dist/maps/world.js?1684106062')}}" defer></script>
-    <script src="{{asset('dist/libs/jsvectormap/dist/maps/world-merc.js?1684106062')}}" defer></script>
+    <script src="{{ asset('dist/libs/apexcharts/dist/apexcharts.min.js?1684106062') }}" defer></script>
+    <script src="{{ asset('dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1684106062') }}" defer></script>
+    <script src="{{ asset('dist/libs/jsvectormap/dist/maps/world.js?1684106062') }}" defer></script>
+    <script src="{{ asset('dist/libs/jsvectormap/dist/maps/world-merc.js?1684106062') }}" defer></script>
     <!-- Tabler Core -->
-    <script src="{{asset('dist/js/tabler.min.js?1684106062')}}" defer></script>
-    <script src="{{asset('dist/js/demo.min.js?1684106062')}}" defer></script>
+    <script src="{{ asset('dist/js/tabler.min.js?1684106062') }}" defer></script>
+    <script src="{{ asset('dist/js/demo.min.js?1684106062') }}" defer></script>
     <script src="{{ asset('dist/js/intDark.js') }}"></script>
-    <script
-        src="{{ asset('dist/js/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}">
+    <script src="{{ asset('dist/js/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}">
     </script>
-    <script
-        src="{{ asset('dist/js/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}">
+    <script src="{{ asset('dist/js/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}">
     </script>
     <script src="{{ asset('dist/js/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js') }}"></script>
     <script
         src="{{ asset('dist/js/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}">
     </script>
     <script src="{{ asset('dist/js/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js') }}"></script>
-    <script src="{{ asset('dist/js/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}">
-    </script>
+    <script src="{{ asset('dist/js/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}"></script>
     <script src="{{ asset('dist/js/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}"></script>
     <script src="{{ asset('dist/js/filepond-plugin-get-file/filepond-plugin-get-file.js') }}"></script>
     <script src="{{ asset('dist/js/filepond/filepond.js') }}"></script>
@@ -122,6 +118,7 @@
         </script>
     @endif
     @yield('scripts')
+    <script src="{{ asset('main.js') }}"></script>
 </body>
 
 </html>
