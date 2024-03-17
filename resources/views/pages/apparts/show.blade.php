@@ -48,7 +48,7 @@
                                 <h5 class="card-title">Bien Immobilier</h5>
 
                             </div>
-                            <div class="table-responsive" >
+                            <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
@@ -101,10 +101,10 @@
                                                     S+3
                                                 @endif
                                             </td>
-                                            <td>{{ number_format(floatval($appart->price),3,'.',',') }}</td>
+                                            <td>{{ number_format(floatval($appart->price), 3, '.', ',') }}</td>
                                             <td>
                                                 @if ($appart->bs == 0)
-                                                A vendre
+                                                    A vendre
                                                 @endif
                                                 @if ($appart->bs == 1)
                                                     Loué
@@ -268,11 +268,33 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
+                                <h5 class="card-title">Documents</h5>
+                            </div>
+                            <div class="d-flex justify-content-start flex-wrap m-3">
+                                <a class="btn btn-primary m-2" target="_blank"
+                                    href="{{ route('apparts.mainLeveePartielle', $appart->id) }}">Demande de main levée
+                                    partielle</a>
+                                <a class="btn btn-primary m-2" target="_blank" href="{{ route('apparts.mainLevee', $appart->id) }}">Engagement
+                                    de main levée </a>
+                                <a class="btn btn-primary m-2" target="_blank" href="{{ route('apparts.optionVente', $appart->id) }}">Option
+                                    de vente</a>
+                                <a class="btn btn-primary m-2" target="_blank" href="{{ route('apparts.renseignement', $appart->id) }}">Fiche
+                                    de renseignement</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Echéanciers</h5>
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineEchance"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
-                            <div class="table-responsive" >
+                            <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
@@ -302,11 +324,11 @@
                                                         --
                                                     @endif
                                                 </td>
-                                              
+
                                                 <td>
-                                                    {{ $echance->date ? \Illuminate\Support\Carbon::parse($echance->date)->format('d-m-Y') : "" }}
+                                                    {{ $echance->date ? \Illuminate\Support\Carbon::parse($echance->date)->format('d-m-Y') : '' }}
                                                 </td>
-                                                <td>{{ number_format(floatval($appart->price),3,'.',',') }}</td>
+                                                <td>{{ number_format(floatval($appart->price), 3, '.', ',') }}</td>
                                                 @php
                                                     $totalEchances = 0;
                                                     $echance->echeance->each(function ($item) use (&$totalEchances) {
@@ -315,9 +337,12 @@
                                                         }
                                                     });
                                                 @endphp
-                                                <td>{{ number_format(floatval($echance->amount_avance + $totalEchances),3,'.',',') }}</td>
-                                                <td>{{ number_format(floatval($appart->price - ($echance->amount_avance + $totalEchances)),3,'.',',') }}</td>
-                                                <td>{{ number_format(floatval($echance->amount_avance),3,'.',',') }}</td>
+                                                <td>{{ number_format(floatval($echance->amount_avance + $totalEchances), 3, '.', ',') }}
+                                                </td>
+                                                <td>{{ number_format(floatval($appart->price - ($echance->amount_avance + $totalEchances)), 3, '.', ',') }}
+                                                </td>
+                                                <td>{{ number_format(floatval($echance->amount_avance), 3, '.', ',') }}
+                                                </td>
                                                 <td data-legal="{{ $echance->date_promesse_legal }}"
                                                     data-livre="{{ $echance->date_promesse_livre }}">
                                                     <div
@@ -605,7 +630,7 @@
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#inlineCharge"
                                     class="btn btn-primary">Ajouter</button>
                             </div>
-                            <div class="table-responsive" >
+                            <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
@@ -630,10 +655,10 @@
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>{{ number_format(floatval($charge->sonede),3,'.',',') }}</td>
-                                                <td>{{ number_format(floatval($charge->syndic),3,'.',',') }}</td>
-                                                <td>{{ number_format(floatval($charge->contrat),3,'.',',') }}</td>
-                                                <td>{{ number_format(floatval($charge->foncier),3,'.',',') }}</td>
+                                                <td>{{ number_format(floatval($charge->sonede), 3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($charge->syndic), 3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($charge->contrat), 3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($charge->foncier), 3, '.', ',') }}</td>
                                                 <td>
 
                                                     <div class="d-flex">
@@ -797,11 +822,11 @@
 
 
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-<script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+    <script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 

@@ -62,6 +62,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/apparts/{id}', [AppartsController::class, 'destroy'])->name('apparts.destroy');
     Route::get('/appart/{id}', [AppartsController::class, 'get'])->name('apparts.get');
     Route::get('/appartss/{id}', [AppartsController::class, 'show'])->name('apparts.show');
+    Route::get('/mainLeveePartielle/{id}', [AppartsController::class, 'mainLeveePartielle'])->name('apparts.mainLeveePartielle');
+    Route::get('/mainLevee/{id}', [AppartsController::class, 'mainLevee'])->name('apparts.mainLevee');
+    Route::get('/optionVente/{id}', [AppartsController::class, 'optionVente'])->name('apparts.optionVente');
+    Route::get('/renseignement/{id}', [AppartsController::class, 'renseignement'])->name('apparts.renseignement');
 
     Route::get('/celliers', [CelliersController::class, 'index'])->name('celliers');
     Route::post('/celliers', [CelliersController::class, 'store'])->name('celliers.store');
