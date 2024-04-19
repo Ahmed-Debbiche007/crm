@@ -12,7 +12,7 @@ class EtagesController extends Controller
     public function index(Request $request)
     {
 
-        $etages = Etage::with('building')->get();
+        $etages = Etage::with('building')->orderBy("created_at","desc")->get();
         $residence = request('res');
         if ($residence) {
             $etages = Etage::where('residence_id', $residence)->get();

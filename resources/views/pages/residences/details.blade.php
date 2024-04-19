@@ -526,7 +526,7 @@
                                         <th scope="col">Total Sonede</th>
                                         <th scope="col">Total Syndic</th>
                                         <th scope="col">Total Avocat</th>
-                                        <th scope="col">Total Contrat</th>
+                                        
                                         <th scope="col">Total Foncier</th>
                                         <th scope="col">Total</th>
                                         <th scope="col" class="noExport">Actions</th>
@@ -537,7 +537,7 @@
                                     <tr>
                                         <td>{{ number_format(floatval($total_sonede),3,'.',',') }}</td>
                                         <td>{{ number_format(floatval($total_syndic),3,'.',',') }}</td>
-                                        <td>{{ number_format(floatval($total_avocat),3,'.',',') }}</td>
+                                        
                                         <td>{{ number_format(floatval($total_contrat),3,'.',',') }}</td>
                                         <td>{{ number_format(floatval($total_foncier),3,'.',',') }}</td>
                                         <td>{{ number_format(floatval($total_sonede + $total_syndic + $total_avocat + $total_contrat + $total_foncier),3,'.',',') }}</td>

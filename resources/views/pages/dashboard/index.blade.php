@@ -275,25 +275,19 @@
             const div = document.createElement('div');
             bar.appendChild(div);
             const residence = residences.find((res) => res.id == bar.id);
-            let charges = 0;
+            
             let echeancers = 0;
             let prix = 0;
             residence.etage.forEach((etage) => {
                 etage.appart.forEach((appart) => {
 
-                    appart.charge.forEach((charge) => {
-                        charges += charge.sonede;
-                        charges += charge.syndic;
-                        charges += charge.avocat;
-                        charges += charge.contrat;
-                        charges += charge.foncier;
-                    })
+                    
 
                     appart.echance.forEach((echeancier) => {
                         prix += echeancier.appart.price;
                         echeancers += echeancier.amount_avance;
                         echeancier.echeance.forEach((echeance) => {
-                            if (echeance.payed == 0) {
+                            if (echeance.payed == 1) {
                                 echeancers += echeance.montant;
                             }
                         })
@@ -304,10 +298,7 @@
                 })
             })
             var barOptions = {
-                series: [{
-                        name: "Charges",
-                        data: [charges],
-                    },
+                series: [
                     {
                         name: "Échanciers Payés",
                         data: [echeancers],
@@ -321,7 +312,7 @@
                     type: "bar",
                     width: 300,
                 },
-                colors: ["#fe8900", "#005841", "#850000"],
+                colors: [ "#005841", "#850000"],
 
                 dataLabels: {
                     enabled: false,

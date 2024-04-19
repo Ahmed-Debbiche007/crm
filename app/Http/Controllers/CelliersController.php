@@ -11,7 +11,7 @@ class CelliersController extends Controller
 {
     public function index()
     {
-        $celliers = Cellier::with('client', 'residence')->get();
+        $celliers = Cellier::with('client', 'residence')->orderBy("created_at","desc")->get();
         $residence = request('res');
         if($residence){
             $celliers = Cellier::with('client', 'residence')->where('residence_id', $residence)->get();

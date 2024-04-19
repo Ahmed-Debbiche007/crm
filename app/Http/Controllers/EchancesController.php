@@ -40,6 +40,9 @@ class EchancesController extends Controller
                 }
             }
         }
+        usort($echances, function ($a, $b) {
+            return $a->created_at < $b->created_at;
+        });
         $residences = Residence::with(
             'etage',
             'etage.appart',

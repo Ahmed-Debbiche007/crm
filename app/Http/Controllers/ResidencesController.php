@@ -12,7 +12,7 @@ class ResidencesController extends Controller
 {
     public function index()
     {
-        $residences = Residence::all();
+        $residences = Residence::orderBy("created_at","desc")->get();
         return view('pages.residences.table', [
             'residences' => $residences
         ]);
@@ -99,7 +99,7 @@ class ResidencesController extends Controller
                     $total_echance += $echance->appart->price;
                     $total_echeance += $echance->amount_avance;
                     foreach ($echance->echeance as $echeance) {
-                        if($echeance->payed == 0){
+                        if($echeance->payed == 1){
                             $total_echeance += $echeance->montant;
                         }
                     }

@@ -29,6 +29,10 @@ class AppartsController extends Controller
                 array_push($apparts, $appart);
             }
         }
+        
+        usort($apparts, function ($a, $b) {
+            return $a->created_at < $b->created_at;
+        });
         $etages = Etage::with('appart')->get();
         $residences = Residence::with(
             'etage',

@@ -11,7 +11,7 @@ class ParkingsController extends Controller
 {
     public function index(Request $request)
     {
-        $parkings = Parking::with('client', 'residence')->get();
+        $parkings = Parking::with('client', 'residence')->orderBy("created_at","desc")->get();
         $residence = request('res');
         if($residence){
             $parkings = Parking::with('client', 'residence')->where('residence_id', $residence)->get();
