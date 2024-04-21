@@ -19,20 +19,26 @@
             </div>
             <div class="list-group list-group-flush list-group-hoverable">
                 @foreach ($echeances as $echeance)
-                <div class="list-group-item">
-                        <div class="row align-items-center">
-                            <div class="col-auto"><span class="status-dot status-dot-animated bg-red d-block"></span>
-                            </div>
-                            <div class="col text-truncate">
-                                <a href="{{route('echances.show',$echeance->echance->id)}}" class="text-body d-block">Echeance {{$echeance->id}} - Appartement {{$echeance->echance->appart->name}}</a>
-                                <div class="d-block text-muted text-truncate mt-n1">
-                                    Client: {{$echeance->echance->appart->client->name}} {{$echeance->echance->appart->client->lastName}}
+                    @if ($echeance->echance)
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col-auto"><span
+                                        class="status-dot status-dot-animated bg-red d-block"></span>
                                 </div>
-                            </div>
+                                <div class="col text-truncate">
+                                    <a href="{{ route('echances.show', $echeance->echance->id) }}"
+                                        class="text-body d-block">Echeance {{ $echeance->id }} - Appartement
+                                        {{ $echeance->echance->appart->name }}</a>
+                                    <div class="d-block text-muted text-truncate mt-n1">
+                                        Client: {{ $echeance->echance->appart->client->name }}
+                                        {{ $echeance->echance->appart->client->lastName }}
+                                    </div>
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
-                    @endforeach
+                    @endif
+                @endforeach
             </div>
         </div>
     </div>

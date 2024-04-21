@@ -1,5 +1,5 @@
-// Simple Datatable
 let table1 = document.querySelectorAll(".table");
+
 function tables() {
     $(".table").each(function () {
         var buttonCommon = {
@@ -20,10 +20,17 @@ function tables() {
         };
         const jquery_datatable = $(this);
         jquery_datatable.DataTable({
-            order: [],
-            responsive: true,
-            dom: "Bfrtip",
-            lengthMenu: [10, 25, 50, 75, 100],
+          
+            responsive: {
+                details: {
+                    renderer: DataTable.Responsive.renderer.listHiddenNodes(),
+                },
+            },
+            dom: "lBfrtip", // 'l' for length menu, 'B' for buttons
+            lengthMenu: [
+                [10, 25, 50, 75, 100], // Available options
+                [10, 25, 50, 75, 100], // Labels
+            ],
             buttons: [
                 {
                     extend: "excel",
@@ -33,8 +40,7 @@ function tables() {
                         columns: "thead th:not(.noExport)",
                     },
                 },
-            ],
-            rowsGroup: [0, 1]
+            ]
         });
 
         const setTableColor = () => {

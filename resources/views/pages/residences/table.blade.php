@@ -13,10 +13,12 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Residences</h5>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                    class="btn btn-primary">Ajouter</button>
+                                @if (Auth::user()->role == 1)
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
+                                        class="btn btn-primary">Ajouter</button>
+                                @endif
                             </div>
-                            <div class="table-responsive" >
+                            <div class="table-responsive">
                                 <table class='table table-striped' id="table1" style="width:100%">
                                     <thead>
                                         <tr>
@@ -57,12 +59,46 @@
                                                     <a href="{{ route('residences.show', $residence->id) }}"
                                                         class="btn btn-primary edit"><i
                                                             data-feather="plus-circle"></i>Details</a>
-                                                    <button id="{{ $residence->id }}" class="btn btn-warning edit"
-                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                            data-feather="edit"></i>Modifier</button>
-                                                    <button onclick="deleteClient({{ $residence->id }})"
-                                                        class="btn btn-danger"><i
-                                                            data-feather="trash"></i>Supprimer</button>
+                                                    @if (Auth::user()->role == 1)
+                                                        <button id="{{ $residence->id }}" class="btn btn-warning edit"
+                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
+                                                                data-feather="edit"></i>Modifier</button>
+
+                                                        <form method="GET"
+                                                            action="{{ route('residences.destroy', $residence->id) }}">
+                                                            @csrf
+                                                            <button type="button" class="btn btn-danger m-1"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#inlineChargeDelete{{ $residence->id }}"><i
+                                                                    data-feather="trash"></i>Supprimer</button>
+                                                            <div class="modal fade"
+                                                                id="inlineChargeDelete{{ $residence->id }}" tabindex="-1"
+                                                                role="dialog" aria-labelledby="exampleModalLabel"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                                                Confirmation</h5>
+                                                                            <button type="button" class="close"
+                                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Êtes-vous sûr de vouloir supprimer ?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Annuler</button>
+                                                                            <button id="deleteButton" type="submit"
+                                                                                class="btn btn-danger">Confirmer</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -83,8 +119,8 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                     <path
                                         d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
                                 </svg>
@@ -111,7 +147,8 @@
 
                                 <label>Emplacement: </label>
                                 <div class="form-group">
-                                    <input type="text" name="emplacemnt" placeholder="Emplacement" class="form-control">
+                                    <input type="text" name="emplacemnt" placeholder="Emplacement"
+                                        class="form-control">
                                 </div>
 
                                 <label>N° du permis de bâtir: </label>
@@ -236,14 +273,7 @@
 @section('scripts')
 
 
-
-
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-<script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+    <script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -277,7 +307,7 @@
 
             FilePond.create(document.querySelector(className), {
                 credits: null,
-                allowImagePreview: false ,
+                allowImagePreview: false,
                 allowImageFilter: false,
                 allowImageExifOrientation: false,
                 allowMultiple: true,

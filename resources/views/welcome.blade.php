@@ -13,13 +13,14 @@
     <link href="{{ asset('dist/css/tabler-payments.min.css?1684106062') }}" rel="stylesheet" />
     <link href="{{ asset('dist/css/tabler-vendors.min.css?1684106062') }}" rel="stylesheet" />
     <link href="{{ asset('dist/css/demo.min.css?1684106062') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('dist/js/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/js/DataTables/datatables.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/js/filepond/filepond.css') }}">
     <link rel="icon" href="{{ asset('static/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet"
         href="{{ asset('dist/js/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/js/filepond-plugin-get-file/filepond-plugin-get-file.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/js/toastify-js/src/toastify.css') }}">
+    
     @yield('styles')
     <style>
         @import url('https://rsms.me/inter/inter.css');
@@ -72,6 +73,7 @@
     <script src="{{ asset('dist/js/filepond-plugin-get-file/filepond-plugin-get-file.js') }}"></script>
     <script src="{{ asset('dist/js/filepond/filepond.js') }}"></script>
     <script src="{{ asset('dist/js/toastify-js/src/toastify.js') }}"></script>
+
     <script>
         FilePond.registerPlugin(
             FilePondPluginImagePreview,

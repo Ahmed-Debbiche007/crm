@@ -88,7 +88,7 @@
                                                     <div class="pie mt-3" id="{{ $residence->id }}"></div>
                                                 </div>
                                                 @if ($residence->parking->count() > 0)
-                                                <h5>Parkings:</h5>
+                                                    <h5>Parkings:</h5>
                                                     <div class="d-flex justify-content-center align-items-center col-12">
                                                         <div class="parking mt-3" id="{{ $residence->id }}"></div>
                                                     </div>
@@ -98,20 +98,19 @@
                                                     </div>
                                                 @endif
                                                 @if ($residence->parking->count() > 0)
-                                                <h5>Celliers:</h5>
+                                                    <h5>Celliers:</h5>
                                                     <div class="d-flex justify-content-center align-items-center col-12">
                                                         <div class="cellier mt-3" id="{{ $residence->id }}"></div>
                                                     </div>
                                                 @else
-                                                <div class="d-flex flex-column mt-2">
-                                                    <a href="#" class="badge bg-danger mx-2">Pas de Celliers</a>
-                                                </div>
+                                                    <div class="d-flex flex-column mt-2">
+                                                        <a href="#" class="badge bg-danger mx-2">Pas de Celliers</a>
+                                                    </div>
                                                 @endif
                                                 <div class="d-flex justify-content-center align-items-center col-12">
                                                     <div class="bar mt-3" id="{{ $residence->id }}"></div>
                                                 </div>
                                             </div>
-                                            
                                         @endif
                                     </div>
                                 </div>
@@ -172,14 +171,23 @@
                 },
                 series: data,
                 labels: ['A vendre', 'Réservé', 'Loué', 'Vendu'],
-                colors: ["#005841", "#fe8900", "#fde25e", "#850000"],
+                colors: ["#fe6d73", "#227c9d", "#fde25e", "#17c3b2"],
                 tooltip: {
                     y: {
                         formatter: function(value) {
                             return value + " Bien(s) Immobilier(s)"
                         }
                     }
-                }
+                },
+                dataLabels: {
+                    enabled: true,
+                    
+                    background: {
+                        enabled: true,
+                        foreColor: 'white',
+                        borderWidth: 0
+                    }
+                },
             };
 
             var bar = new ApexCharts(div, options);
@@ -216,14 +224,23 @@
                 },
                 series: parkings,
                 labels: ['Libre', 'Réservé'],
-                colors: ["#005841", "#fe8900"],
+                colors: ["#227c9d", "#17c3b2"],
                 tooltip: {
                     y: {
                         formatter: function(value) {
                             return value + " Parking(s)"
                         }
                     }
-                }
+                },
+                dataLabels: {
+                    enabled: true,
+                    
+                    background: {
+                        enabled: true,
+                        foreColor: 'white',
+                        borderWidth: 0
+                    }
+                },
             };
 
 
@@ -258,14 +275,23 @@
                 },
                 series: celliers,
                 labels: ['Libre', 'Réservé'],
-                colors: ["#005841", "#fe8900"],
+                colors: ["#227c9d", "#17c3b2"],
                 tooltip: {
                     y: {
                         formatter: function(value) {
                             return value + " Cellier(s)"
                         }
                     }
-                }
+                },
+                dataLabels: {
+                    enabled: true,
+                    
+                    background: {
+                        enabled: true,
+                        foreColor: 'white',
+                        borderWidth: 0
+                    }
+                },
             };
 
             var cellierChart = new ApexCharts(div, cellierOptions);
@@ -275,13 +301,13 @@
             const div = document.createElement('div');
             bar.appendChild(div);
             const residence = residences.find((res) => res.id == bar.id);
-            
+
             let echeancers = 0;
             let prix = 0;
             residence.etage.forEach((etage) => {
                 etage.appart.forEach((appart) => {
 
-                    
+
 
                     appart.echance.forEach((echeancier) => {
                         prix += echeancier.appart.price;
@@ -293,13 +319,12 @@
                         })
                     })
 
-                    
+
 
                 })
             })
             var barOptions = {
-                series: [
-                    {
+                series: [{
                         name: "Échanciers Payés",
                         data: [echeancers],
                     },
@@ -312,7 +337,7 @@
                     type: "bar",
                     width: 300,
                 },
-                colors: [ "#005841", "#850000"],
+                colors: ["#17c3b2", "#fe6d73"],
 
                 dataLabels: {
                     enabled: false,
@@ -326,6 +351,15 @@
                     categories: ["Finances"],
                 },
                 yaxis: {
+                    labels: {
+                        formatter: function(value) {
+                            // Format the value to include thousand separator and ' K' for 'Mille Dinars'
+                            return (value).toLocaleString(undefined, {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 1
+                            }).replace(/,/g, " ");
+                        }
+                    },
                     title: {
                         text: "Mille Dinars",
                     },
@@ -336,7 +370,12 @@
                 tooltip: {
                     y: {
                         formatter: function(val) {
-                            return val + " Milles Dinars";
+                            let formattedValue = val.toLocaleString('en-US', {
+                                minimumFractionDigits: 3,
+                                maximumFractionDigits: 3,
+                                useGrouping: true,
+                            });
+                            return formattedValue.replace(/,/g, " ") + " Milles Dinars";
                         },
                     },
                 },

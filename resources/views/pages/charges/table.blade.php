@@ -13,10 +13,12 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Charges</h5>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                    class="btn btn-primary">Ajouter</button>
+                                @if (Auth::user()->role == 1)
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
+                                        class="btn btn-primary">Ajouter</button>
+                                @endif
                             </div>
-                            <div class="d-flex justify-content-start m-3 col-3">
+                            <div class="d-flex justify-content-start m-3 col-sm-4 col-12">
                                 <h5 class="card-title m-3">Résidence: </h5>
                                 <select name="" id="resSelect" class="form-control">
                                     <option value="0">Tout</option>
@@ -25,7 +27,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="table-responsive" >
+                            <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
@@ -35,10 +37,12 @@
                                             <th scope="col">Client</th>
                                             <th scope="col">Sonède & Gaz</th>
                                             <th scope="col">Syndic</th>
-                                            
+
                                             <th scope="col">Avocat </th>
                                             <th scope="col">Titre Foncier</th>
-                                            <th scope="col" class="noExport">Actions</th>
+                                            @if (Auth::user()->role == 1)
+                                                <th scope="col" class="noExport">Actions</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -56,25 +60,61 @@
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>{{ number_format(floatval($charge->sonede),3, '.', ',') }}</td>
-                                                <td>{{ number_format(floatval($charge->syndic),3, '.', ',') }}</td>
-                                                <td>{{ number_format(floatval($charge->contrat),3, '.', ',') }}</td>
-                                                <td>{{ number_format(floatval($charge->foncier),3, '.', ',') }}</td>
-                                                <td>
+                                                <td>{{ number_format(floatval($charge->sonede), 3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($charge->syndic), 3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($charge->contrat), 3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($charge->foncier), 3, '.', ',') }}</td>
+                                                @if (Auth::user()->role == 1)
+                                                    <td>
 
-                                                    <div class="d-flex">
-                                                        <button id="{{ $charge->id }}" class="btn btn-warning edit m-1"
-                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                                data-feather="edit"></i>Modifier</button>
-                                                        <form method="GET"
-                                                            action="{{ route('charges.destroy', $charge->id) }}">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger m-1"><i
-                                                                    data-feather="trash"></i>Supprimer</button>
-                                                        </form>
-                                                    </div>
+                                                        <div class="d-flex">
+                                                            <button id="{{ $charge->id }}"
+                                                                class="btn btn-warning edit m-1" data-bs-toggle="modal"
+                                                                data-bs-target="#inlineFormEdit"><i
+                                                                    data-feather="edit"></i>Modifier</button>
 
-                                                </td>
+                                                            <form method="GET"
+                                                                action="{{ route('charges.destroy', $charge->id) }}">
+                                                                @csrf
+                                                                <button type="button" class="btn btn-danger m-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#inlineChargeDelete{{ $charge->id }}"><i
+                                                                        data-feather="trash"></i>Supprimer</button>
+                                                                <div class="modal fade"
+                                                                    id="inlineChargeDelete{{ $charge->id }}"
+                                                                    tabindex="-1" role="dialog"
+                                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">
+                                                                                    Confirmation</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                Êtes-vous sûr de vouloir supprimer ?
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">Annuler</button>
+                                                                                <button id="deleteButton" type="submit"
+                                                                                    class="btn btn-danger">Confirmer</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -128,7 +168,8 @@
 
                                 <label>Sonède & Gaz: </label>
                                 <div class="form-group">
-                                    <input name="sonede" type="number" placeholder="Sonède & Gaz" class="form-control">
+                                    <input name="sonede" type="number" placeholder="Sonède & Gaz"
+                                        class="form-control">
                                 </div>
 
                                 <label>Syndic: </label>
@@ -217,7 +258,7 @@
                                     <input name="syndic" type="number" placeholder="Syndic" class="form-control">
                                 </div>
 
-                                
+
 
                                 <label>Avocat: </label>
                                 <div class="form-group">
@@ -261,13 +302,7 @@
 
 
 
-
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-<script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -296,6 +331,15 @@
             data.forEach(residence => {
                 residence.etage.forEach((etage) => {
                     if (etage.id == id) {
+                        etage.appart.sort((a, b) => {
+                            if (a.name < b.name) {
+                                return -1;
+                            }
+                            if (a.name > b.name) {
+                                return 1;
+                            }
+                            return 0;
+                        })
                         etage.appart.forEach(appart => {
                             const option = document.createElement('option')
                             option.value = appart.id
@@ -386,20 +430,20 @@
             selectEtages.value = resId;
             loadEtages(selectEtages.value, 'addetage');
             loadApparts(selectApparts.value, 'appartAdd');
-            
+
 
         } else {
             resSelect.value = 0;
             selectEtages.value = 1;
             loadEtages(selectEtages.value, 'addetage');
             loadApparts(selectApparts.value, 'appartAdd');
-            
+
         }
         resSelect.addEventListener('change', function() {
             if (this.value == 0)
                 window.location.href = "{{ route('charges') }}";
             else
-            window.location.href = "{{ route('charges') }}" + "?res=" + this.value;
+                window.location.href = "{{ route('charges') }}" + "?res=" + this.value;
         })
     </script>
 @endsection

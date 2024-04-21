@@ -12,7 +12,7 @@ class ResidencesController extends Controller
 {
     public function index()
     {
-        $residences = Residence::orderBy("created_at","desc")->get();
+        $residences = Residence::orderBy("created_at", "desc")->get();
         return view('pages.residences.table', [
             'residences' => $residences
         ]);
@@ -68,13 +68,13 @@ class ResidencesController extends Controller
 
     public function get($id)
     {
-        $residence = Residence::with('image','file')->findOrFail($id);
+        $residence = Residence::with('image', 'file')->findOrFail($id);
         return response()->json($residence);
     }
 
     public function show($id)
     {
-        $residence = Residence::with('image','file', 'etage', 'etage.appart' ,'etage.appart.echance','etage.appart.echance.appart','etage.appart.client','etage.appart.charge', 'etage.appart.echance.echeance', 'parking', 'cellier')->findOrFail($id);
+        $residence = Residence::with('image', 'file', 'etage', 'etage.appart', 'etage.appart.echance', 'etage.appart.echance.appart', 'etage.appart.client', 'etage.appart.charge', 'etage.appart.echance.echeance', 'parking', 'cellier')->findOrFail($id);
         $clients = Client::all();
 
         $total_echance = 0;
@@ -86,20 +86,19 @@ class ResidencesController extends Controller
         $total_foncier = 0;
         foreach ($residence->etage as $etage) {
             foreach ($etage->appart as $appart) {
-                foreach($appart->charge as $charge){
+                foreach ($appart->charge as $charge) {
                     $total_sonede += $charge->sonede;
                     $total_syndic += $charge->syndic;
                     $total_avocat += $charge->avocat;
                     $total_contrat += $charge->contrat;
                     $total_foncier += $charge->foncier;
-
                 }
-              
+
                 foreach ($appart->echance as $echance) {
                     $total_echance += $echance->appart->price;
                     $total_echeance += $echance->amount_avance;
                     foreach ($echance->echeance as $echeance) {
-                        if($echeance->payed == 1){
+                        if ($echeance->payed == 1) {
                             $total_echeance += $echeance->montant;
                         }
                     }
@@ -111,13 +110,13 @@ class ResidencesController extends Controller
         return view('pages.residences.details', [
             'residence' => $residence,
             'clients' => $clients,
-            'total_echance'=>$total_echance,
-            'total_echeance'=>$total_echeance,
-            'total_sonede'=>$total_sonede,
-            'total_syndic'=>$total_syndic,
-            'total_avocat'=>$total_avocat,
-            'total_contrat'=>$total_contrat,
-            'total_foncier'=>$total_foncier,
+            'total_echance' => $total_echance,
+            'total_echeance' => $total_echeance,
+            'total_sonede' => $total_sonede,
+            'total_syndic' => $total_syndic,
+            'total_avocat' => $total_avocat,
+            'total_contrat' => $total_contrat,
+            'total_foncier' => $total_foncier,
         ]);
     }
 
@@ -152,7 +151,7 @@ class ResidencesController extends Controller
             $file->delete();
         }
 
-        
+
         if ($request->has("details")) {
             $i = 0;
             foreach ($request->file('details') as $file) {
@@ -186,8 +185,26 @@ class ResidencesController extends Controller
 
     public function destroy($id)
     {
-        $residence = Residence::with('etage')->findOrFail($id);
+        $residence = Residence::with(
+            'etage',
+            'parking',
+            'cellier',
+            'image',
+            'file',
+        )->findOrFail($id);
         foreach ($residence->etage as $etage) {
+            $etage->delete();
+        }
+        foreach ($residence->parking as $etage) {
+            $etage->delete();
+        }
+        foreach ($residence->cellier as $etage) {
+            $etage->delete();
+        }
+        foreach ($residence->image as $etage) {
+            $etage->delete();
+        }
+        foreach ($residence->file as $etage) {
             $etage->delete();
         }
         $residence->delete();

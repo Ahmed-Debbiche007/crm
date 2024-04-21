@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="content-wrapper">
+    <div class="content-wrapper p-2">
         <div class="container-fluid">
             <div class="mt-3">
                 <div class="d-flex justify-content-evenly flex-wrap ">
@@ -59,15 +59,19 @@
                 @else
                     <h6 class="card-title ml-5">Pas de photos</h6>
                 @endif
-                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineResEdit" id="resEd"
-                    class=" btn btn-warning mb-1 mt-1">Modifier</button>
+                @if (Auth::user()->role == 1)
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineResEdit" id="resEd"
+                        class=" btn btn-warning mb-1 mt-1">Modifier</button>
+                @endif
                 <h5 class="card-title">Étages:</h5>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineEtage" id="resEd"
-                    class="btn btn-primary mb-1 mt-1">Ajouter</button>
+                @if (Auth::user()->role == 1)
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineEtage" id="resEd"
+                        class="btn btn-primary mb-1 mt-1">Ajouter</button>
+                @endif
                 <div class="row d-flex flex-wrap">
                     @foreach ($residence->etage as $etage)
-                        <div class="container w-50">
-                            <div class="card m-3">
+                        <div class="w-50">
+                            <div class="card m-2">
                                 <div class="card-header">
 
                                     <div>
@@ -99,10 +103,12 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between m-3">
                             <h5 class="card-title">Parkings</h5>
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                class="btn btn-primary">Ajouter</button>
+                            @if (Auth::user()->role == 1)
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
+                                    class="btn btn-primary">Ajouter</button>
+                            @endif
                         </div>
-                        <div class="table-responsive" >
+                        <div class="table-responsive">
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
@@ -110,7 +116,9 @@
                                         <th scope="col">Place Parking</th>
                                         <th scope="col">Numéro</th>
                                         <th scope="col">Client</th>
-                                        <th scope="col" class="noExport">Actions</th>
+                                        @if (Auth::user()->role == 1)
+                                            <th scope="col" class="noExport">Actions</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,21 +134,55 @@
                                                     --
                                                 @endif
                                             </td>
-                                            <td>
+                                            @if (Auth::user()->role == 1)
+                                                <td>
 
-                                                <div class="d-flex">
-                                                    <button id="{{ $parking->id }}" class="btn btn-warning edit m-1"
-                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                            data-feather="editCellier"></i>Modifier</button>
-                                                    <form method="GET"
-                                                        action="{{ route('parkings.destroy', $parking->id) }}">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger m-1"><i
-                                                                data-feather="trash"></i>Supprimer</button>
-                                                    </form>
-                                                </div>
+                                                    <div class="d-flex">
+                                                        <button id="{{ $parking->id }}" class="btn btn-warning edit m-1"
+                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
+                                                                data-feather="editCellier"></i>Modifier</button>
 
-                                            </td>
+                                                        <form method="GET"
+                                                            action="{{ route('parkings.destroy', $parking->id) }}">
+                                                            @csrf
+                                                            <button type="button" class="btn btn-danger m-1"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#inlineParkingDelete{{ $parking->id }}"><i
+                                                                    data-feather="trash"></i>Supprimer</button>
+                                                            <div class="modal fade"
+                                                                id="inlineParkingDelete{{ $parking->id }}"
+                                                                tabindex="-1" role="dialog"
+                                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title"
+                                                                                id="exampleModalLabel">
+                                                                                Confirmation</h5>
+                                                                            <button type="button" class="close"
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Êtes-vous sûr de vouloir supprimer ?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Annuler</button>
+                                                                            <button id="deleteButton" type="submit"
+                                                                                class="btn btn-danger">Confirmer</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -293,17 +335,21 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between m-3">
                             <h5 class="card-title">Celliers</h5>
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#cellier"
-                                class="btn btn-primary">Ajouter</button>
+                            @if (Auth::user()->role == 1)
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#cellier"
+                                    class="btn btn-primary">Ajouter</button>
+                            @endif
                         </div>
-                        <div class="table-responsive" >
+                        <div class="table-responsive">
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
 
                                         <th scope="col">Numéro</th>
                                         <th scope="col">Client</th>
-                                        <th scope="col" class="noExport">Actions</th>
+                                        @if (Auth::user()->role == 1)
+                                            <th scope="col" class="noExport">Actions</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -318,22 +364,56 @@
                                                     --
                                                 @endif
                                             </td>
-                                            <td>
+                                            @if (Auth::user()->role == 1)
+                                                <td>
 
-                                                <div class="d-flex">
-                                                    <button id="{{ $cellier->id }}"
-                                                        class="btn btn-warning editCellier m-1" data-bs-toggle="modal"
-                                                        data-bs-target="#cellierEdit"><i
-                                                            data-feather="edit"></i>Modifier</button>
-                                                    <form method="GET"
-                                                        action="{{ route('celliers.destroy', $cellier->id) }}">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger m-1"><i
-                                                                data-feather="trash"></i>Supprimer</button>
-                                                    </form>
-                                                </div>
+                                                    <div class="d-flex">
+                                                        <button id="{{ $cellier->id }}"
+                                                            class="btn btn-warning editCellier m-1" data-bs-toggle="modal"
+                                                            data-bs-target="#cellierEdit"><i
+                                                                data-feather="edit"></i>Modifier</button>
 
-                                            </td>
+                                                        <form method="GET"
+                                                            action="{{ route('celliers.destroy', $cellier->id) }}">
+                                                            @csrf
+                                                            <button type="button" class="btn btn-danger m-1"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#inlineCellierDelete{{ $cellier->id }}"><i
+                                                                    data-feather="trash"></i>Supprimer</button>
+                                                            <div class="modal fade"
+                                                                id="inlineCellierDelete{{ $cellier->id }}"
+                                                                tabindex="-1" role="dialog"
+                                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title"
+                                                                                id="exampleModalLabel">
+                                                                                Confirmation</h5>
+                                                                            <button type="button" class="close"
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Êtes-vous sûr de vouloir supprimer ?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Annuler</button>
+                                                                            <button id="deleteButton" type="submit"
+                                                                                class="btn btn-danger">Confirmer</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -347,7 +427,7 @@
                             <h5 class="card-title">Clients</h5>
 
                         </div>
-                        <div class="table-responsive" >
+                        <div class="table-responsive">
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
@@ -355,11 +435,13 @@
                                         <th scope="col">Prénom</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Numéro de téléphone</th>
-                                        <th scope="col">CIN</th>
+                                        <th scope="col">CIN/MF</th>
                                         <th scope="col">Type</th>
                                         <th scope="col">Date Réservation</th>
                                         <th scope="col">Commentaires</th>
-                                        <th scope="col" class="noExport">Actions</th>
+                                        @if (Auth::user()->role == 1)
+                                            <th scope="col" class="noExport">Actions</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -381,15 +463,53 @@
                                                     </td>
                                                     <td>{{ $appart->client->date_res }}</td>
                                                     <td>{{ $appart->client->comments }}</td>
-                                                    <td>
-                                                        <button id="{{ $client->id }}"
-                                                            class="btn btn-warning editClient" data-bs-toggle="modal"
-                                                            data-bs-target="#inlineFormEditClient"><i
-                                                                data-feather="edit"></i>Modifier</button>
-                                                        <button onclick="deleteClient({{ $client->id }})"
-                                                            class="btn btn-danger"><i
-                                                                data-feather="trash"></i>Supprimer</button>
-                                                    </td>
+                                                    @if (Auth::user()->role == 1)
+                                                        <td>
+                                                            <button id="{{ $appart->client->id }}"
+                                                                class="btn btn-warning editClient" data-bs-toggle="modal"
+                                                                data-bs-target="#inlineFormEditClient"><i
+                                                                    data-feather="edit"></i>Modifier</button>
+
+                                                            <form method="GET"
+                                                                action="{{ route('clients.destroy', $appart->client->id) }}">
+                                                                @csrf
+                                                                <button type="button" class="btn btn-danger m-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#inlineClientDelete{{ $appart->client->id }}"><i
+                                                                        data-feather="trash"></i>Supprimer</button>
+                                                                <div class="modal fade"
+                                                                    id="inlineClientDelete{{ $appart->client->id }}"
+                                                                    tabindex="-1" role="dialog"
+                                                                    aria-labelledby="exampleModalLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">
+                                                                                    Confirmation</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                Êtes-vous sûr de vouloir supprimer ?
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">Annuler</button>
+                                                                                <button id="deleteButton" type="submit"
+                                                                                    class="btn btn-danger">Confirmer</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </td>
+                                                    @endif
                                                 </tr>
                                             @endif
                                         @endforeach
@@ -478,7 +598,7 @@
                             <h5 class="card-title">Échéanciers</h5>
 
                         </div>
-                        <div class="table-responsive" >
+                        <div class="table-responsive">
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
@@ -491,9 +611,10 @@
                                 <tbody>
 
                                     <tr>
-                                        <td>{{ number_format(floatval($total_echance),3,'.',',') }}</td>
-                                        <td>{{ number_format(floatval($total_echeance),3,'.',',') }}</td>
-                                        <td>{{ number_format(floatval($total_echance - $total_echeance),3,'.',',') }}</td>
+                                        <td>{{ number_format(floatval($total_echance), 3, '.', ',') }}</td>
+                                        <td>{{ number_format(floatval($total_echeance), 3, '.', ',') }}</td>
+                                        <td>{{ number_format(floatval($total_echance - $total_echeance), 3, '.', ',') }}
+                                        </td>
 
 
                                         <td>
@@ -519,14 +640,14 @@
                             <h5 class="card-title">Charges</h5>
 
                         </div>
-                        <div class="table-responsive" >
+                        <div class="table-responsive">
                             <table class='table table-striped' id="table1">
                                 <thead>
                                     <tr>
                                         <th scope="col">Total Sonede</th>
                                         <th scope="col">Total Syndic</th>
                                         <th scope="col">Total Avocat</th>
-                                        
+
                                         <th scope="col">Total Foncier</th>
                                         <th scope="col">Total</th>
                                         <th scope="col" class="noExport">Actions</th>
@@ -535,12 +656,13 @@
                                 <tbody>
 
                                     <tr>
-                                        <td>{{ number_format(floatval($total_sonede),3,'.',',') }}</td>
-                                        <td>{{ number_format(floatval($total_syndic),3,'.',',') }}</td>
-                                        
-                                        <td>{{ number_format(floatval($total_contrat),3,'.',',') }}</td>
-                                        <td>{{ number_format(floatval($total_foncier),3,'.',',') }}</td>
-                                        <td>{{ number_format(floatval($total_sonede + $total_syndic + $total_avocat + $total_contrat + $total_foncier),3,'.',',') }}</td>
+                                        <td>{{ number_format(floatval($total_sonede), 3, '.', ',') }}</td>
+                                        <td>{{ number_format(floatval($total_syndic), 3, '.', ',') }}</td>
+
+                                        <td>{{ number_format(floatval($total_contrat), 3, '.', ',') }}</td>
+                                        <td>{{ number_format(floatval($total_foncier), 3, '.', ',') }}</td>
+                                        <td>{{ number_format(floatval($total_sonede + $total_syndic + $total_avocat + $total_contrat + $total_foncier), 3, '.', ',') }}
+                                        </td>
 
 
                                         <td>
@@ -762,13 +884,7 @@
 
 
 
-
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-<script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -994,6 +1110,7 @@
                 const commentsArea = form.querySelector('textarea[name="comments"]');
                 url = "{{ route('clients.get', 5) }}";
                 url = url.replace('5', editButton.id);
+
                 axios.get(url).then((reponse) => {
                     const client = reponse.data;
                     nameInput.value = client.name;

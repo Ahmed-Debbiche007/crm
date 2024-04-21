@@ -23,15 +23,19 @@
                         </main>
                     </div>
                     <div class="p-1">
-                        <button id="{{ $etage->id }}" class="btn btn-warning editEt" data-bs-toggle="modal"
-                            data-bs-target="#inlineEtageEdit"><i data-feather="edit"></i>Modifier</button>
+                        @if (Auth::user()->role == 1)
+                            <button id="{{ $etage->id }}" class="btn btn-warning editEt" data-bs-toggle="modal"
+                                data-bs-target="#inlineEtageEdit"><i data-feather="edit"></i>Modifier</button>
+                        @endif
                     </div>
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Biens Immobiliers</h5>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                    class="btn btn-primary">Ajouter</button>
+                                @if (Auth::user()->role == 1)
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
+                                        class="btn btn-primary">Ajouter</button>
+                                @endif
                             </div>
                             <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
@@ -67,26 +71,26 @@
                                                 <td>{{ $appart->etage->building->name }}</td>
                                                 <td>{{ $appart->surface }}</td>
                                                 <td>
-                                                    @if ($appart->bs == 0)
+                                                    @if ($appart->type == 0)
                                                         Commerce
                                                     @endif
-                                                    @if ($appart->bs == 1)
+                                                    @if ($appart->type == 1)
                                                         Duplex
                                                     @endif
-                                                    @if ($appart->bs == 2)
+                                                    @if ($appart->type == 2)
                                                         Duplex - 1
                                                     @endif
-                                                    @if ($appart->bs == 3)
+                                                    @if ($appart->type == 3)
                                                         S+1
                                                     @endif
-                                                    @if ($appart->bs == 4)
+                                                    @if ($appart->type == 4)
                                                         S+2
                                                     @endif
-                                                    @if ($appart->bs == 5)
+                                                    @if ($appart->type == 5)
                                                         S+3
                                                     @endif
                                                 </td>
-                                                <td>{{ $appart->price }}</td>
+                                                <td>{{ number_format(floatval($appart->price), 3, '.', ' ') }}</td>
                                                 <td>
                                                     @if ($appart->bs == 0)
                                                         A vendre
@@ -111,12 +115,47 @@
                                                     <a href="{{ route('apparts.show', $appart->id) }}"
                                                         class="btn btn-primary"><i
                                                             data-feather="plus-circle"></i>Details</a>
-                                                    <button id="{{ $appart->id }}" class="btn btn-warning edit"
-                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                            data-feather="edit"></i>Modifier</button>
-                                                    <button onclick="deleteClient({{ $appart->id }})"
-                                                        class="btn btn-danger"><i
-                                                            data-feather="trash"></i>Supprimer</button>
+                                                    @if (Auth::user()->role == 1)
+                                                        <button id="{{ $appart->id }}" class="btn btn-warning edit"
+                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
+                                                                data-feather="edit"></i>Modifier</button>
+
+
+                                                        <form method="GET"
+                                                            action="{{ route('apparts.destroy', $appart->id) }}">
+                                                            @csrf
+                                                            <button type="button" class="btn btn-danger m-1"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#inlineChargeDelete{{ $appart->id }}"><i
+                                                                    data-feather="trash"></i>Supprimer</button>
+                                                            <div class="modal fade"
+                                                                id="inlineChargeDelete{{ $appart->id }}" tabindex="-1"
+                                                                role="dialog" aria-labelledby="exampleModalLabel"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                                                Confirmation</h5>
+                                                                            <button type="button" class="close"
+                                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Êtes-vous sûr de vouloir supprimer ?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Annuler</button>
+                                                                            <button id="deleteButton" type="submit"
+                                                                                class="btn btn-danger">Confirmer</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -131,7 +170,7 @@
 
                                 <div class="modal fade text-left " id="inlineForm" tabindex="-1" role="dialog"
                                     aria-labelledby="myModalLabel33" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
@@ -173,7 +212,7 @@
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <main class="cd__main" style="display: none;">
+                                                        <main class="cd__main addImage" style="display: none;">
 
                                                         </main>
                                                         <input type="hidden" name="x">
@@ -200,7 +239,7 @@
                                                     <label>Prix: </label>
                                                     <div class="form-group">
                                                         <input type="number" name="price" placeholder="Prix"
-                                                            class="form-control">
+                                                            step="0.001" class="form-control">
                                                     </div>
                                                     <label>Client: </label>
                                                     <div class="form-group">
@@ -249,7 +288,7 @@
 
                                 <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
                                     aria-labelledby="myModalLabel33" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
@@ -265,6 +304,8 @@
                                             <form method="POST" id="formEdit" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="modal-body">
+                                                    <input type="hidden" name="id">
+                                                    <input type="hidden" name="etage_id" value="{{ $etage->id }}">
                                                     <label>Nom: </label>
                                                     <div class="form-group">
                                                         <input type="text" name="name" placeholder="Nom"
@@ -316,7 +357,7 @@
                                                     <label>Prix: </label>
                                                     <div class="form-group">
                                                         <input type="number" name="price" placeholder="Prix"
-                                                            class="form-control">
+                                                            class="form-control" step="0.001">
                                                     </div>
                                                     <label>Client: </label>
                                                     <div class="form-group">
@@ -333,10 +374,10 @@
                                                     <label>Statut: </label>
                                                     <div class="form-group">
                                                         <select name="bs" class="form-control">
-                                                            <option value= "0"> A vendre </option>
-                                                            <option value= "1"> Loué </option>
-                                                            <option value= "2"> Réservé </option>
-                                                            <option value= "3"> Vendu </option>
+                                                            <option value="0"> A vendre </option>
+                                                            <option value="1"> Loué </option>
+                                                            <option value="2"> Réservé </option>
+                                                            <option value="3"> Vendu </option>
                                                         </select>
                                                     </div>
                                                     <label>Gallery </label>
@@ -447,8 +488,8 @@
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="sr-only text-color-black">Previous</span>
                                 </a>
-                                <a class="carousel-control-next" href="#imageCarousel" id="carouselNext"
-                                    role="button" data-slide="next">
+                                <a class="carousel-control-next" href="#imageCarousel" id="carouselNext" role="button"
+                                    data-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="sr-only text-color-black">Next</span>
                                 </a>
@@ -472,12 +513,7 @@
 
 
 
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-    <script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -501,10 +537,14 @@
 
             loadEtages(id, 'editetage')
         })
+        addSelect.addEventListener('change', (e) => {
+            const id = e.target.value
+            loadImageEdit(id, null, '.addImage')
+        })
         etagesSelectEdit.addEventListener('change', (e) => {
             const id = e.target.value
             const appart = document.getElementById('formEdit').querySelector('input[name="id"]')?.value
-
+            loadImageEdit(id, appart, '.EditImg')
         })
 
         function loadEtages(id, etageId) {
@@ -539,7 +579,62 @@
             labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
         });
 
+        function loadImageEdit(id, appart_id, mainId) {
+            const main = document.querySelector(mainId);
+            axios.get("{{ route('etages.get', 5) }}".replace(5, id)).then(res => {
+                const etage = res.data;
+                const w = 900;
 
+
+                if (etage.hplan != 'undefined' && etage.wplan != 'undefined') {
+                    main.style.display = 'block'
+                    main.innerHTML = ''
+                    const imageUrl = "../../" + etage.plan;
+                    const ratio = etage.wplan / etage.hplan;
+
+                    main.setAttribute('style', 'height: ' + w / ratio +
+                        'px; width: ' + w + 'px;');
+
+
+                    const div = document.createElement('div');
+                    div.classList.add('containerH');
+
+                    const path = "{{ asset('favicon.ico') }}".replace("favicon.ico", etage.plan)
+                    div.setAttribute('style', "background-image: url('" + path + "'); height: " + w / ratio +
+                        "px; width: " + w + "px;");
+
+                    etage.appart.forEach((ap) => {
+                        const appart = document.createElement('div');
+                        const divText = document.createElement('div');
+                        let t = ap.y - 10;
+                        let l = ap.x - 10;
+                        t += 10;
+                        l += 12;
+                        divText.setAttribute('style', 'top: ' + t + '%; left: ' + l +
+                            '%;  ');
+                        divText.innerHTML = '<div>' + ap.name + '</div>';
+                        divText.classList.add('hotspot-label');
+
+                        appart.classList.add('hotspot');
+                        if (ap.id == appart_id) {
+                            appart.classList.add('added');
+                            divText.classList.add('added');
+                        }
+
+                        appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                        appart.innerHTML = '<div class="icon">+</div><div class="content"><h4>' + ap
+                            .name +
+                            '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+
+                        div.appendChild(divText);
+                        div.appendChild(appart);
+                    })
+                    main.appendChild(div);
+                };
+            })
+
+
+        }
 
 
 
@@ -589,8 +684,9 @@
                 axios.get(url).then((reponse) => {
                     const appart = reponse.data;
                     idInput.value = appart.id
-                    loadEtages(appart.etage_id, 'editetage')
+                    loadEtages(selectEtagesEdit.value, 'editetage')
                     loadImageOnEdit(appart.id)
+                    etage_idInput.value = appart.etage_id
                     nameInput.value = appart.name
                     nameAppart = appart.name;
                     surfaceInput.value = appart.surface
@@ -867,7 +963,7 @@
             const main = document.querySelector('.cd__main');
 
 
-            const wid = 458;
+            const wid = 900;
 
             if (etage.hplan != 'undefined' && etage.wplan != 'undefined') {
                 main.style.display = 'block'

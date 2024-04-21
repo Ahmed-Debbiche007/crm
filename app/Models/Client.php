@@ -13,6 +13,11 @@ class Client extends Model
         return $this->hasMany(Appart::class);
     }
 
+    public function echances()
+    {
+        return $this->hasMany(Echance::class);
+    }
+
 
     protected $fillable = [
         'name',

@@ -18,10 +18,10 @@
                         });
                     @endphp
                     <h2>Montant Payé: <span style="color: #005841;">
-                            {{ number_format(floatval($echance->amount_avance + $totalEchances), 3, '.', ',') }} DT
+                            {{ number_format(floatval($echance->amount_avance + $totalEchances), 3, '.', ' ') }} DT
                         </span></h2>
                     <h2>Montant Restant: <span style="color: #fe8900;">
-                            {{ number_format(floatval($echance->appart->price - $echance->amount_avance - $totalEchances), 3, '.', ',') }}
+                            {{ number_format(floatval($echance->appart->price - $echance->amount_avance - $totalEchances), 3, '.', ' ') }}
                             DT </span></h2>
                     <div class="card">
                         <div class="card-body">
@@ -41,11 +41,14 @@
                                             <th scope="col">Prix</th>
                                             <th scope="col">Montant Payé</th>
                                             <th scope="col">Montant Restant</th>
-                                            <th scope="col">Avance</th>
+                                            {{-- <th scope="col">Avance</th>
                                             <th scope="col">Promesse</th>
                                             <th scope="col">Contrat</th>
                                             <th scope="col">Acte de précision</th>
-                                            <th scope="col" class="noExport">Actions</th>
+                                            <th scope="col" class="noExport">Actions</th> --}}
+                                            @if (Auth::user()->role == 1)
+                                                <th scope="col" class="noExport">Actions</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -66,12 +69,12 @@
                                             <td>
                                                 {{ $echance->date ? \Illuminate\Support\Carbon::parse($echance->date)->format('d-m-Y') : '' }}
                                             </td>
-                                            <td>{{ number_format(floatval($echance->appart->price), 3, '.', ',') }}</td>
-                                            <td>{{ number_format(floatval($echance->amount_avance + $totalEchances), 3, '.', ',') }}
+                                            <td>{{ number_format(floatval($echance->appart->price), 3, '.', ' ') }}</td>
+                                            <td>{{ number_format(floatval($echance->amount_avance + $totalEchances), 3, '.', ' ') }}
                                             </td>
                                             <td>{{ number_format(floatval($echance->appart->price - ($echance->amount_avance + $totalEchances)), 3, '.', ',') }}
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 <div class="d-flex flex-column justify-items-center align-items-center ">
                                                     <div>
                                                         {{ number_format(floatval($echance->amount_avance), 3, '.', ',') }}
@@ -132,17 +135,20 @@
                                                 </div>
                                             </td>
 
-                                            <td>
+                                            <td> --}}
+                                            @if (Auth::user()->role == 1)
+                                                <td>
 
-                                                <div class="d-flex">
+                                                    <div class="d-flex">
 
-                                                    <button id="{{ $echance->id }}" class="btn btn-warning edit m-1"
-                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                            data-feather="edit"></i>Modifier</button>
+                                                        <button id="{{ $echance->id }}" class="btn btn-warning edit m-1"
+                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
+                                                                data-feather="edit"></i>Modifier</button>
 
-                                                </div>
+                                                    </div>
 
-                                            </td>
+                                                </td>
+                                            @endif
                                         </tr>
 
                                     </tbody>
@@ -328,7 +334,7 @@
 
 
                                 <label>Promesse: </label>
-                                
+
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonEdit" class="form-check-input">
@@ -352,7 +358,7 @@
                                 </div>
 
                                 <label>Contrat: </label>
-                                
+
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonPromesseEdit" class="form-check-input">
@@ -376,7 +382,7 @@
                                 </div>
 
                                 <label>Acte de précision: </label>
-                                
+
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonActeEdit" class="form-check-input">
@@ -429,8 +435,10 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Echéances</h5>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineFormEcheance"
-                                    class="btn btn-primary">Ajouter</button>
+                                @if (Auth::user()->role == 1)
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineFormEcheance"
+                                        class="btn btn-primary">Ajouter</button>
+                                @endif
                             </div>
                             <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
@@ -440,7 +448,9 @@
                                             <th scope="col">Montant</th>
                                             <th scope="col">Statut</th>
                                             <th scope="col">Modalité</th>
-                                            <th scope="col" class="noExport">Actions</th>
+                                            @if (Auth::user()->role == 1)
+                                                <th scope="col" class="noExport">Actions</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -450,7 +460,7 @@
                                                 <td>
                                                     {{ $echeance->date ? \Illuminate\Support\Carbon::parse($echeance->date)->format('d-m-Y') : '' }}
                                                 </td>
-                                                <td>{{ number_format(floatval($echeance->montant), 3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($echeance->montant), 3, '.', ' ') }}</td>
                                                 <td>
                                                     @if ($echeance->payed)
                                                         Payé
@@ -459,22 +469,57 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $echeance->modalite }}</td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <button id="{{ $echeance->id }}"
-                                                            class="btn btn-warning editEcheances m-1"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#inlineFormEcheanceEdit"><i
-                                                                data-feather="edit"></i>Modifier</button>
-                                                        <form method="GET"
-                                                            action="{{ route('echeances.destroy', $echeance->id) }}">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger m-1"><i
-                                                                    data-feather="trash"></i>Supprimer</button>
-                                                        </form>
-                                                    </div>
+                                                @if (Auth::user()->role == 1)
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <button id="{{ $echeance->id }}"
+                                                                class="btn btn-warning editEcheances m-1"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#inlineFormEcheanceEdit"><i
+                                                                    data-feather="edit"></i>Modifier</button>
 
-                                                </td>
+                                                            <form method="GET"
+                                                                action="{{ route('echeances.destroy', $echeance->id) }}">
+                                                                @csrf
+                                                                <button type="button" class="btn btn-danger m-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#inlineChargeDelete{{ $echeance->id }}"><i
+                                                                        data-feather="trash"></i>Supprimer</button>
+                                                                <div class="modal fade"
+                                                                    id="inlineChargeDelete{{ $echeance->id }}"
+                                                                    tabindex="-1" role="dialog"
+                                                                    aria-labelledby="exampleModalLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">
+                                                                                    Confirmation</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                Êtes-vous sûr de vouloir supprimer ?
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">Annuler</button>
+                                                                                <button id="deleteButton" type="submit"
+                                                                                    class="btn btn-danger">Confirmer</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -615,21 +660,12 @@
 @section('scripts')
 
 
-
-
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-    <script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
 
     <script>
-        
-
         const getDetailsAppart = (id, select) => {
             let route = '{{ route('apparts.get', '5') }}';
             route = route.replace('5', id);
@@ -655,7 +691,7 @@
             })
         }
 
-       
+
 
         function loadEtages(id, etageId) {
             const selectEtage = document.getElementById(etageId)
@@ -831,7 +867,7 @@
                         enregistreDateActeEdit.checked = false;
                     }
                     date_acte_enreg.value = client.date_acte_enreg
-                    
+
                 }).catch((error) => {
                     console.log(error)
                 })

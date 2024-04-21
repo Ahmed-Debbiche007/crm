@@ -13,10 +13,12 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Celliers</h5>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                    class="btn btn-primary">Ajouter</button>
+                                @if (Auth::user()->role == 1)
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
+                                        class="btn btn-primary">Ajouter</button>
+                                @endif
                             </div>
-                            <div class="d-flex justify-content-start m-3 col-3">
+                            <div class="d-flex justify-content-start m-3 col-sm-4 col-12">
                                 <h5 class="card-title m-3">Résidence: </h5>
                                 <select name="" id="resSelect" class="form-control">
                                     <option value="0">Tout</option>
@@ -32,7 +34,9 @@
                                             <th scope="col">Residence</th>
                                             <th scope="col">Numéro</th>
                                             <th scope="col">Client</th>
-                                            <th scope="col" class="noExport">Actions</th>
+                                            @if (Auth::user()->role == 1)
+                                                <th scope="col" class="noExport">Actions</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -47,164 +51,199 @@
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>
+                                                @if (Auth::user()->role == 1)
+                                                    <td>
 
-                                                    <div class="d-flex">
-                                                        <button id="{{ $cellier->id }}" class="btn btn-warning edit m-1"
-                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                                data-feather="edit"></i>Modifier</button>
-                                                        <form method="GET"
-                                                            action="{{ route('celliers.destroy', $cellier->id) }}">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger m-1"><i
-                                                                    data-feather="trash"></i>Supprimer</button>
-                                                        </form>
-                                                    </div>
+                                                        <div class="d-flex">
+                                                            <button id="{{ $cellier->id }}"
+                                                                class="btn btn-warning edit m-1" data-bs-toggle="modal"
+                                                                data-bs-target="#inlineFormEdit"><i
+                                                                    data-feather="edit"></i>Modifier</button>
 
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                                            <form method="GET"
+                                                                action="{{ route('celliers.destroy', $cellier->id) }}">
+                                                                @csrf
+                                                                <button type="button" class="btn btn-danger m-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#inlineChargeDelete{{ $cellier->id }}"><i
+                                                                        data-feather="trash"></i>Supprimer</button>
+                                                                <div class="modal fade"
+                                                                    id="inlineChargeDelete{{ $cellier->id }}"
+                                                                    tabindex="-1" role="dialog"
+                                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">
+                                                                                    Confirmation</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                Êtes-vous sûr de vouloir supprimer ?
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">Annuler</button>
+                                                                                <button id="deleteButton" type="submit"
+                                                                                    class="btn btn-danger">Confirmer</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                @endif
                             </div>
+
+                            </td>
+                            </tr>
+                            @endforeach
+                            </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <!--End Row-->
 
-            <div class="modal fade text-left " id="inlineForm" tabindex="-1" role="dialog"
-                aria-labelledby="myModalLabel33" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-x-lg" viewBox="0 0 16 16">
-                                    <path
-                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <form method="POST" action="{{ route('celliers.store') }}" enctype="multipart/form-data">
-                            @csrf
-                            <div class="modal-body">
-                                <label>Residence: </label>
-                                <div class="form-group">
-                                    <select name="residence_id" class="form-control" id="residencesAdd">
-                                        @foreach ($residences as $residence)
-                                            <option value="{{ $residence->id }}">{{ $residence->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <label>Etage: </label>
-                                <div class="form-group">
-                                    <select name="etage_id" id="addetage" class="form-control">
-
-                                    </select>
-                                </div>
-                                <label>Bien Immobilier: </label>
-                                <div class="form-group">
-                                    <select name="appart_id" id="appartAdd" class="form-control">
-
-                                    </select>
-                                </div>
-                                <div class="d-flex"><label class="mx-1">Client: </label>
-                                    <p id="clientAdd"></p>
-                                </div>
-                                <input type="hidden" name="client_id" id="clientAddInput">
-                                <label>Numero: </label>
-                                <div class="form-group">
-                                    <input type="text" name="name" placeholder="Numero" class="form-control">
-                                </div>
-
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">Close</span>
-                                </button>
-                                <button type="submit" class="btn btn-primary ml-1">
-                                    <i class="bx bx-check d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block text-white">Ajouter</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
-                aria-labelledby="myModalLabel44" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                    <path
-                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <form id="formEdit" method="POST" enctype="multipart/form-data">
-
-                            @csrf
-                            <div class="modal-body">
-                                <label>Residence: </label>
-                                <div class="form-group">
-                                    <select name="residence_id" class="form-control" id="residencesEdit">
-                                        @foreach ($residences as $residence)
-                                            <option value="{{ $residence->id }}">
-                                                {{ $residence->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <label>Etage: </label>
-                                <div class="form-group">
-                                    <select name="etage_id" id="editetage" class="form-control">
-
-                                    </select>
-                                </div>
-                                <label>Bien Immobilier: </label>
-                                <div class="form-group">
-                                    <select name="appart_id" id="appartEdit" class="form-control">
-
-                                    </select>
-                                </div>
-                                <div class="d-flex"><label class="mx-1">Client: </label>
-                                    <p id="detailsEdit"></p>
-                                </div>
-                                <input type="hidden" name="client_id" id="clientAddInput">
-                                <label>Numero: </label>
-                                <div class="form-group">
-                                    <input type="text" name="name" placeholder="Numero" class="form-control">
-                                </div>
-
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">Close</span>
-                                </button>
-                                <button type="submit" class="btn btn-primary ml-1">
-                                    <i class="bx bx-check d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block text-white">Modifier</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="overlay toggle-menu"></div>
-            <!--end overlay-->
         </div>
-        <!-- End container-fluid-->
+        <!--End Row-->
+
+        <div class="modal fade text-left " id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path
+                                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <form method="POST" action="{{ route('celliers.store') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <label>Residence: </label>
+                            <div class="form-group">
+                                <select name="residence_id" class="form-control" id="residencesAdd">
+                                    @foreach ($residences as $residence)
+                                        <option value="{{ $residence->id }}">{{ $residence->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <label>Etage: </label>
+                            <div class="form-group">
+                                <select name="etage_id" id="addetage" class="form-control">
+
+                                </select>
+                            </div>
+                            <label>Bien Immobilier: </label>
+                            <div class="form-group">
+                                <select name="appart_id" id="appartAdd" class="form-control">
+
+                                </select>
+                            </div>
+                            <div class="d-flex"><label class="mx-1">Client: </label>
+                                <p id="clientAdd"></p>
+                            </div>
+                            <input type="hidden" name="client_id" id="clientAddInput">
+                            <label>Numero: </label>
+                            <div class="form-group">
+                                <input type="text" name="name" placeholder="Numero" class="form-control">
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ml-1">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block text-white">Ajouter</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel44" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path
+                                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <form id="formEdit" method="POST" enctype="multipart/form-data">
+
+                        @csrf
+                        <div class="modal-body">
+                            <label>Residence: </label>
+                            <div class="form-group">
+                                <select name="residence_id" class="form-control" id="residencesEdit">
+                                    @foreach ($residences as $residence)
+                                        <option value="{{ $residence->id }}">
+                                            {{ $residence->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <label>Etage: </label>
+                            <div class="form-group">
+                                <select name="etage_id" id="editetage" class="form-control">
+
+                                </select>
+                            </div>
+                            <label>Bien Immobilier: </label>
+                            <div class="form-group">
+                                <select name="appart_id" id="appartEdit" class="form-control">
+
+                                </select>
+                            </div>
+                            <div class="d-flex"><label class="mx-1">Client: </label>
+                                <p id="detailsEdit"></p>
+                            </div>
+                            <input type="hidden" name="client_id" id="clientAddInput">
+                            <label>Numero: </label>
+                            <div class="form-group">
+                                <input type="text" name="name" placeholder="Numero" class="form-control">
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ml-1">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block text-white">Modifier</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="overlay toggle-menu"></div>
+        <!--end overlay-->
+    </div>
+    <!-- End container-fluid-->
     </div>
 @endsection
 
@@ -212,14 +251,7 @@
 
 
 
-
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-    <script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
-
+<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -247,17 +279,17 @@
                 url = url.replace('5', editButton.id);
                 axios.get(url).then((reponse) => {
                     const appart = reponse.data;
-                    
+
                     nameInput.value = appart.name;
                     residence_idInput.value = appart.residence_id;
                     loadEtages(residence_idInput.value, 'editetage');
-                    
+
                     etage_idInput.value = appart.etage_id;
                     loadApparts(etage_idInput.value, 'appartEdit');
                     appart_idInput.value = appart.appart_id;
 
                     cleintInput.value = appart.client_id;
-                    
+
                     const divDetails = document.getElementById('detailsEdit');
                     const clientInput = divDetails.parentElement.parentElement.querySelector(
                         'input[name="client_id"]')
@@ -278,7 +310,7 @@
             };
         })
 
-        
+
 
 
         function loadEtages(id, etageId) {
@@ -394,20 +426,20 @@
             selectEtages.value = resId;
             loadEtages(selectEtages.value, 'addetage');
             loadApparts(selectApparts.value, 'appartAdd');
-            
+
 
         } else {
             resSelect.value = 0;
             selectEtages.value = 1;
             loadEtages(selectEtages.value, 'addetage');
             loadApparts(selectApparts.value, 'appartAdd');
-            
+
         }
         resSelect.addEventListener('change', function() {
             if (this.value == 0)
                 window.location.href = "{{ route('celliers') }}";
             else
-            window.location.href = "{{ route('celliers') }}" + "?res=" + this.value;
+                window.location.href = "{{ route('celliers') }}" + "?res=" + this.value;
         })
     </script>
 @endsection

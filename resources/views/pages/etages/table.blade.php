@@ -13,21 +13,23 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Etages</h5>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                    class="btn btn-primary">Ajouter</button>
+                                @if (Auth::user()->role == 1)
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
+                                        class="btn btn-primary">Ajouter</button>
+                                @endif
                             </div>
-                            <div class="d-flex justify-content-start m-3 col-3">
+                            <div class="d-flex justify-content-start m-3 col-sm-4 col-12">
                                 <h5 class="card-title m-3">Résidence: </h5>
                                 <select name="" id="resSelect" class="form-control">
                                     <option value="0">Tout</option>
-                                    @foreach ($residences as $residence )
-                                    <option value="{{$residence->id}}">{{$residence->name}}</option>
+                                    @foreach ($residences as $residence)
+                                        <option value="{{ $residence->id }}">{{ $residence->name }}</option>
                                     @endforeach
                                 </select>
-                                
+
                             </div>
 
-                            <div class="table-responsive" >
+                            <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
@@ -54,12 +56,46 @@
                                                     <a href="{{ route('etages.show', $etage->id) }}"
                                                         class="btn btn-primary"><i
                                                             data-feather="plus-circle"></i>Details</a>
-                                                    <button id="{{ $etage->id }}" class="btn btn-warning edit"
-                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                            data-feather="edit"></i>Modifier</button>
-                                                    <button onclick="deleteClient({{ $etage->id }})"
-                                                        class="btn btn-danger"><i
-                                                            data-feather="trash"></i>Supprimer</button>
+                                                    @if (Auth::user()->role == 1)
+                                                        <button id="{{ $etage->id }}" class="btn btn-warning edit"
+                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
+                                                                data-feather="edit"></i>Modifier</button>
+
+                                                        <form method="GET"
+                                                            action="{{ route('etages.destroy', $etage->id) }}">
+                                                            @csrf
+                                                            <button type="button" class="btn btn-danger m-1"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#inlineChargeDelete{{ $etage->id }}"><i
+                                                                    data-feather="trash"></i>Supprimer</button>
+                                                            <div class="modal fade"
+                                                                id="inlineChargeDelete{{ $etage->id }}" tabindex="-1"
+                                                                role="dialog" aria-labelledby="exampleModalLabel"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                                                Confirmation</h5>
+                                                                            <button type="button" class="close"
+                                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Êtes-vous sûr de vouloir supprimer ?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Annuler</button>
+                                                                            <button id="deleteButton" type="submit"
+                                                                                class="btn btn-danger">Confirmer</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -77,9 +113,11 @@
                                                 <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                                    </svg>
                                                 </button>
                                             </div>
                                             <form method="POST" action="{{ route('etages.store') }}"
@@ -88,7 +126,8 @@
                                                 <div class="modal-body">
                                                     <label>Residence: </label>
                                                     <div class="form-group">
-                                                        <select name="residence_id" id="selectResidences" class="form-control">
+                                                        <select name="residence_id" id="selectResidences"
+                                                            class="form-control">
                                                             @foreach ($residences as $residence)
                                                                 <option value="{{ $residence->id }}">
                                                                     {{ $residence->name }}
@@ -102,7 +141,8 @@
                                                             class="form-control">
                                                     </div>
                                                     <label>Plan: </label>
-                                                    <input type="file" name="plan" class="image-preview-filepond" />
+                                                    <input type="file" name="plan"
+                                                        class="image-preview-filepond" />
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light-secondary"
@@ -121,15 +161,18 @@
                                 </div>
                                 <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
                                     aria-labelledby="myModalLabel44" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                                        role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-</svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                                    </svg>
                                                 </button>
                                             </div>
                                             <form id="formEdit" method="POST" enctype="multipart/form-data">
@@ -187,19 +230,14 @@
 @endsection
 
 @section('scripts')
-    
 
-    
 
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-<script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+
+
+<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
-    
+
 
     <script>
         function deleteClient(id) {
@@ -280,20 +318,20 @@
         if (resId) {
             resSelect.value = resId;
             selectResidences.value = resId;
-   
-            
+
+
 
         } else {
             resSelect.value = 0;
             selectResidences.value = 1;
-       
-            
+
+
         }
         resSelect.addEventListener('change', function() {
             if (this.value == 0)
                 window.location.href = "{{ route('etages') }}";
             else
-            window.location.href = "{{ route('etages') }}" + "?res=" + this.value;
+                window.location.href = "{{ route('etages') }}" + "?res=" + this.value;
         })
     </script>
 @endsection

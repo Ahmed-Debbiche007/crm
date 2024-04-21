@@ -13,8 +13,10 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Echéanciers</h5>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                    class="btn btn-primary">Ajouter</button>
+                                @if (Auth::user()->role == 1)
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
+                                        class="btn btn-primary">Ajouter</button>
+                                @endif
                             </div>
                             <div class="d-flex justify-content-start m-3 col-12 col-md-3">
                                 <h5 class="card-title m-3">Résidence: </h5>
@@ -73,17 +75,18 @@
                                             <th scope="col">Prix</th>
                                             <th scope="col">Montant Payé</th>
                                             <th scope="col">Montant Restant</th>
-                                            <th scope="col">Avance</th>
-                                            <th scope="col">Promesse</th>
-                                            <th scope="col">Contrat</th>
-                                            <th scope="col">Acte de précision</th>
+
                                             <th scope="col" class="noExport">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($echances as $echance)
                                             <tr>
-                                                <td id="{{ $echance->appart->etage->building->id }}">
+                                                <td id="{{ $echance->appart->etage->building->id }}"
+                                                    data-enreg="{{ $echance->date_contrat_enregistre }}"
+                                                    data-livre="{{ $echance->date_contrat_livre }}"
+                                                    data-legal="{{ $echance->date_promesse_legal }}"
+                                                    data-livre="{{ $echance->date_promesse_livre }}">
                                                     {{ $echance->appart->etage->building->name }}</td>
                                                 <td>{{ $echance->appart->name }}</td>
                                                 <td>
@@ -99,7 +102,8 @@
                                                 <td>
                                                     {{ $echance->date ? \Illuminate\Support\Carbon::parse($echance->date)->format('d-m-Y') : '' }}
                                                 </td>
-                                                <td>{{ number_format(floatval($echance->appart->price), 3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($echance->appart->price), 3, '.', ' ') }}
+                                                </td>
                                                 @php
                                                     $totalEchances = 0;
                                                     $echance->echeance->each(function ($item) use (&$totalEchances) {
@@ -108,94 +112,60 @@
                                                         }
                                                     });
                                                 @endphp
-                                                <td>{{ number_format(floatval($echance->amount_avance + $totalEchances), 3, '.', ',') }}
+                                                <td>{{ number_format(floatval($echance->amount_avance + $totalEchances), 3, '.', ' ') }}
                                                 </td>
-                                                <td>{{ number_format(floatval($echance->appart->price - ($echance->amount_avance + $totalEchances)), 3, '.', ',') }}
+                                                <td>{{ number_format(floatval($echance->appart->price - ($echance->amount_avance + $totalEchances)), 3, '.', ' ') }}
                                                 </td>
                                                 </td>
-
-                                                <td>
-
-                                                    <div
-                                                        class="d-flex flex-column justify-items-center align-items-center ">
-                                                        <div>
-                                                            {{ number_format(floatval($echance->amount_avance), 3, '.', ',') }}
-                                                        </div>
-                                                       
-
-
-                                                    </div>
-                                                </td>
-                                                <td data-legal="{{ $echance->date_promesse_legal }}"
-                                                    data-livre="{{ $echance->date_promesse_livre }}">
-                                                    <div
-                                                        class="d-flex flex-column justify-items-center align-items-center ">
-                                                       
-                                                        <div>
-                                                            @if ($echance->date_promesse_legal != null)
-                                                                Légalisé: {{ $echance->date_promesse_legal }}
-                                                            @endif
-                                                        </div>
-                                                        <div>
-                                                            @if ($echance->date_promesse_livre != null)
-                                                                Livré: {{ $echance->date_promesse_livre }}
-                                                            @endif
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-                                                <td data-enreg="{{ $echance->date_contrat_enregistre }}"
-                                                    data-livre="{{ $echance->date_contrat_livre }}">
-                                                    <div
-                                                        class="d-flex flex-column justify-items-center align-items-center ">
-                                                       
-                                                        <div>
-                                                            @if ($echance->date_contrat_enregistre != null)
-                                                                Enregistré: {{ $echance->date_contrat_enregistre }}
-                                                            @endif
-                                                        </div>
-                                                        <div>
-                                                            @if ($echance->date_contrat_livre != null)
-                                                                Livré: {{ $echance->date_contrat_livre }}
-                                                            @endif
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-
-                                                <td>
-                                                    <div
-                                                        class="d-flex flex-column justify-items-center align-items-center ">
-                                                        
-                                                        <div>
-                                                            @if ($echance->date_acte_enreg != null)
-                                                                Enregistré: {{ $echance->date_acte_enreg }}
-                                                            @endif
-                                                        </div>
-                                                        <div>
-                                                            @if ($echance->date_acte_livre != null)
-                                                                Livré: {{ $echance->date_acte_livre }}
-                                                            @endif
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-
                                                 <td>
 
                                                     <div class="d-flex">
                                                         <a href="{{ route('echances.show', $echance->id) }}"
                                                             class="btn btn-primary edit m-1"><i
                                                                 data-feather="plus-circle"></i>Details</a>
-                                                        <button id="{{ $echance->id }}" class="btn btn-warning edit m-1"
-                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                                data-feather="edit"></i>Modifier</button>
-                                                        <form method="GET"
-                                                            action="{{ route('echances.destroy', $echance->id) }}">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger m-1"><i
-                                                                    data-feather="trash"></i>Supprimer</button>
-                                                        </form>
+                                                        @if (Auth::user()->role == 1)
+                                                            <button id="{{ $echance->id }}"
+                                                                class="btn btn-warning edit m-1" data-bs-toggle="modal"
+                                                                data-bs-target="#inlineFormEdit"><i
+                                                                    data-feather="edit"></i>Modifier</button>
+                                                            <form method="GET"
+                                                                action="{{ route('echeances.destroy', $echance->id) }}">
+                                                                @csrf
+                                                                <button type="button" class="btn btn-danger m-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#inlineChargeDelete{{ $echance->id }}"><i
+                                                                        data-feather="trash"></i>Supprimer</button>
+                                                                <div class="modal fade"
+                                                                    id="inlineChargeDelete{{ $echance->id }}"
+                                                                    tabindex="-1" role="dialog"
+                                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">
+                                                                                    Confirmation</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                Êtes-vous sûr de vouloir supprimer ?
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">Annuler</button>
+                                                                                <button id="deleteButton" type="submit"
+                                                                                    class="btn btn-danger">Confirmer</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        @endif
                                                     </div>
 
                                                 </td>
@@ -263,9 +233,9 @@
                                     <input type="date" name="date_avance" placeholder="Numero" class="form-control">
                                 </div>
 
-                               
+
                                 <label>Promesse: </label>
-                                
+
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraison" class="form-check-input">
@@ -289,7 +259,7 @@
                                 </div>
 
                                 <label>Contrat: </label>
-                                
+
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonPromesse" class="form-check-input">
@@ -313,7 +283,7 @@
                                 </div>
 
                                 <label>Acte de précision: </label>
-                                
+
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonActe" class="form-check-input">
@@ -406,7 +376,7 @@
                                 </div>
 
                                 <label>Promesse: </label>
-                                
+
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonEdit" class="form-check-input">
@@ -430,7 +400,7 @@
                                 </div>
 
                                 <label>Contrat: </label>
-                                
+
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonPromesseEdit" class="form-check-input">
@@ -454,7 +424,7 @@
                                 </div>
 
                                 <label>Acte de précision: </label>
-                                
+
                                 <div class='form-check'>
                                     <div class="checkbox">
                                         <input type="checkbox" id="livraisonActeEdit" class="form-check-input">
@@ -507,19 +477,12 @@
 
 
 
-
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-    <script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
 
     <script>
-        
         const getDetailsAppart = (id, select) => {
             let route = '{{ route('apparts.get', '5') }}';
             route = route.replace('5', id);
@@ -568,6 +531,15 @@
             data.forEach(residence => {
                 residence.etage.forEach((etage) => {
                     if (etage.id == id) {
+                        etage.appart.sort((a, b) => {
+                            if (a.name < b.name) {
+                                return -1;
+                            }
+                            if (a.name > b.name) {
+                                return 1;
+                            }
+                            return 0;
+                        })
                         etage.appart.forEach(appart => {
                             const option = document.createElement('option')
                             option.value = appart.id
@@ -749,7 +721,7 @@
                     }
                     date_acte_enreg.value = client.date_acte_enreg
                     date_contrat_enregistre.value = client.date_contrat_enregistre
-                    
+
                 }).catch((error) => {
                     console.log(error)
                 })
@@ -856,7 +828,7 @@
             const rows = table.querySelectorAll('tbody tr');
             rows.forEach = Array.prototype.forEach;
             rows.forEach((row) => {
-                const livraison = row.querySelector('td:nth-child(9)').getAttribute('data-livre');
+                const livraison = row.querySelector('td:nth-child(1)').getAttribute('data-livre');
                 console.log(livraison)
                 if (checkedLivrée.checked) {
                     if (livraison != "") {
@@ -874,7 +846,7 @@
             const rows = table.querySelectorAll('tbody tr');
             rows.forEach = Array.prototype.forEach;
             rows.forEach((row) => {
-                const legalisation = row.querySelector('td:nth-child(9)').getAttribute('data-legal');
+                const legalisation = row.querySelector('td:nth-child(1)').getAttribute('data-legal');
                 if (checkedLégalisée.checked) {
                     if (legalisation != "") {
                         row.style.display = 'table-row';
@@ -892,7 +864,7 @@
             const rows = table.querySelectorAll('tbody tr');
             rows.forEach = Array.prototype.forEach;
             rows.forEach((row) => {
-                const livraison = row.querySelector('td:nth-child(10)').getAttribute('data-livre');
+                const livraison = row.querySelector('td:nth-child(1)').getAttribute('data-livre');
                 if (checkedLivré.checked) {
                     if (livraison != "") {
                         row.style.display = 'table-row';
@@ -909,7 +881,7 @@
             const rows = table.querySelectorAll('tbody tr');
             rows.forEach = Array.prototype.forEach;
             rows.forEach((row) => {
-                const legalisation = row.querySelector('td:nth-child(10)').getAttribute('data-enreg');
+                const legalisation = row.querySelector('td:nth-child(1)').getAttribute('data-enreg');
                 if (checkedEnregistré.checked) {
                     if (legalisation != "") {
                         row.style.display = 'table-row';

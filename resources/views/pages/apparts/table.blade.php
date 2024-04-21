@@ -14,10 +14,12 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
                                 <h5 class="card-title">Biens Immobiliers</h5>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                    class="btn btn-primary">Ajouter</button>
+                                @if (Auth::user()->role == 1)
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
+                                        class="btn btn-primary">Ajouter</button>
+                                @endif
                             </div>
-                            <div class="d-flex justify-content-start m-3 col-3">
+                            <div class="d-flex justify-content-start m-3 col-sm-4 col-12">
                                 <h5 class="card-title m-3">Résidence: </h5>
                                 <select name="" id="resSelect" class="form-control">
                                     <option value="0">Tout</option>
@@ -96,7 +98,7 @@
                                                         S+3
                                                     @endif
                                                 </td>
-                                                <td>{{ number_format(floatval($appart->price),3,'.',',') }}</td>
+                                                <td>{{ number_format(floatval($appart->price), 3, '.', ' ') }}</td>
                                                 <td>
                                                     @if ($appart->bs == 0)
                                                         A vendre
@@ -121,12 +123,45 @@
                                                     <a href="{{ route('apparts.show', $appart->id) }}"
                                                         class="btn btn-primary"><i
                                                             data-feather="plus-circle"></i>Details</a>
-                                                    <button id="{{ $appart->id }}" class="btn btn-warning edit"
-                                                        data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
-                                                            data-feather="edit"></i>Modifier</button>
-                                                    <button onclick="deleteClient({{ $appart->id }})"
-                                                        class="btn btn-danger"><i
-                                                            data-feather="trash"></i>Supprimer</button>
+                                                    @if (Auth::user()->role == 1)
+                                                        <button id="{{ $appart->id }}" class="btn btn-warning edit"
+                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
+                                                                data-feather="edit"></i>Modifier</button>
+                                                        <form method="GET"
+                                                            action="{{ route('apparts.destroy', $appart->id) }}">
+                                                            @csrf
+                                                            <button type="button" class="btn btn-danger m-1"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#inlineChargeDelete{{ $appart->id }}"><i
+                                                                    data-feather="trash"></i>Supprimer</button>
+                                                            <div class="modal fade"
+                                                                id="inlineChargeDelete{{ $appart->id }}" tabindex="-1"
+                                                                role="dialog" aria-labelledby="exampleModalLabel"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                                                Confirmation</h5>
+                                                                            <button type="button" class="close"
+                                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Êtes-vous sûr de vouloir supprimer ?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Annuler</button>
+                                                                            <button id="deleteButton" type="submit"
+                                                                                class="btn btn-danger">Confirmer</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -165,7 +200,8 @@
                                                     </div>
                                                     <label>Résidence: </label>
                                                     <div class="form-group">
-                                                        <select name="residence_id" class="form-control" id="residencesAdd">
+                                                        <select name="residence_id" class="form-control"
+                                                            id="residencesAdd">
                                                             @foreach ($residences as $residence)
                                                                 <option value="{{ $residence->id }}">
                                                                     {{ $residence->name }}
@@ -206,7 +242,7 @@
                                                     <label>Prix: </label>
                                                     <div class="form-group">
                                                         <input type="number" name="price" placeholder="Prix"
-                                                            class="form-control">
+                                                            step="0.001" class="form-control">
                                                     </div>
                                                     <label>Client: </label>
                                                     <div class="form-group">
@@ -321,7 +357,7 @@
                                                     <label>Prix: </label>
                                                     <div class="form-group">
                                                         <input type="number" name="price" placeholder="Prix"
-                                                            class="form-control">
+                                                            step="0.001" class="form-control">
                                                     </div>
                                                     <label>Client: </label>
                                                     <div class="form-group">
@@ -393,12 +429,7 @@
 
 
 
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-    <script src="{{ asset('dist/js/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -479,7 +510,7 @@
                         main.classList.add('mt-3')
                         const imageUrl = "../../" + etage.plan;
                         const div = document.createElement('div');
-                        
+
                         const ratio = etage.wplan / etage.hplan;
                         main.setAttribute('style', 'height: ' + w / ratio +
                             'px; width: ' + w + 'px;');
@@ -728,20 +759,20 @@
             selectEtages.value = resId;
             loadEtages(selectEtages.value, 'addetage');
             loadImage(addSelect.value);
-            
+
 
         } else {
             resSelect.value = 0;
             selectEtages.value = 1;
             loadEtages(selectEtages.value, 'addetage');
             loadImage(addSelect.value);
-            
+
         }
         resSelect.addEventListener('change', function() {
             if (this.value == 0)
                 window.location.href = "{{ route('apparts') }}";
             else
-            window.location.href = "{{ route('apparts') }}" + "?res=" + this.value;
+                window.location.href = "{{ route('apparts') }}" + "?res=" + this.value;
         })
     </script>
 @endsection
