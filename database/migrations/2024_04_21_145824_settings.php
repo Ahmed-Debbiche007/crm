@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('celliers', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('client_id')->nullable();
-            $table->unsignedBigInteger('residence_id');
+            $table->float('amount');
             $table->timestamps();
-            
-            $table->foreign('residence_id')->references('id')->on('residences');
         });
     }
 
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('celliers');
+        //
     }
 };

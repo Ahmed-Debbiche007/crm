@@ -23,14 +23,7 @@
                             d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
                     </svg>
                 </button>
-                @php
-                    $echeances = App\Models\Echeances::with('echance','echance.appart','echance.appart.client')->where(function ($query) {
-                        $query->where('date', '<=', now()->addDays(2))->orWhere('date', '<=', now());
-                    })
-                        ->where('payed', '=', 0)
-                        ->get();
-                @endphp
-                <x-notifications :$echeances />
+                
             </div>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
