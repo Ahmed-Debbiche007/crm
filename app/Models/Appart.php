@@ -30,6 +30,10 @@ class Appart extends Model
     public function echance(){
         return $this->hasMany(Echance::class);
     }
+
+    public function abonnements(){
+        return $this->hasMany(Abonnements::class);
+    }
     
 
     protected $fillable = [

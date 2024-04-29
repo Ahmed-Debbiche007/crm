@@ -9,7 +9,13 @@ class DepensesController extends Controller
 {
     public function index()
     {
+        // get query params
+        $query = request()->query();
+        $annee = $query['annee'] ?? null;
         $depenses = Depenses::all();
+        if ($annee) {
+            $depenses = Depenses::where('date', 'like', "%$annee%")->get();
+        }
         return view('pages.depenses.table', [
             'depenses' => $depenses
         ]);

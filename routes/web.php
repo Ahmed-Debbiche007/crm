@@ -11,6 +11,7 @@ use App\Http\Controllers\DepensesController;
 use App\Http\Controllers\EchancesController;
 use App\Http\Controllers\EcheancesController;
 use App\Http\Controllers\EtagesController;
+use App\Http\Controllers\FichierController;
 use App\Http\Controllers\ParkingsController;
 use App\Http\Controllers\ReglementController;
 use App\Http\Controllers\ResidencesController;
@@ -45,13 +46,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/depenses/{id}', [DepensesController::class, 'update'])->name('depenses.update');
     Route::get('/depenses/{id}', [DepensesController::class, 'destroy'])->name('depenses.destroy');
 
-    Route::get('/abonnements', [AbonnementController::class, 'index'])->name('abonnements.index');
-    Route::post('/abonnements', [AbonnementController::class, 'store'])->name('abonnements.store');
-    Route::get('/abonnement/{id}', [AbonnementController::class, 'get'])->name('abonnements.get');
-    Route::post('/abonnements/{id}', [AbonnementController::class, 'update'])->name('abonnements.update');
-    Route::get('/abonnements/{id}', [AbonnementController::class, 'destroy'])->name('abonnements.destroy');
+    Route::get('/frais', [AbonnementController::class, 'index'])->name('abonnements.index');
+    Route::post('/frais', [AbonnementController::class, 'store'])->name('abonnements.store');
+    Route::get('/frai/{id}', [AbonnementController::class, 'get'])->name('abonnements.get');
+    Route::post('/frais/{id}', [AbonnementController::class, 'update'])->name('abonnements.update');
+    Route::get('/frais/{id}', [AbonnementController::class, 'destroy'])->name('abonnements.destroy');
 
-    Route::get('/details_abonnement/{id}', [ReglementController::class, 'index'])->name('reglements.index');
+    Route::get('/details_frais/{id}', [ReglementController::class, 'index'])->name('reglements.index');
     Route::post('/reglements', [ReglementController::class, 'store'])->name('reglements.store');
     Route::get('/reglement/{id}', [ReglementController::class, 'get'])->name('reglements.get');
     Route::post('/reglements/{id}', [ReglementController::class, 'update'])->name('reglements.update');
@@ -59,4 +60,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+
+    Route::get('/fichier/{id}', [FichierController::class, 'get'])->name('fichier.get');
+    Route::post('/fichiers', [FichierController::class, 'store'])->name('fichier.store');
+    Route::post('/fichiers/{id}', [FichierController::class, 'update'])->name('fichier.update');
+    Route::get('/fichiers/{id}', [FichierController::class, 'destroy'])->name('fichier.destroy');
 });

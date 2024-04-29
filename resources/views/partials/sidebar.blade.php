@@ -4,7 +4,7 @@
 
         <div class="collapse navbar-collapse" id="sidebar-menu">
             <div class="d-none w-100 bg-white d-md-flex justify-items-center align-items-center ">
-                <img src="{{ asset('static/logo.gif') }}" style="width: 700px" alt="">
+                <img src="{{ asset('static/logo.jpeg') }}" style="width: 700px" alt="">
             </div>
             <ul class="navbar-nav pt-lg-3">
                 <li class="nav-item">
@@ -42,7 +42,7 @@
                             </svg>
                         </span>
                         <span class="nav-link-title">
-                            Abonnements
+                            Frais Syndic
                         </span>
                     </a>
                 </li>
@@ -68,8 +68,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if (Illuminate\Support\Str::startsWith(request()->path(), 'setting') ||
-                            Illuminate\Support\Str::startsWith(request()->path(), 'detail')) active @endif"
+                    <a class="nav-link @if (Illuminate\Support\Str::startsWith(request()->path(), 'setting') ) active @endif"
                         href="{{ route('settings.index') }}">
                         <span
                             class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->

@@ -20,7 +20,6 @@ function tables() {
         };
         const jquery_datatable = $(this);
         jquery_datatable.DataTable({
-          
             responsive: {
                 details: {
                     renderer: DataTable.Responsive.renderer.listHiddenNodes(),
@@ -40,7 +39,61 @@ function tables() {
                         columns: "thead th:not(.noExport)",
                     },
                 },
-            ]
+            ],
+            initComplete: function () {
+                let table = this.api();
+
+                table.columns().every(function () {
+                    let column = this;
+                    if (column.header().id === "summable") {
+                        let sum = table
+                            .column(column.index(), {
+                                page: "current",
+                                search: "applied",
+                            })
+                            .data()
+                            .reduce(function (a, b) {
+                                // Remove spaces and then parse
+                                let num = parseFloat(b.replace(/\s/g, ""));
+                                return a + (isNaN(num) ? 0 : num); // Check if num is NaN and handle accordingly
+                            }, 0);
+
+                        $(column.footer()).html(
+                            sum
+                                .toLocaleString("en-US", {
+                                    minimumFractionDigits: 3,
+                                    maximumFractionDigits: 3,
+                                })
+                                .replace(/,/g, " ")
+                        );
+                        $(column.footer()).style =
+                            "color: red; background-color: white; font-weight: bold;";
+
+                        table.on("draw", function () {
+                            let sum = table
+                                .column(column.index(), {
+                                    page: "current",
+                                    search: "applied",
+                                })
+                                .data()
+                                .reduce(function (a, b) {
+                                    // Remove spaces and then parse
+                                    let num = parseFloat(b.replace(/\s/g, ""));
+                                    return a + (isNaN(num) ? 0 : num); // Check if num is NaN and handle accordingly
+                                }, 0);
+
+                            $(column.footer()).html(
+                                sum
+                                    .toLocaleString("en-US", {
+                                        minimumFractionDigits: 3,
+                                        maximumFractionDigits: 3,
+                                    })
+                                    .replace(/,/g, " ")
+                            );
+                        });
+                    }
+                });
+            },
         });
 
         const setTableColor = () => {

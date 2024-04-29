@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('fichier', function (Blueprint $table) {
             $table->id();
-            $table->float('amount');
+            $table->string('name');
+            $table->string('path');
+            $table->unsignedBigInteger('abonnement_id');
+            $table->foreign('abonnement_id')->references('id')->on('abonnements')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

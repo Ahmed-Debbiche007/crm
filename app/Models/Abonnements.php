@@ -16,9 +16,16 @@ class Abonnements extends Model
     {
         return $this->hasMany(Reglements::class);
     }
+
+    public function fichiers()
+    {
+        return $this->hasMany(Fichier::class);
+    }
+
     protected $fillable = [
         'amount',
         'date',
-        'appart_id'
+        'appart_id',
+        'annee'
     ];
 }

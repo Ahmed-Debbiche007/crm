@@ -12,7 +12,7 @@ class ReglementController extends Controller
 
     public function index($id)
     {
-        $abonnements = Abonnements::with('appart','appart.etage','appart.client','appart.etage.building','reglements')->where('id', $id)->get();
+        $abonnements = Abonnements::with('appart','appart.etage','appart.client','appart.etage.building','reglements','fichiers')->where('id', $id)->get();
         $residences = Residence::with('etage','etage.appart','etage.appart.client','cellier')->where('id', 2)->get();
         return view('pages.reglements.table', [
             'abonnements' => $abonnements,

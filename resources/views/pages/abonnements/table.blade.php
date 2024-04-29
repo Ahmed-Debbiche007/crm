@@ -1,5 +1,5 @@
 @extends('welcome')
-@section('title', 'Abonnements')
+@section('title', 'Frais Syndic')
 @section('styles')
 
 @endsection
@@ -12,21 +12,36 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
-                                <h5 class="card-title">Abonnements</h5>
+                                <h5 class="card-title">Frais Syndic</h5>
                                 @if (Auth::user()->role == 1)
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                         class="btn btn-primary">Ajouter</button>
                                 @endif
                             </div>
-                            {{-- <div class="d-flex justify-content-start m-3 col-sm-4 col-12">
-                                <h5 class="card-title m-3">Résidence: </h5>
-                                <select name="" id="resSelect" class="form-control">
-                                    <option value="0">Tout</option>
-                                    @foreach ($residences as $residence)
-                                        <option value="{{ $residence->id }}">{{ $residence->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
+                            <div class="d-flex justify-content-start flex-wrap flex-row m-3 col-sm-4 col-12">
+                                <div class="d-flex flex-column align-items-start mx-2">
+                                    <h5 class="card-title mb-2">Annee:</h5>
+                                    <select name="annee" class="form-control" id="anneeSelect">
+                                        <option value="0">Tout</option>
+                                        @for ($i = 2021; $i <= 2100; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="d-flex flex-column align-items-start mx-2">
+                                    <h5 class="card-title mb-2">Client:</h5>
+                                    <select name="client" class="form-control" id="clientSelect">
+                                        <option value="0">Tout</option>
+                                        @foreach ($clients as $client)
+                                            <option value="{{ $client->id }}">{{ $client->name }} {{ $client->lastName }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="d-flex flex-column align-items-end justify-content-end mx-2">
+                                    <button class="btn btn-primary" id="chercher">Chercher</button>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
@@ -34,35 +49,61 @@
                                             <th scope="col">Année</th>
                                             <th scope="col">Bien Immobilier</th>
                                             <th scope="col">Client</th>
-                                            <th scope="col">Restant</th>
+                                            <th scope="col" id="summable">Montant à Payer</th>
+                                            <th scope="col" id="summable">Montant Payé</th>
+                                            <th scope="col" id="summable">Montant Restant</th>
 
                                             <th scope="col" class="noExport">Actions</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($abonnements as $abonnement)
-                                            <tr>
-                                                @php
-                                                    $date = new DateTime($abonnement->date);
-                                                @endphp
-                                                <td id="{{ $abonnement->id }}">{{ $date->format('Y') }}</td>
-                                                <td>{{ $abonnement->appart->name }}</td>
-                                                <td>{{ $abonnement->appart->client?->lastName }}
-                                                    {{ $abonnement->appart->client?->name }}</td>
-                                                <td>{{ $abonnement->amount - $abonnement->reglements->sum('amount') }}</td>
-
-
-                                                <td>
-
-                                                    <a href="{{ route('reglements.index', $abonnement->id) }}"
-                                                        class="btn btn-primary"><i
-                                                            data-feather="plus-circle"></i>Details</a>
-
-                                                </td>
-                                            </tr>
+                                        @foreach ($apparts as $appart)
+                                            @if ($appart->abonnements->isNotEmpty())
+                                                @foreach ($appart->abonnements as $abonnement)
+                                                    <tr>
+                                                        <td id="{{ $abonnement->id }}">
+                                                            {{ $abonnement->annee }}</td>
+                                                        <td>{{ $abonnement->appart->name }}</td>
+                                                        <td>{{ $abonnement->appart->client ? $abonnement->appart->client->lastName . ' ' . $abonnement->appart->client->name : '' }}
+                                                        </td>
+                                                        <td>{{ number_format($abonnement->amount, 3, '.', ' ') }}</td>
+                                                        <td>{{ number_format($abonnement->reglements->sum('amount'), 3, '.', ' ') }}
+                                                        </td>
+                                                        <td>{{ number_format($abonnement->amount - $abonnement->reglements->sum('amount'), 3, '.', ' ') }}
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('reglements.index', $abonnement->id) }}"
+                                                                class="btn btn-primary">
+                                                                <i data-feather="plus-circle"></i>Details
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td>{{ Request::query('annee') ?? \Carbon\Carbon::now()->format('Y') }}</td>
+                                                    <td>{{ $appart->name }}</td>
+                                                    <td>{{ $appart->client ? $appart->client->lastName . ' ' . $appart->client->name : '' }}
+                                                    </td>
+                                                    <td>{{ number_format($settings->amount, 3, '.', ' ') }}</td>
+                                                    <td>{{ number_format(0, 3, '.', ' ') }}</td>
+                                                    <td>{{ number_format($settings->amount, 3, '.', ' ') }}</td>
+                                                    <td></td>
+                                                </tr>
+                                            @endif
                                         @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <th scope="col"><b>Total:</b></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col" style="color:#ff0000"></th>
+                                        <th scope="col" style="color:#ff0000"></th>
+                                        <th scope="col" style="color:#ff0000"></th>
+
+                                        <th scope="col" class="noExport"></th>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -120,7 +161,16 @@
                                 </div>
                                 <label>Montant: </label>
                                 <div class="form-group">
-                                    <input type="number" step="0.001" name="amount" placeholder="Montant" class="form-control">
+                                    <input type="number" step="0.001" name="amount" placeholder="Montant"
+                                        class="form-control">
+                                </div>
+                                <label>Année: </label>
+                                <div class="form-group">
+                                    <select name="annee" id="" class="form-control">
+                                        @for ($i = 2021; $i <= 2100; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    </select>
                                 </div>
 
 
@@ -139,70 +189,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
-                aria-labelledby="myModalLabel44" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                    <path
-                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <form id="formEdit" method="POST" enctype="multipart/form-data">
 
-                            @csrf
-                            <div class="modal-body">
-                                <label>Residence: </label>
-                                <div class="form-group">
-                                    <select name="residence_id" class="form-control" id="residencesEdit">
-                                        @foreach ($residences as $residence)
-                                            <option value="{{ $residence->id }}">
-                                                {{ $residence->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <label>Etage: </label>
-                                <div class="form-group">
-                                    <select name="etage_id" id="editetage" class="form-control">
-
-                                    </select>
-                                </div>
-                                <label>Bien Immobilier: </label>
-                                <div class="form-group">
-                                    <select name="appart_id" id="appartEdit" class="form-control">
-
-                                    </select>
-                                </div>
-                                <div class="d-flex"><label class="mx-1">Client: </label>
-                                    <p id="detailsEdit"></p>
-                                </div>
-                                <input type="hidden" name="client_id" id="clientAddInput">
-                                <label>Numero: </label>
-                                <div class="form-group">
-                                    <input type="text" name="name" placeholder="Numero" class="form-control">
-                                </div>
-
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">Close</span>
-                                </button>
-                                <button type="submit" class="btn btn-primary ml-1">
-                                    <i class="bx bx-check d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block text-white">Modifier</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
             <div class="overlay toggle-menu"></div>
             <!--end overlay-->
         </div>
@@ -361,25 +348,36 @@
         const selectAppartsEdit = document.getElementById('editetage');
         const listAppartsEdit = document.getElementById('appartEdit');
 
-        selectEtagesEdit.addEventListener('change', (e) => {
-            const id = e.target.value
-            loadEtages(id, 'editetage')
-            const selectApparts = document.getElementById('editetage');
-            loadApparts(selectApparts.value, 'appartEdit');
 
-            getDetailsAppart(listAppartsEdit.value, 'detailsEdit');
+
+        const chercher = document.getElementById('chercher');
+        chercher.addEventListener('click', (e) => {
+            const annee = document.getElementById('anneeSelect').value;
+            const client = document.getElementById('clientSelect').value;
+
+            let url = window.location.href;
+
+            url = url.split('?')[0];
+
+            if (annee != 0 && client != 0) {
+                url = url + '?annee=' + annee + '&client=' + client;
+            } else if (annee != 0) {
+                url = url + '?annee=' + annee;
+            } else if (client != 0) {
+                url = url + '?client=' + client;
+            }
+            window.location.href = url;
         })
-        selectAppartsEdit.addEventListener('change', (e) => {
-            const id = e.target.value;
-            loadApparts(id, 'appartEdit');
-            getDetailsAppart(listAppartsEdit.value, 'detailsEdit')
-
-        })
-
-        listAppartsEdit.addEventListener('change', (e) => {
-            const id = e.target.value;
-            getDetailsAppart(id, 'detailsEdit');
-
-        })
+        // get current query string
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const anneeSearch = urlParams.get('annee');
+        const clientSearch = urlParams.get('client');
+        if (anneeSearch != null) {
+            document.getElementById('anneeSelect').value = anneeSearch;
+        }
+        if (clientSearch != null) {
+            document.getElementById('clientSelect').value = clientSearch;
+        }
     </script>
 @endsection

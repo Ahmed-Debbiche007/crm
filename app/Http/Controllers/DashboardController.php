@@ -2,25 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appart;
-use App\Models\Residence;
+use App\Models\Abonnements;
+use App\Models\Depenses;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $residences = Residence::with('etage','parking','cellier','image','file','etage.appart', 'etage.appart.charge', 'etage.appart.echance', 'etage.appart.echance.appart','etage.appart.echance.echeance')->get();
-        return view('pages.dashboard.index',['residences'=>$residences]);
-    }
+        $abonements = Abonnements::all();
+        $depenses = Depenses::all();
+        // make a new array where the key is the year, the object has 4 keys: total abnnements, total_paid abnnements, total_unpaid abnnements, total depenses
+        $data = [];
+        foreach ($abonements as $abonement) {
+            $year = $abonement->annee;
+            if (!isset($data[$year])) {
+                $data[$year] = [
+                    'total_abonnements' => 0,
+                    'total_paid' => 0,
+                    'total_unpaid' => 0,
+                    'total_depenses' => 0
+                ];
+            }
+            $data[$year]['total_abonnements'] += $abonement->amount;
+            $data[$year]['total_paid'] += $abonement->reglements->sum('amount');
+            $data[$year]['total_unpaid'] += $abonement->amount - $abonement->reglements->sum('amount');
+        }
 
-    public function publicPage($id){
-        $residence = Residence::with('etage','parking','cellier','image','file','etage.appart', 'etage.appart.charge', 'etage.appart.echance.echeance','etage.appart.echance.echeance')->where('id',$id)->first();
-        return view('pages.public.index',['residence'=>$residence]);
-    }
-
-    public function publicPageShow($id){
-        $appart = Appart::with('etage','etage.building')->where('id',$id)->first();
-        return view('pages.public.show',['appart'=>$appart]);
+        foreach ($depenses as $depense) {
+            $date = new DateTime($depense->date . '-01');
+            $year = $date->format('Y');
+            if (!isset($data[$year])) {
+                $data[$year] = [
+                    'total_abonnements' => 0,
+                    'total_paid' => 0,
+                    'total_unpaid' => 0,
+                    'total_depenses' => 0
+                ];
+            }
+            $data[$year]['total_depenses'] += $depense->amount;
+        }
+        
+        ksort($data);       
+        $prev = 0;
+        foreach ($data as $year => $value) {
+            $data[$year]['reste'] = $prev;
+            $prev = $data[$year]['total_paid'] - $data[$year]['total_depenses'];
+        }
+        return view('pages.dashboard.index', [
+            'data' => $data
+        ]);
     }
 }
