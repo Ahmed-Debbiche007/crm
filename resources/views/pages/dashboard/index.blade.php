@@ -171,7 +171,7 @@
                 },
                 series: data,
                 labels: ['A vendre', 'Réservé', 'Loué', 'Vendu'],
-                colors: ["#fe6d73", "#227c9d", "#fde25e", "#17c3b2"],
+                colors: ["#fe6d73", "#17c3b2", "#fde25e", "#227c9d"],
                 tooltip: {
                     y: {
                         formatter: function(value) {
@@ -224,7 +224,7 @@
                 },
                 series: parkings,
                 labels: ['Libre', 'Réservé'],
-                colors: ["#227c9d", "#17c3b2"],
+                colors: ["#17c3b2","#227c9d"],
                 tooltip: {
                     y: {
                         formatter: function(value) {
@@ -275,7 +275,7 @@
                 },
                 series: celliers,
                 labels: ['Libre', 'Réservé'],
-                colors: ["#227c9d", "#17c3b2"],
+                colors: [ "#17c3b2","#227c9d"],
                 tooltip: {
                     y: {
                         formatter: function(value) {

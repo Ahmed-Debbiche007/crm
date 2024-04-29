@@ -12,33 +12,34 @@
         @endif
 
     </a>
-    <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
+    <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card"
+        style="max-height: 700px; overflow-y: auto;">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Notifications </h3>
+            <div class="card-header sticky-top bg-white text-black" style="z-index: 999">
+                <h3 class="card-title">Notifications</h3>
             </div>
-            <div class="list-group list-group-flush list-group-hoverable">
-                @foreach ($echeances as $echeance)
-                    @if ($echeance->echance)
-                        <div class="list-group-item">
-                            <div class="row align-items-center">
-                                <div class="col-auto"><span
-                                        class="status-dot status-dot-animated bg-red d-block"></span>
-                                </div>
-                                <div class="col text-truncate">
-                                    <a href="{{ route('echances.show', $echeance->echance->id) }}"
-                                        class="text-body d-block">Echeance {{ $echeance->id }} - Appartement
-                                        {{ $echeance->echance->appart->name }}</a>
-                                    <div class="d-block text-muted text-truncate mt-n1">
-                                        Client: {{ $echeance->echance->appart->client->name }}
-                                        {{ $echeance->echance->appart->client->lastName }}
+            <div class="card-body"> <!-- Adjust margin-top as needed -->
+                <div class="list-group list-group-flush list-group-hoverable">
+                    @foreach ($echeances as $echeance)
+                        @if ($echeance->echance)
+                            <div class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col-auto"><span
+                                            class="status-dot status-dot-animated bg-red d-block"></span></div>
+                                    <div class="col text-truncate">
+                                        <a href="{{ route('echances.show', $echeance->echance->id) }}"
+                                            class="text-body d-block">Echeance {{ $echeance->id }} - Appartement
+                                            {{ $echeance->echance->appart->name }}</a>
+                                        <div class="d-block text-muted text-truncate mt-n1">
+                                            Client: {{ $echeance->echance->appart->client->name }}
+                                            {{ $echeance->echance->appart->client->lastName }}
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
-                        </div>
-                    @endif
-                @endforeach
+                        @endif
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

@@ -32,7 +32,7 @@
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Bien Immobilier</th>
+                                            <th scope="col" id="appartOrder">Bien Immobilier</th>
                                             <th scope="col">Client</th>
                                             <th scope="col">N° Téléphone</th>
                                             <th scope="col">N° CIN</th>

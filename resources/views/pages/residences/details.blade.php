@@ -211,7 +211,19 @@
                                     <input type="hidden" name="residence_id" value={{ $residence->id }}>
                                     <label>Numero: </label>
                                     <div class="form-group">
-                                        <input type="text" name="name" placeholder="Numero" class="form-control">
+                                        <select name="name" class="form-control">
+                                            <option value="Sous Sol">Sous Sol</option>
+                                            <option value="Rez de chaussée">Rez de chaussée</option>
+                                            <option value="Mezzanine">Mezzanine</option>
+                                            <option value="Étage 1">Étage 1</option>
+                                            <option value="Étage 2">Étage 2</option>
+                                            <option value="Étage 3">Étage 3</option>
+                                            <option value="Étage 4">Étage 4</option>
+                                            <option value="Étage 5">Étage 5</option>
+                                            <option value="Étage 6">Étage 6</option>
+                                            <option value="Étage 7">Étage 7</option>
+                                            <option value="Étage 8">Étage 8</option>
+                                        </select>
                                     </div>
                                     <label>Plan: </label>
                                     <input type="file" name="plan" class="image-preview-filepondEtage" />

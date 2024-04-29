@@ -23,8 +23,8 @@
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Nom</th>
                                             <th scope="col">Prénom</th>
+                                            <th scope="col">Nom</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Numéro de téléphone</th>
                                             <th scope="col">CIN/MF</th>
@@ -39,10 +39,10 @@
                                     <tbody>
                                         @foreach ($clients as $client)
                                             <tr>
-                                                <td>{{ $client->lastName }}</td>
                                                 <td>{{ $client->name }}</td>
+                                                <td>{{ $client->lastName }}</td>
                                                 <td>{{ $client->email }}</td>
-                                                <td>{{ $client->phone }}</td>
+                                                <td class="phoneNumber">{{ $client->phone }}</td>
                                                 <td>{{ $client->cin }}</td>
                                                 <td>
                                                     @if ($client->type == 0)

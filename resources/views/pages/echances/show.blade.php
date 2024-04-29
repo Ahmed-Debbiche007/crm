@@ -37,7 +37,7 @@
                                             <th scope="col">Bien Immobilier</th>
                                             <th scope="col">Client</th>
 
-                                            <th scope="col">Date</th>
+                                            
                                             <th scope="col">Prix</th>
                                             <th scope="col">Montant Payé</th>
                                             <th scope="col">Montant Restant</th>
@@ -66,9 +66,7 @@
                                                 @endif
                                             </td>
 
-                                            <td>
-                                                {{ $echance->date ? \Illuminate\Support\Carbon::parse($echance->date)->format('d-m-Y') : '' }}
-                                            </td>
+                                           
                                             <td>{{ number_format(floatval($echance->appart->price), 3, '.', ' ') }}</td>
                                             <td>{{ number_format(floatval($echance->amount_avance + $totalEchances), 3, '.', ' ') }}
                                             </td>
@@ -445,7 +443,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Date</th>
-                                            <th scope="col">Montant</th>
+                                            <th scope="col" id="summable">Montant</th>
                                             <th scope="col">Statut</th>
                                             <th scope="col">Modalité</th>
                                             @if (Auth::user()->role == 1)
@@ -454,6 +452,26 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <tr>
+
+                                            <td>
+                                                {{ $echance->date_avance ? \Illuminate\Support\Carbon::parse($echance->date_avance)->format('d-m-Y') : '' }}
+                                            </td>
+                                            <td>{{ number_format(floatval($echance->amount_avance), 3, '.', ' ') }}</td>
+                                            <td>
+
+                                                Payé
+
+
+                                            </td>
+                                            <td></td>
+                                            @if (Auth::user()->role == 1)
+                                                <td>
+
+
+                                                </td>
+                                            @endif
+                                        </tr>
                                         @foreach ($echance->echeance as $echeance)
                                             <tr>
 
@@ -523,6 +541,12 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <th scope="col"><b>Total:</b></th>
+                                        <th scope="col" style="color:#ff0000"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col" class="noExport"></th>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -660,7 +684,7 @@
 @section('scripts')
 
 
-<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 

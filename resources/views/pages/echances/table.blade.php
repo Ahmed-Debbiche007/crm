@@ -68,13 +68,13 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Residence</th>
-                                            <th scope="col">Bien Immobilier</th>
+                                            <th scope="col" id="appartOrder">Bien Immobilier</th>
                                             <th scope="col">Client</th>
 
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Prix</th>
-                                            <th scope="col">Montant Payé</th>
-                                            <th scope="col">Montant Restant</th>
+
+                                            <th scope="col" id="summable">Prix</th>
+                                            <th scope="col" id="summable">Montant Payé</th>
+                                            <th scope="col" id="summable">Montant Restant</th>
 
                                             <th scope="col" class="noExport">Actions</th>
                                         </tr>
@@ -99,9 +99,6 @@
                                                     @endif
                                                 </td>
 
-                                                <td>
-                                                    {{ $echance->date ? \Illuminate\Support\Carbon::parse($echance->date)->format('d-m-Y') : '' }}
-                                                </td>
                                                 <td>{{ number_format(floatval($echance->appart->price), 3, '.', ' ') }}
                                                 </td>
                                                 @php
@@ -172,6 +169,17 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <th scope="col"><b>Total:</b></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+
+                                        <th scope="col" style="color:#ff0000"></th>
+                                        <th scope="col" style="color:#ff0000"></th>
+                                        <th scope="col" style="color:#ff0000"></th>
+
+                                        <th scope="col" class="noExport"></th>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -477,7 +485,7 @@
 
 
 
-<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 

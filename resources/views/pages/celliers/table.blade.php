@@ -97,153 +97,153 @@
                                                                     </div>
                                                                 </div>
                                                             </form>
+                                                        </div>
+
+                                                    </td>
                                                 @endif
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-
-                            </td>
-                            </tr>
-                            @endforeach
-                            </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
+
             </div>
+            <!--End Row-->
 
-        </div>
-        <!--End Row-->
+            <div class="modal fade text-left " id="inlineForm" tabindex="-1" role="dialog"
+                aria-labelledby="myModalLabel33" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <form method="POST" action="{{ route('celliers.store') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <label>Residence: </label>
+                                <div class="form-group">
+                                    <select name="residence_id" class="form-control" id="residencesAdd">
+                                        @foreach ($residences as $residence)
+                                            <option value="{{ $residence->id }}">{{ $residence->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <label>Etage: </label>
+                                <div class="form-group">
+                                    <select name="etage_id" id="addetage" class="form-control">
 
-        <div class="modal fade text-left " id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-x-lg" viewBox="0 0 16 16">
-                                <path
-                                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                            </svg>
-                        </button>
+                                    </select>
+                                </div>
+                                <label>Bien Immobilier: </label>
+                                <div class="form-group">
+                                    <select name="appart_id" id="appartAdd" class="form-control">
+
+                                    </select>
+                                </div>
+                                <div class="d-flex"><label class="mx-1">Client: </label>
+                                    <p id="clientAdd"></p>
+                                </div>
+                                <input type="hidden" name="client_id" id="clientAddInput">
+                                <label>Numero: </label>
+                                <div class="form-group">
+                                    <input type="text" name="name" placeholder="Numero" class="form-control">
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Close</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block text-white">Ajouter</span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <form method="POST" action="{{ route('celliers.store') }}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <label>Residence: </label>
-                            <div class="form-group">
-                                <select name="residence_id" class="form-control" id="residencesAdd">
-                                    @foreach ($residences as $residence)
-                                        <option value="{{ $residence->id }}">{{ $residence->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <label>Etage: </label>
-                            <div class="form-group">
-                                <select name="etage_id" id="addetage" class="form-control">
-
-                                </select>
-                            </div>
-                            <label>Bien Immobilier: </label>
-                            <div class="form-group">
-                                <select name="appart_id" id="appartAdd" class="form-control">
-
-                                </select>
-                            </div>
-                            <div class="d-flex"><label class="mx-1">Client: </label>
-                                <p id="clientAdd"></p>
-                            </div>
-                            <input type="hidden" name="client_id" id="clientAddInput">
-                            <label>Numero: </label>
-                            <div class="form-group">
-                                <input type="text" name="name" placeholder="Numero" class="form-control">
-                            </div>
-
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                <i class="bx bx-x d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Close</span>
-                            </button>
-                            <button type="submit" class="btn btn-primary ml-1">
-                                <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block text-white">Ajouter</span>
-                            </button>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </div>
-        <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
-            aria-labelledby="myModalLabel44" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-x-lg" viewBox="0 0 16 16">
-                                <path
-                                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                            </svg>
-                        </button>
+            <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
+                aria-labelledby="myModalLabel44" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <form id="formEdit" method="POST" enctype="multipart/form-data">
+
+                            @csrf
+                            <div class="modal-body">
+                                <label>Residence: </label>
+                                <div class="form-group">
+                                    <select name="residence_id" class="form-control" id="residencesEdit">
+                                        @foreach ($residences as $residence)
+                                            <option value="{{ $residence->id }}">
+                                                {{ $residence->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <label>Etage: </label>
+                                <div class="form-group">
+                                    <select name="etage_id" id="editetage" class="form-control">
+
+                                    </select>
+                                </div>
+                                <label>Bien Immobilier: </label>
+                                <div class="form-group">
+                                    <select name="appart_id" id="appartEdit" class="form-control">
+
+                                    </select>
+                                </div>
+                                <div class="d-flex"><label class="mx-1">Client: </label>
+                                    <p id="detailsEdit"></p>
+                                </div>
+                                <input type="hidden" name="client_id" id="clientAddInput">
+                                <label>Numero: </label>
+                                <div class="form-group">
+                                    <input type="text" name="name" placeholder="Numero" class="form-control">
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Close</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block text-white">Modifier</span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <form id="formEdit" method="POST" enctype="multipart/form-data">
-
-                        @csrf
-                        <div class="modal-body">
-                            <label>Residence: </label>
-                            <div class="form-group">
-                                <select name="residence_id" class="form-control" id="residencesEdit">
-                                    @foreach ($residences as $residence)
-                                        <option value="{{ $residence->id }}">
-                                            {{ $residence->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <label>Etage: </label>
-                            <div class="form-group">
-                                <select name="etage_id" id="editetage" class="form-control">
-
-                                </select>
-                            </div>
-                            <label>Bien Immobilier: </label>
-                            <div class="form-group">
-                                <select name="appart_id" id="appartEdit" class="form-control">
-
-                                </select>
-                            </div>
-                            <div class="d-flex"><label class="mx-1">Client: </label>
-                                <p id="detailsEdit"></p>
-                            </div>
-                            <input type="hidden" name="client_id" id="clientAddInput">
-                            <label>Numero: </label>
-                            <div class="form-group">
-                                <input type="text" name="name" placeholder="Numero" class="form-control">
-                            </div>
-
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                <i class="bx bx-x d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Close</span>
-                            </button>
-                            <button type="submit" class="btn btn-primary ml-1">
-                                <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block text-white">Modifier</span>
-                            </button>
-                        </div>
-                    </form>
                 </div>
             </div>
+            <div class="overlay toggle-menu"></div>
+            <!--end overlay-->
         </div>
-        <div class="overlay toggle-menu"></div>
-        <!--end overlay-->
-    </div>
-    <!-- End container-fluid-->
+        <!-- End container-fluid-->
     </div>
 @endsection
 
@@ -251,7 +251,7 @@
 
 
 
-<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 

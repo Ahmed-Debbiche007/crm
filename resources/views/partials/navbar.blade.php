@@ -37,8 +37,7 @@
                     aria-label="Open user menu">
                     <span class="avatar avatar-sm" style="background-image: url({{ asset('static/1.jpg') }})"></span>
                     <div class="d-none d-xl-block ps-2">
-                        <div>Admin</div>
-                        <div class="mt-1 small text-muted">admin</div>
+                        <div>{{Auth::user()->name}}</div>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">

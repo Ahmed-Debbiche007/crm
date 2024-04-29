@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $residences = Residence::with('etage','parking','cellier','image','file','etage.appart', 'etage.appart.charge', 'etage.appart.echance', 'etage.appart.echance.appart','etage.appart.echance.echeance')->get();
+        $residences = Residence::with('etage','parking','cellier','image','file','etage.appart', 'etage.appart.charge', 'etage.appart.echance', 'etage.appart.echance.appart','etage.appart.echance.echeance')->orderBy('id','desc')->get();
         return view('pages.dashboard.index',['residences'=>$residences]);
     }
 

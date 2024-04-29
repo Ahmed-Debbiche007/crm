@@ -34,14 +34,14 @@
                                 <h5 class="card-title">Biens Immobiliers</h5>
                                 @if (Auth::user()->role == 1)
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
-                                        class="btn btn-primary">Ajouter</button>
+                                        class="btn btn-primary" id="addAppart">Ajouter</button>
                                 @endif
                             </div>
                             <div class="table-responsive">
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Bien Immobilier</th>
+                                            <th scope="col" id="appartOrder">Bien Immobilier</th>
                                             <th scope="col">Client</th>
                                             <th scope="col">Etage</th>
                                             <th scope="col">Résidence</th>
@@ -437,7 +437,19 @@
                                     </div>
                                     <label>Numero: </label>
                                     <div class="form-group">
-                                        <input type="text" name="name" placeholder="Numero" class="form-control">
+                                        <select name="name" class="form-control">
+                                            <option value="Sous Sol">Sous Sol</option>
+                                            <option value="Rez de chaussée">Rez de chaussée</option>
+                                            <option value="Mezzanine">Mezzanine</option>
+                                            <option value="Étage 1">Étage 1</option>
+                                            <option value="Étage 2">Étage 2</option>
+                                            <option value="Étage 3">Étage 3</option>
+                                            <option value="Étage 4">Étage 4</option>
+                                            <option value="Étage 5">Étage 5</option>
+                                            <option value="Étage 6">Étage 6</option>
+                                            <option value="Étage 7">Étage 7</option>
+                                            <option value="Étage 8">Étage 8</option>
+                                        </select>
                                     </div>
                                     <label>Plan: </label>
                                     <input type="file" name="plan" class="image-preview-filepondEtage" />
@@ -519,10 +531,12 @@
 
 
     <script>
+        const etageData = @json($etage);
         const selectEtages = document.getElementById('residencesAdd')
         const selectEtagesEdit = document.getElementById('residencesEdit')
         const addSelect = document.getElementById('addetage')
         const etagesSelectEdit = document.getElementById('editetage')
+        selectEtages.value = etageData.residence_id;
         loadEtages(selectEtages.value, 'addetage');
 
 
@@ -553,6 +567,16 @@
             const data = @json($residences);
             data.forEach(residence => {
                 if (residence.id == id) {
+                    // sort etages by name 
+                    residence.etage.sort((a, b) => {
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+                        return 0;
+                    })
                     residence.etage.forEach(e => {
                         const option = document.createElement('option')
                         option.value = e.id
@@ -684,7 +708,8 @@
                 axios.get(url).then((reponse) => {
                     const appart = reponse.data;
                     idInput.value = appart.id
-                    loadEtages(selectEtagesEdit.value, 'editetage')
+                    residence_idInput.value = appart.etage.residence_id
+                    loadEtages(residence_idInput.value, 'editetage')
                     loadImageOnEdit(appart.id)
                     etage_idInput.value = appart.etage_id
                     nameInput.value = appart.name
@@ -742,7 +767,7 @@
                 base = base.replace('5', editButton.id);
                 form.action = base;
                 const resInput = form.querySelector('select[name="residence_id"]');
-                const numberInput = form.querySelector('input[name="name"]');
+                const numberInput = form.querySelector('select[name="name"]');
 
                 url = "{{ route('etages.get', 5) }}";
                 url = url.replace('5', editButton.id);

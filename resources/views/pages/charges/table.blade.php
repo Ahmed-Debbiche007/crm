@@ -33,13 +33,12 @@
                                         <tr>
                                             <th scope="col">Residence</th>
                                             <th scope="col">Etage</th>
-                                            <th scope="col">Bien Immobilier</th>
+                                            <th scope="col" id="appartOrder">Bien Immobilier</th>
                                             <th scope="col">Client</th>
-                                            <th scope="col">Sonède & Gaz</th>
-                                            <th scope="col">Syndic</th>
-
-                                            <th scope="col">Avocat </th>
-                                            <th scope="col">Titre Foncier</th>
+                                            <th scope="col" id="summable">Sonède & Gaz</th>
+                                            <th scope="col" id="summable">Syndic</th>
+                                            <th scope="col" id="summable">Avocat </th>
+                                            <th scope="col" id="summable">Titre Foncier</th>
                                             @if (Auth::user()->role == 1)
                                                 <th scope="col" class="noExport">Actions</th>
                                             @endif
@@ -60,10 +59,10 @@
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>{{ number_format(floatval($charge->sonede), 3, '.', ',') }}</td>
-                                                <td>{{ number_format(floatval($charge->syndic), 3, '.', ',') }}</td>
-                                                <td>{{ number_format(floatval($charge->contrat), 3, '.', ',') }}</td>
-                                                <td>{{ number_format(floatval($charge->foncier), 3, '.', ',') }}</td>
+                                                <td>{{ number_format(floatval($charge->sonede), 3, '.', ' ') }}</td>
+                                                <td>{{ number_format(floatval($charge->syndic), 3, '.', ' ') }}</td>
+                                                <td>{{ number_format(floatval($charge->contrat), 3, '.', ' ') }}</td>
+                                                <td>{{ number_format(floatval($charge->foncier), 3, '.', ' ') }}</td>
                                                 @if (Auth::user()->role == 1)
                                                     <td>
 
@@ -118,6 +117,17 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <th scope="col"><b>Total:</b></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col" style="color:#ff0000"></th>
+                                        <th scope="col" style="color:#ff0000"></th>
+                                        <th scope="col" style="color:#ff0000"></th>
+                                        <th scope="col" style="color:#ff0000"></th>
+                                        <th scope="col" class="noExport"></th>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

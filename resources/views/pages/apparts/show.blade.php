@@ -275,17 +275,19 @@
                             </div>
                             <div class="d-flex justify-content-start flex-wrap m-3">
                                 <a class="btn btn-primary m-2" target="_blank"
-                                    href="{{ route('apparts.mainLeveePartielle', $appart->id) }}">Demande de main levée
-                                    partielle</a>
-                                <a class="btn btn-primary m-2" target="_blank"
-                                    href="{{ route('apparts.mainLevee', $appart->id) }}">Engagement
-                                    de main levée </a>
-                                <a class="btn btn-primary m-2" target="_blank"
                                     href="{{ route('apparts.optionVente', $appart->id) }}">Option
                                     de vente</a>
                                 <a class="btn btn-primary m-2" target="_blank"
                                     href="{{ route('apparts.renseignement', $appart->id) }}">Fiche
                                     de renseignement</a>
+                                <a class="btn btn-primary m-2" target="_blank"
+                                    href="{{ route('apparts.mainLevee', $appart->id) }}">Engagement
+                                    de main levée </a>
+                                <a class="btn btn-primary m-2" target="_blank"
+                                    href="{{ route('apparts.mainLeveePartielle', $appart->id) }}">Demande de main levée
+                                    partielle</a>
+
+
                             </div>
                         </div>
                     </div>
@@ -903,7 +905,7 @@
 
 
 
-<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
