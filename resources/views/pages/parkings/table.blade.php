@@ -354,6 +354,16 @@
             data.forEach(residence => {
                 residence.etage.forEach((etage) => {
                     if (etage.id == id) {
+                        
+                        etage.appart.sort((a, b) => {
+                            if (a.name < b.name) {
+                                return -1;
+                            }
+                            if (a.name > b.name) {
+                                return 1;
+                            }
+                            return 0;
+                        })
                         etage.appart.forEach(appart => {
                             const option = document.createElement('option')
                             option.value = appart.id
