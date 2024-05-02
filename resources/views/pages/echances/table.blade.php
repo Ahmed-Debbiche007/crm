@@ -491,6 +491,26 @@
 
 
     <script>
+        $(document).ready(function() {
+            // get query params
+            const urlParams = new URLSearchParams(window.location.search);
+            const myParam = urlParams.get('appart');
+            if (myParam) {
+                axios.get('{{ route('apparts.get', '5') }}'.replace('5', myParam)).then((reponse) => {
+                    const appart = reponse.data;
+                    $("#residencesAdd").val(appart.etage.residence_id)
+                    loadEtages(appart.etage.residence_id, 'addetage');
+                    $("#addetage").val(appart.etage.id)
+                    const selectApparts = document.getElementById('addetage');
+                    loadApparts(selectApparts.value, 'appartAdd');
+                    $("#appartAdd").val(appart.id)
+                    getDetailsAppart(listApparts.value, 'details');
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }
+        })
+
         const getDetailsAppart = (id, select) => {
             let route = '{{ route('apparts.get', '5') }}';
             route = route.replace('5', id);
@@ -522,6 +542,15 @@
             const data = @json($residences);
             data.forEach(residence => {
                 if (residence.id == id) {
+                    residence.etage.sort((a, b) => {
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+                        return 0;
+                    })
                     residence.etage.forEach(e => {
                         const option = document.createElement('option')
                         option.value = e.id

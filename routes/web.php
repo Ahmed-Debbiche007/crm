@@ -11,7 +11,7 @@ use App\Http\Controllers\EcheancesController;
 use App\Http\Controllers\EtagesController;
 use App\Http\Controllers\ParkingsController;
 use App\Http\Controllers\ResidencesController;
-
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -98,4 +98,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/echeances/update/{id}',[EcheancesController::class, 'update'])->name('echeances.update');
     Route::get('/echeances/{id}',[EcheancesController::class, 'destroy'])->name('echeances.destroy');
     Route::get('/echeance/{id}',[EcheancesController::class, 'get'])->name('echeances.get');
+
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/profile', [UserController::class, 'show'])->name('users.profile');
+    Route::post('/updatePassword/{id}', [UserController::class, 'updatePassword'])->name('users.updatePassword');
+    Route::post('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 });

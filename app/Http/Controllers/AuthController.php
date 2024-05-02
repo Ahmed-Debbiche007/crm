@@ -26,6 +26,12 @@ class AuthController extends Controller
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
+        if ($user->app == 0) {
+            return redirect()->to('login')
+                ->withErrors([
+                    'email' => 'Vous n\'avez pas accès à cette application'
+                ]);
+        };
         Auth::login($user);
 
         return $this->authenticated($request, $user);
