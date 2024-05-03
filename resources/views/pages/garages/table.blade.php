@@ -1,5 +1,5 @@
 @extends('welcome')
-@section('title', 'Charges')
+@section('title', 'Garages')
 @section('styles')
 
 @endsection
@@ -12,7 +12,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
-                                <h5 class="card-title">Charges</h5>
+                                <h5 class="card-title">Garage</h5>
                                 @if (Auth::user()->role == 1)
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                         class="btn btn-primary">Ajouter</button>
@@ -32,55 +32,47 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Residence</th>
-                                            <th scope="col">Etage</th>
-                                            <th scope="col" id="appartOrder">Bien Immobilier</th>
+                                            <th scope="col">Numéro</th>
                                             <th scope="col">Client</th>
-                                            <th scope="col" id="summable">Sonède & Gaz</th>
-                                            <th scope="col" id="summable">Syndic</th>
-                                            <th scope="col" id="summable">Avocat </th>
-                                            <th scope="col" id="summable">Titre Foncier</th>
+                                            <th scope="col">Surface</th>
+                                            <th scope="col">Prix</th>
                                             @if (Auth::user()->role == 1)
                                                 <th scope="col" class="noExport">Actions</th>
                                             @endif
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($charges as $charge)
+                                        @foreach ($garages as $garage)
                                             <tr>
-                                                <td id="{{ $charge->appart->etage->building->id }}">
-                                                    {{ $charge->appart->etage->building->name }}</td>
-                                                <td>{{ $charge->appart->etage->name }}</td>
-                                                <td>{{ $charge->appart->name }}</td>
+                                                <td id="{{ $garage->residence->id }}">{{ $garage->residence->name }}</td>
+                                                <td>{{ $garage->name }}</td>
                                                 <td>
-                                                    @if ($charge->appart->client)
-                                                        {{ $charge->appart->client->name }}
-                                                        {{ $charge->appart->client->lastName }}
+                                                    @if ($garage->client)
+                                                        {{ $garage->client->name }} {{ $garage->client->lastName }}
                                                     @else
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>{{ number_format(floatval($charge->sonede), 3, '.', ' ') }}</td>
-                                                <td>{{ number_format(floatval($charge->syndic), 3, '.', ' ') }}</td>
-                                                <td>{{ number_format(floatval($charge->contrat), 3, '.', ' ') }}</td>
-                                                <td>{{ number_format(floatval($charge->foncier), 3, '.', ' ') }}</td>
+                                                <td>{{ $garage->surface }}</td>
+                                                <td>{{ number_format(floatval($garage->price), 3, '.', ' ') }}</td>
                                                 @if (Auth::user()->role == 1)
                                                     <td>
 
                                                         <div class="d-flex">
-                                                            <button id="{{ $charge->id }}"
+                                                            <button id="{{ $garage->id }}"
                                                                 class="btn btn-warning edit m-1" data-bs-toggle="modal"
                                                                 data-bs-target="#inlineFormEdit"><i
                                                                     data-feather="edit"></i>Modifier</button>
 
                                                             <form method="GET"
-                                                                action="{{ route('charges.destroy', $charge->id) }}">
+                                                                action="{{ route('garages.destroy', $garage->id) }}">
                                                                 @csrf
                                                                 <button type="button" class="btn btn-danger m-1"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#inlineChargeDelete{{ $charge->id }}"><i
+                                                                    data-bs-target="#inlineChargeDelete{{ $garage->id }}"><i
                                                                         data-feather="trash"></i>Supprimer</button>
                                                                 <div class="modal fade"
-                                                                    id="inlineChargeDelete{{ $charge->id }}"
+                                                                    id="inlineChargeDelete{{ $garage->id }}"
                                                                     tabindex="-1" role="dialog"
                                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                     <div class="modal-dialog" role="document">
@@ -109,7 +101,6 @@
                                                                     </div>
                                                                 </div>
                                                             </form>
-
                                                         </div>
 
                                                     </td>
@@ -117,17 +108,6 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                    <tfoot>
-                                        <th scope="col"><b>Total:</b></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col" style="color:#ff0000"></th>
-                                        <th scope="col" style="color:#ff0000"></th>
-                                        <th scope="col" style="color:#ff0000"></th>
-                                        <th scope="col" style="color:#ff0000"></th>
-                                        <th scope="col" class="noExport"></th>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -136,6 +116,7 @@
 
             </div>
             <!--End Row-->
+
             <div class="modal fade text-left " id="inlineForm" tabindex="-1" role="dialog"
                 aria-labelledby="myModalLabel33" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -150,12 +131,12 @@
                                 </svg>
                             </button>
                         </div>
-                        <form method="POST" action="{{ route('charges.store') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('garages.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">
                                 <label>Residence: </label>
                                 <div class="form-group">
-                                    <select name="residence_id" id="residencesAdd" class="form-control">
+                                    <select name="residence_id" class="form-control" id="residencesAdd">
                                         @foreach ($residences as $residence)
                                             <option value="{{ $residence->id }}">{{ $residence->name }}
                                             </option>
@@ -168,38 +149,29 @@
 
                                     </select>
                                 </div>
-                                <label>Appartement: </label>
+                                <label>Bien Immobilier: </label>
                                 <div class="form-group">
                                     <select name="appart_id" id="appartAdd" class="form-control">
 
                                     </select>
                                 </div>
-                                <label id="clientAdd"></label>
-
-                                <label>Sonède & Gaz: </label>
+                                <div class="d-flex"><label class="mx-1">Client: </label>
+                                    <p id="clientAdd"></p>
+                                </div>
+                                <input type="hidden" name="client_id" id="clientAddInput">
+                                <label>Numero: </label>
                                 <div class="form-group">
-                                    <input name="sonede" type="number" placeholder="Sonède & Gaz"
+                                    <input type="text" name="name" placeholder="Numero" class="form-control">
+                                </div>
+                                <label>Surface: </label>
+                                <div class="form-group">
+                                    <input type="number" name="surface" placeholder="Surface" class="form-control">
+                                </div>
+                                <label>Prix: </label>
+                                <div class="form-group">
+                                    <input type="number" name="price" placeholder="Prix" step="0.001"
                                         class="form-control">
                                 </div>
-
-                                <label>Syndic: </label>
-                                <div class="form-group">
-                                    <input name="syndic" type="number" placeholder="Syndic" class="form-control">
-                                </div>
-
-
-                                <label>Avocat : </label>
-                                <div class="form-group">
-                                    <input name="contrat" type="number" placeholder="Avocat Contart"
-                                        class="form-control">
-                                </div>
-
-                                <label>Titre Foncier: </label>
-                                <div class="form-group">
-                                    <input name="foncier" type="number" placeholder="Titre Foncier"
-                                        class="form-control">
-                                </div>
-
 
                             </div>
                             <div class="modal-footer">
@@ -230,16 +202,16 @@
                                 </svg>
                             </button>
                         </div>
-                        <form id="editForm" method="POST" enctype="multipart/form-data">
+                        <form id="formEdit" method="POST" enctype="multipart/form-data">
 
                             @csrf
                             <div class="modal-body">
                                 <label>Residence: </label>
                                 <div class="form-group">
-                                    <select name="residence_id" id="residencesEdit" class="form-control">
+                                    <select name="residence_id" class="form-control" id="residencesEdit">
                                         @foreach ($residences as $residence)
-                                            <option value="{{ $residence->id }}">{{ $residence->name }}
-                                            </option>
+                                            <option value="{{ $residence->id }}">
+                                                {{ $residence->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -249,36 +221,27 @@
 
                                     </select>
                                 </div>
-                                <label>Appartement: </label>
+                                <label>Bien Immobilier: </label>
                                 <div class="form-group">
                                     <select name="appart_id" id="appartEdit" class="form-control">
 
                                     </select>
                                 </div>
-
-                                <label id="clientEdit"></label>
-                                <label>Sonède & Gaz: </label>
-                                <div class="form-group">
-                                    <input name="sonede" type="number" placeholder="Sonède & Gaz"
-                                        class="form-control">
+                                <div class="d-flex"><label class="mx-1">Client: </label>
+                                    <p id="detailsEdit"></p>
                                 </div>
-
-                                <label>Syndic: </label>
+                                <input type="hidden" name="client_id" id="clientAddInput">
+                                <label>Numero: </label>
                                 <div class="form-group">
-                                    <input name="syndic" type="number" placeholder="Syndic" class="form-control">
+                                    <input type="text" name="name" placeholder="Numero" class="form-control">
                                 </div>
-
-
-
-                                <label>Avocat: </label>
+                                <label>Surface: </label>
                                 <div class="form-group">
-                                    <input name="contrat" type="number" placeholder="Avocat Contart"
-                                        class="form-control">
+                                    <input type="number" name="surface" placeholder="Surface" class="form-control">
                                 </div>
-
-                                <label>Titre Foncier: </label>
+                                <label>Prix: </label>
                                 <div class="form-group">
-                                    <input name="foncier" type="number" placeholder="Titre Foncier"
+                                    <input type="number" name="price" placeholder="Prix" step="0.001"
                                         class="form-control">
                                 </div>
 
@@ -297,14 +260,10 @@
                     </div>
                 </div>
             </div>
+            <div class="overlay toggle-menu"></div>
+            <!--end overlay-->
         </div>
-
-
-        <!--start overlay-->
-        <div class="overlay toggle-menu"></div>
-        <!--end overlay-->
-    </div>
-    <!-- End container-fluid-->
+        <!-- End container-fluid-->
     </div>
 @endsection
 
@@ -312,16 +271,74 @@
 
 
 
-<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
 
     <script>
+        const data = @json($residences);
+        const editButtons = document.getElementsByClassName('edit');
+        editButtons.forEach = Array.prototype.forEach;
+        document.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('edit')) {
+                const editButton = target;
+                const form = document.getElementById('formEdit');
+
+                let base = '{{ route('garages.update', '5') }}';
+                base = base.replace('5', editButton.id);
+                form.action = base;
+                const nameInput = form.querySelector('input[name="name"]')
+                const residence_idInput = form.querySelector('select[name="residence_id"]')
+                const etage_idInput = form.querySelector('select[name="etage_id"]')
+                const appart_idInput = form.querySelector('select[name="appart_id"]')
+                const cleintInput = form.querySelector('input[name="client_id"]')
+                const surfaceInput = form.querySelector('input[name="surface"]')
+                const priceInput = form.querySelector('input[name="price"]')
+                url = "{{ route('garages.get', 5) }}";
+                url = url.replace('5', editButton.id);
+                axios.get(url).then((reponse) => {
+                    const appart = reponse.data;
+
+                    nameInput.value = appart.name;
+                    residence_idInput.value = appart.residence_id;
+                    loadEtages(residence_idInput.value, 'editetage');
+
+                    etage_idInput.value = appart.etage_id;
+                    loadApparts(etage_idInput.value, 'appartEdit');
+                    appart_idInput.value = appart.appart_id;
+
+                    cleintInput.value = appart.client_id;
+                    surfaceInput.value = appart.surface;
+                    priceInput.value = appart.price
+
+                    const divDetails = document.getElementById('detailsEdit');
+                    const clientInput = divDetails.parentElement.parentElement.querySelector(
+                        'input[name="client_id"]')
+                    const detailsClient = document.createElement('h4');
+
+                    divDetails.innerHTML = '';
+                    if (appart.client) {
+                        detailsClient.innerHTML = ' ' + appart.client.name + ' ' + appart.client.lastName;
+                        clientInput.value = appart.client.id;
+                    } else {
+                        detailsClient.innerHTML = ' Pas de client';
+                        clientInput.value = '';
+                    }
+                    divDetails.appendChild(detailsClient);
+                }).catch((error) => {
+                    console.log(error)
+                })
+            };
+        })
+
+
+
+
         function loadEtages(id, etageId) {
             const selectEtage = document.getElementById(etageId)
             selectEtage.innerHTML = ''
-            const data = @json($residences);
             data.forEach(residence => {
                 if (residence.id == id) {
                     residence.etage.forEach(e => {
@@ -337,7 +354,6 @@
         function loadApparts(id, appartId) {
             const selectAppart = document.getElementById(appartId)
             selectAppart.innerHTML = ''
-            const data = @json($residences);
             data.forEach(residence => {
                 residence.etage.forEach((etage) => {
                     if (etage.id == id) {
@@ -360,79 +376,81 @@
                 })
             })
         }
+
+        const getDetailsAppart = (id, select) => {
+            let route = '{{ route('apparts.get', '5') }}';
+            route = route.replace('5', id);
+            axios.get(route).then((reponse) => {
+                const appart = reponse.data;
+                const divDetails = document.getElementById(select);
+                const clientInput = divDetails.parentElement.parentElement.querySelector(
+                    'input[name="client_id"]')
+                const detailsClient = document.createElement('h4');
+                divDetails.innerHTML = '';
+                if (appart.client) {
+                    detailsClient.innerHTML = ' ' + appart.client.name + ' ' + appart.client.lastName;
+                    clientInput.value = appart.client.id;
+                } else {
+                    detailsClient.innerHTML = ' Pas de client';
+                    clientInput.value = '';
+                }
+                divDetails.appendChild(detailsClient);
+
+
+
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+
         const selectEtages = document.getElementById('residencesAdd')
+        const listApparts = document.getElementById('appartAdd');
         loadEtages(selectEtages.value, 'addetage');
         const selectApparts = document.getElementById('addetage');
         loadApparts(selectApparts.value, 'appartAdd');
+        getDetailsAppart(listApparts.value, 'clientAdd')
         selectEtages.addEventListener('change', (e) => {
             const id = e.target.value
             loadEtages(id, 'addetage')
             const selectApparts = document.getElementById('addetage');
             loadApparts(selectApparts.value, 'appartAdd');
+            getDetailsAppart(listApparts.value, 'clientAdd')
         })
         selectApparts.addEventListener('change', (e) => {
-            const id = e.target.value;
-            loadApparts(id, 'appartAdd')
+            const id = e.target.value
+            loadApparts(id, 'appartAdd');
+            getDetailsAppart(listApparts.value, 'clientAdd')
         })
+        listApparts.addEventListener('change', (e) => {
+            const id = e.target.value;
+            getDetailsAppart(id, 'clientAdd');
 
+        })
         const selectEtagesEdit = document.getElementById('residencesEdit')
         const selectAppartsEdit = document.getElementById('editetage');
+        const listAppartsEdit = document.getElementById('appartEdit');
+
         selectEtagesEdit.addEventListener('change', (e) => {
             const id = e.target.value
             loadEtages(id, 'editetage')
             const selectApparts = document.getElementById('editetage');
             loadApparts(selectApparts.value, 'appartEdit');
+
+            getDetailsAppart(listAppartsEdit.value, 'detailsEdit');
         })
         selectAppartsEdit.addEventListener('change', (e) => {
-            const id = e.target.valueOf()
-            loadApparts(id, 'appartEdit')
+            const id = e.target.value;
+            loadApparts(id, 'appartEdit');
+            getDetailsAppart(listAppartsEdit.value, 'detailsEdit')
+
         })
 
-        const editButtons = document.getElementsByClassName('edit');
-        editButtons.forEach = Array.prototype.forEach;
-        document.addEventListener('click', function(event) {
-            const target = event.target;
-            if (target.classList.contains('edit')) {
-                const editButton = target;
-                const form = document.getElementById('editForm');
+        listAppartsEdit.addEventListener('change', (e) => {
+            const id = e.target.value;
+            getDetailsAppart(id, 'detailsEdit');
 
-                let base = '{{ route('charges.update', '5') }}';
-                base = base.replace('5', editButton.id);
-                form.action = base;
-                const residence_idInput = form.querySelector('select[name="residence_id"]')
-                const etage_idInput = form.querySelector('select[name="etage_id"]')
-                const appart_idInput = form.querySelector('select[name="appart_id"]')
-                const sonedeInput = form.querySelector('input[name="sonede"]');
-                const syndicInput = form.querySelector('input[name="syndic"]');
-                const contratInput = form.querySelector('input[name="contrat"]');
-                const foncierInput = form.querySelector('input[name="foncier"]');
-                url = "{{ route('charges.get', 5) }}";
-                url = url.replace('5', editButton.id);
-                axios.get(url).then((reponse) => {
-                    const client = reponse.data;
-                    const data = @json($residences);
-                    data.forEach((residence) => {
-                        residence.etage.forEach((etage) => {
-                            etage.appart.forEach((appart) => {
-                                if (appart.id == client.appart_id) {
-                                    residence_idInput.value = residence.id;
-                                    loadEtages(residence.id, 'editetage');
-                                    etage_idInput.value = etage.id;
-                                    loadApparts(etage.id, 'appartEdit');
-                                    appart_idInput.value = appart.id;
-                                }
-                            })
-                        })
-                    })
-                    sonedeInput.value = client.sonede;
-                    syndicInput.value = client.syndic;
-                    contratInput.value = client.contrat;
-                    foncierInput.value = client.foncier;
-                }).catch((error) => {
-                    console.log(error)
-                })
-            };
         })
+
         const resSelect = document.getElementById('resSelect');
         const resId = window.location.search.split('=')[1];
         if (resId) {
@@ -451,9 +469,9 @@
         }
         resSelect.addEventListener('change', function() {
             if (this.value == 0)
-                window.location.href = "{{ route('charges') }}";
+                window.location.href = "{{ route('garages') }}";
             else
-                window.location.href = "{{ route('charges') }}" + "?res=" + this.value;
+                window.location.href = "{{ route('garages') }}" + "?res=" + this.value;
         })
     </script>
 @endsection

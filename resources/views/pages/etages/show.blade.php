@@ -273,12 +273,12 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light-secondary"
                                                         data-bs-dismiss="modal">
-                                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">Annuler</span>
+                                                        
+                                                        <span class="d-block">Annuler</span>
                                                     </button>
                                                     <button type="submit" class="btn btn-primary ml-1">
-                                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block text-white">Ajouter</span>
+                                                        
+                                                        <span class="d-block text-white">Ajouter</span>
                                                     </button>
                                                 </div>
                                             </form>
@@ -391,12 +391,12 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light-secondary"
                                                         data-bs-dismiss="modal">
-                                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">Annuler</span>
+                                                        
+                                                        <span class="d-block">Annuler</span>
                                                     </button>
                                                     <button type="submit" class="btn btn-primary ml-1">
-                                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block text-white">Modifier</span>
+                                                        
+                                                        <span class="d-block text-white">Modifier</span>
                                                     </button>
                                                 </div>
                                             </form>
@@ -457,12 +457,12 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light-secondary close" data-bs-dismiss="modal"
                                         label="Close">
-                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block">Close</span>
+                                        
+                                        <span class="d-block">Close</span>
                                     </button>
                                     <button type="submit" class="btn btn-primary ml-1">
-                                        <i class="bx bx-check d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block text-white">Modifier</span>
+                                        
+                                        <span class="d-block text-white">Modifier</span>
                                     </button>
                                 </div>
                             </form>

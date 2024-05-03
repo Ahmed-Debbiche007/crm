@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EchancesController;
 use App\Http\Controllers\EcheancesController;
 use App\Http\Controllers\EtagesController;
+use App\Http\Controllers\GarageController;
 use App\Http\Controllers\ParkingsController;
 use App\Http\Controllers\ResidencesController;
 use App\Http\Controllers\UserController;
@@ -72,6 +73,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/celliers/{id}', [CelliersController::class, 'update'])->name('celliers.update');
     Route::get('/celliers/{id}', [CelliersController::class, 'destroy'])->name('celliers.destroy');
     Route::get('/cellier/{id}', [CelliersController::class, 'get'])->name('celliers.get');
+
+    Route::get('/garages', [GarageController::class, 'index'])->name('garages');
+    Route::post('/garages', [GarageController::class, 'store'])->name('garages.store');
+    Route::post('/garages/{id}', [GarageController::class, 'update'])->name('garages.update');
+    Route::get('/garages/{id}', [GarageController::class, 'destroy'])->name('garages.destroy');
+    Route::get('/garage/{id}', [GarageController::class, 'get'])->name('garages.get');
 
     Route::get('/parkings', [ParkingsController::class, 'index'])->name('parkings');
     Route::post('/parkings', [ParkingsController::class, 'store'])->name('parkings.store');

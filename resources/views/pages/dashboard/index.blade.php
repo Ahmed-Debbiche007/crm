@@ -74,6 +74,11 @@
                                             <h5 class="m-2">Nombre de celliers: {{ $residence->cellier->count() }}</h5>
                                         </div>
                                         <div class="d-flex flex-column">
+                                            <a href="{{ route('garages') }}?res={{ $residence->id }}"
+                                                class="badge bg-success mx-2">Garages</a>
+                                            <h5 class="m-2">Nombre de garages: {{ $residence->garage->count() }}</h5>
+                                        </div>
+                                        <div class="d-flex flex-column">
                                             <a href="{{ route('echances') }}?res={{ $residence->id }}"
                                                 class="badge bg-success mx-2">Échanciers</a>
                                         </div>
@@ -97,7 +102,7 @@
                                                         <a href="#" class="badge bg-danger mx-2">Pas de Parkings</a>
                                                     </div>
                                                 @endif
-                                                @if ($residence->parking->count() > 0)
+                                                @if ($residence->cellier->count() > 0)
                                                     <h5>Celliers:</h5>
                                                     <div class="d-flex justify-content-center align-items-center col-12">
                                                         <div class="cellier mt-3" id="{{ $residence->id }}"></div>
@@ -105,6 +110,16 @@
                                                 @else
                                                     <div class="d-flex flex-column mt-2">
                                                         <a href="#" class="badge bg-danger mx-2">Pas de Celliers</a>
+                                                    </div>
+                                                @endif
+                                                @if ($residence->garage->count() > 0)
+                                                    <h5>Garages:</h5>
+                                                    <div class="d-flex justify-content-center align-items-center col-12">
+                                                        <div class="garage mt-3" id="{{ $residence->id }}"></div>
+                                                    </div>
+                                                @else
+                                                    <div class="d-flex flex-column mt-2">
+                                                        <a href="#" class="badge bg-danger mx-2">Pas de Garages</a>
                                                     </div>
                                                 @endif
                                                 <div class="d-flex justify-content-center align-items-center col-12">
@@ -137,6 +152,7 @@
         const bars = document.querySelectorAll('.bar');
         const parking = document.querySelectorAll('.parking');
         const cellier = document.querySelectorAll('.cellier');
+        const garage = document.querySelectorAll('.garage');
         const residences = @json($residences);
         pies.forEach((pie) => {
             const div = document.createElement('div');
@@ -297,6 +313,57 @@
             var cellierChart = new ApexCharts(div, cellierOptions);
             cellierChart.render();
         })
+
+        garage.forEach((c) => {
+            const div = document.createElement('div');
+            c.appendChild(div);
+            const residence = residences.find((res) => res.id == c.id);
+            let garageVide = 0;
+            let garageReserve = 0;
+
+            const garages = [];
+
+            residence.garage.forEach((garage) => {
+                if (garage.client_id == null || garage.client_id == 0 || garage.client_id == "" ||
+                    garage.client_id == undefined) {
+                    garageVide++;
+                } else {
+                    garageReserve++;
+                }
+            })
+
+            garages.push(garageVide);
+            garages.push(garageReserve);
+            console.log(c.id, garages)
+            var garageOptions = {
+                chart: {
+                    type: 'pie',
+                },
+                series: garages,
+                labels: ['Libre', 'Réservé'],
+                colors: [ "#17c3b2","#227c9d"],
+                tooltip: {
+                    y: {
+                        formatter: function(value) {
+                            return value + " Cellier(s)"
+                        }
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    
+                    background: {
+                        enabled: true,
+                        foreColor: 'white',
+                        borderWidth: 0
+                    }
+                },
+            };
+
+            var garageChart = new ApexCharts(div, garageOptions);
+            garageChart.render();
+        })
+
         bars.forEach((bar) => {
             const div = document.createElement('div');
             bar.appendChild(div);

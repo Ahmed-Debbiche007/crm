@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cellier;
 use App\Models\Client;
+use App\Models\Garage;
 use App\Models\Residence;
 use Illuminate\Http\Request;
 
-class CelliersController extends Controller
+class GarageController extends Controller
 {
     public function index()
     {
-        $celliers = Cellier::with('client', 'residence')->orderBy("created_at","desc")->get();
+        $garages = Garage::with('client', 'residence')->orderBy("created_at","desc")->get();
         $residence = request('res');
         if($residence){
-            $celliers = Cellier::with('client', 'residence')->where('residence_id', $residence)->get();
+            $garages = Garage::with('client', 'residence')->where('residence_id', $residence)->get();
         }
-        $residences = Residence::with('etage','etage.appart','etage.appart.client','cellier')->get();
+        $residences = Residence::with('etage','etage.appart','etage.appart.client','garage')->get();
         $clients = Client::all();
-        return view('pages.celliers.table', [
-            'celliers' => $celliers,
+        return view('pages.garages.table', [
+            'garages' => $garages,
             'residences' => $residences,
             'clients' => $clients
         ]);
@@ -38,14 +38,14 @@ class CelliersController extends Controller
             'appart_id' => ['nullable']
         ]);
 
-        $cellier = Cellier::create($formFileds);
-        return redirect()->back()->with('success', 'cellier saved!');
+        $garage = Garage::create($formFileds);
+        return redirect()->back()->with('success', 'garage saved!');
     }
 
     public function get($id)
     {
-        $cellier = Cellier::with('client')->findOrFail($id);
-        return response()->json($cellier);
+        $garage = Garage::with('client')->findOrFail($id);
+        return response()->json($garage);
     }
 
 
@@ -62,15 +62,15 @@ class CelliersController extends Controller
             'appart_id' => ['nullable']
         ]);
 
-        $cellier = Cellier::findOrFail($id);
-        $cellier->update($formFileds);
-        return redirect()->back()->with('success', 'cellier updated!');
+        $garage = Garage::findOrFail($id);
+        $garage->update($formFileds);
+        return redirect()->back()->with('success', 'garage updated!');
     }
 
     public function destroy($id)
     {
-        $cellier = Cellier::findOrFail($id);
-        $cellier->delete();
-        return redirect()->back()->with('success', 'cellier deleted!');
+        $garage = Garage::findOrFail($id);
+        $garage->delete();
+        return redirect()->back()->with('success', 'garage deleted!');
     }
 }

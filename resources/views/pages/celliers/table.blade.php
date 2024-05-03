@@ -34,6 +34,8 @@
                                             <th scope="col">Residence</th>
                                             <th scope="col">Numéro</th>
                                             <th scope="col">Client</th>
+                                            <th scope="col">Surface</th>
+                                            <th scope="col">Prix</th>
                                             @if (Auth::user()->role == 1)
                                                 <th scope="col" class="noExport">Actions</th>
                                             @endif
@@ -51,6 +53,8 @@
                                                         --
                                                     @endif
                                                 </td>
+                                                <td>{{ $cellier->surface }}</td>
+                                                <td>{{ number_format(floatval($cellier->price), 3, '.', ' ') }}</td>
                                                 @if (Auth::user()->role == 1)
                                                     <td>
 
@@ -160,16 +164,26 @@
                                     <input type="text" name="name" placeholder="Numero" class="form-control">
                                 </div>
 
+                                <label>Surface: </label>
+                                <div class="form-group">
+                                    <input type="number" name="surface" placeholder="Surface" class="form-control">
+                                </div>
+                                <label>Prix: </label>
+                                <div class="form-group">
+                                    <input type="number" name="price" placeholder="Prix" step="0.001"
+                                        class="form-control">
+                                </div>
+
 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">Close</span>
+                                    
+                                    <span class="d-block">Close</span>
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
-                                    <i class="bx bx-check d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block text-white">Ajouter</span>
+                                    
+                                    <span class="d-block text-white">Ajouter</span>
                                 </button>
                             </div>
                         </form>
@@ -223,17 +237,26 @@
                                 <div class="form-group">
                                     <input type="text" name="name" placeholder="Numero" class="form-control">
                                 </div>
+                                <label>Surface: </label>
+                                <div class="form-group">
+                                    <input type="number" name="surface" placeholder="Surface" class="form-control">
+                                </div>
+                                <label>Prix: </label>
+                                <div class="form-group">
+                                    <input type="number" name="price" placeholder="Prix" step="0.001"
+                                        class="form-control">
+                                </div>
 
 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">Close</span>
+                                    
+                                    <span class="d-block">Close</span>
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
-                                    <i class="bx bx-check d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block text-white">Modifier</span>
+                                    
+                                    <span class="d-block text-white">Modifier</span>
                                 </button>
                             </div>
                         </form>
@@ -274,6 +297,8 @@
                 const etage_idInput = form.querySelector('select[name="etage_id"]')
                 const appart_idInput = form.querySelector('select[name="appart_id"]')
                 const cleintInput = form.querySelector('input[name="client_id"]')
+                const surfaceInput = form.querySelector('input[name="surface"]')
+                const priceInput = form.querySelector('input[name="price"]')
 
                 url = "{{ route('celliers.get', 5) }}";
                 url = url.replace('5', editButton.id);
@@ -287,8 +312,9 @@
                     etage_idInput.value = appart.etage_id;
                     loadApparts(etage_idInput.value, 'appartEdit');
                     appart_idInput.value = appart.appart_id;
-
                     cleintInput.value = appart.client_id;
+                    surfaceInput.value = appart.surface;
+                    priceInput.value = appart.price
 
                     const divDetails = document.getElementById('detailsEdit');
                     const clientInput = divDetails.parentElement.parentElement.querySelector(
@@ -318,6 +344,15 @@
             selectEtage.innerHTML = ''
             data.forEach(residence => {
                 if (residence.id == id) {
+                    residence.etage.sort((a, b) => {
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+                        return 0;
+                    })
                     residence.etage.forEach(e => {
                         const option = document.createElement('option')
                         option.value = e.id

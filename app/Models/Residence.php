@@ -24,6 +24,11 @@ class Residence extends Model
         return $this->hasMany(Cellier::class);
     }
 
+    public function garage()
+    {
+        return $this->hasMany(Garage::class);
+    }
+
     public function image()
     {
         return $this->hasMany(Image::class);
