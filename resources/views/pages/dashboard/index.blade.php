@@ -167,9 +167,9 @@
                 etage.appart.forEach((appart) => {
                     if (appart.bs == 0) {
                         libre++;
-                    } else if (appart.bs == 1) {
-                        reserve++;
                     } else if (appart.bs == 2) {
+                        reserve++;
+                    } else if (appart.bs == 1) {
                         loue++;
                     } else if (appart.bs == 3) {
                         vendu++;
@@ -197,7 +197,7 @@
                 },
                 dataLabels: {
                     enabled: true,
-                    
+
                     background: {
                         enabled: true,
                         foreColor: 'white',
@@ -240,7 +240,7 @@
                 },
                 series: parkings,
                 labels: ['Libre', 'Réservé'],
-                colors: ["#17c3b2","#227c9d"],
+                colors: ["#17c3b2", "#227c9d"],
                 tooltip: {
                     y: {
                         formatter: function(value) {
@@ -250,7 +250,7 @@
                 },
                 dataLabels: {
                     enabled: true,
-                    
+
                     background: {
                         enabled: true,
                         foreColor: 'white',
@@ -291,7 +291,7 @@
                 },
                 series: celliers,
                 labels: ['Libre', 'Réservé'],
-                colors: [ "#17c3b2","#227c9d"],
+                colors: ["#17c3b2", "#227c9d"],
                 tooltip: {
                     y: {
                         formatter: function(value) {
@@ -301,7 +301,7 @@
                 },
                 dataLabels: {
                     enabled: true,
-                    
+
                     background: {
                         enabled: true,
                         foreColor: 'white',
@@ -341,7 +341,7 @@
                 },
                 series: garages,
                 labels: ['Libre', 'Réservé'],
-                colors: [ "#17c3b2","#227c9d"],
+                colors: ["#17c3b2", "#227c9d"],
                 tooltip: {
                     y: {
                         formatter: function(value) {
@@ -351,7 +351,7 @@
                 },
                 dataLabels: {
                     enabled: true,
-                    
+
                     background: {
                         enabled: true,
                         foreColor: 'white',

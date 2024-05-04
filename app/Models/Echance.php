@@ -31,6 +31,7 @@ class Echance extends Model
         'client_id',
         'date_avance',
         'amount_avance',
+        'modalite' ,
         'preuve_avance',
         'promesse',
         'date_promesse_livre',

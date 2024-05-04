@@ -58,6 +58,10 @@ class EtagesController extends Controller
             'etage',
             'etage.appart',
         )->get();
+        if (str_contains(strtolower($etage->name), 'sol')) {
+            
+            return view('pages.etages.soussol', ['etage' => $etage, 'residences' => $residences, 'clients' => $clients]);
+        }
         return view('pages.etages.show', ['etage' => $etage, 'residences' => $residences, 'clients' => $clients]);
     }
 

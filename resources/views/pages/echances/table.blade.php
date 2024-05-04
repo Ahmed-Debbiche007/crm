@@ -240,7 +240,17 @@
                                 <div class="form-group">
                                     <input type="date" name="date_avance" placeholder="Numero" class="form-control">
                                 </div>
-
+                                <label>Modalité: </label>
+                                <div class="form-group">
+                                    <select name="modalite" class="form-control">
+                                        <option value="Chèque">Chèque</option>
+                                        <option value="Crédit">Crédit</option>
+                                        <option value="Espèces">Espèces</option>
+                                        <option value="Virement">Virement</option>
+                                        <option value="Versement">Versement</option>
+                                        <option value="Lettre de change">Lettre de change</option>
+                                    </select>
+                                </div>
 
                                 <label>Promesse: </label>
 
@@ -317,11 +327,11 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    
+
                                     <span class="d-block">Close</span>
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
-                                    
+
                                     <span class="d-block text-white">Ajouter</span>
                                 </button>
                             </div>
@@ -382,7 +392,17 @@
                                 <div class="form-group">
                                     <input type="date" name="date_avance" placeholder="Numero" class="form-control">
                                 </div>
-
+                                <label>Modalité: </label>
+                                <div class="form-group">
+                                    <select name="modalite" class="form-control">
+                                        <option value="Chèque">Chèque</option>
+                                        <option value="Crédit">Crédit</option>
+                                        <option value="Espèces">Espèces</option>
+                                        <option value="Virement">Virement</option>
+                                        <option value="Versement">Versement</option>
+                                        <option value="Lettre de change">Lettre de change</option>
+                                    </select>
+                                </div>
                                 <label>Promesse: </label>
 
                                 <div class='form-check'>
@@ -458,11 +478,11 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    
+
                                     <span class="d-block">Close</span>
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
-                                    
+
                                     <span class="d-block text-white">Modifier</span>
                                 </button>
                             </div>
@@ -675,6 +695,7 @@
                 const amount_avanceInput = form.querySelector('input[ name="amount_avance"]')
                 const dateInput = form.querySelector('input[ name="date"]')
                 const date_avanceInput = form.querySelector('input[ name="date_avance"]')
+                const modaliteInput = form.querySelector('select[name="modalite"]')
                 const date_promesse_livre = form.querySelector('input[name="date_promesse_livre"]');
                 const date_promesse_legal = form.querySelector('input[name="date_promesse_legal"]');
                 const date_contrat_livre = form.querySelector('input[name="date_contrat_livre"]');
@@ -710,6 +731,7 @@
                     dateInput.value = client.date;
                     date_avanceInput.value = client.date_avance;
                     amount_avanceInput.value = client.amount_avance;
+                    modaliteInput.value = client.modalite;
                     if (client.date_promesse_livre) {
                         livraisonDateEdit.checked = true;
                         date_promesse_livre.disabled = false;
