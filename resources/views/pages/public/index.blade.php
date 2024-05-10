@@ -271,8 +271,11 @@
                             case 4:
                                 statut = "S+2";
                                 break;
-                            case 4:
+                            case 5:
                                 statut = "S+3";
+                                break;
+                            case 6:
+                                statut = "Triplex";
                                 break;
                             default:
                                 break;

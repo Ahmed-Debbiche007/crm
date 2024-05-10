@@ -165,7 +165,7 @@
                                 </div>
                                 <label>Surface: </label>
                                 <div class="form-group">
-                                    <input type="number" name="surface" placeholder="Surface" class="form-control">
+                                    <input type="number" name="surface" placeholder="Surface" class="form-control" step="0.001">
                                 </div>
                                 <label>Prix: </label>
                                 <div class="form-group">
@@ -237,7 +237,7 @@
                                 </div>
                                 <label>Surface: </label>
                                 <div class="form-group">
-                                    <input type="number" name="surface" placeholder="Surface" class="form-control">
+                                    <input type="number" name="surface" placeholder="Surface" class="form-control" step="0.001">
                                 </div>
                                 <label>Prix: </label>
                                 <div class="form-group">

@@ -24,16 +24,16 @@
 
                         </main>
                     </div>
-                    <div class="p-1">
+                    <div class="p-1 m-5">
                         @if (Auth::user()->role == 1)
                             <button id="{{ $etage->id }}" class="btn btn-warning editEt" data-bs-toggle="modal"
                                 data-bs-target="#inlineEtageEdit"><i data-feather="edit"></i>Modifier</button>
                         @endif
                     </div>
-                    <div class="card">
+                    <div class="card m-5">
                         <div class="card-body">
                             <div class="d-flex justify-content-between m-3">
-                                <h5 class="card-title">Biens Immobiliers</h5>
+                                <h5 class="card-title">Parkings</h5>
                                 @if (Auth::user()->role == 1)
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#inlineForm"
                                         class="btn btn-primary" id="addAppart">Ajouter</button>
@@ -43,95 +43,46 @@
                                 <table class='table table-striped' id="table1">
                                     <thead>
                                         <tr>
-                                            <th scope="col" id="appartOrder">Bien Immobilier</th>
+                                            <th scope="col" id="appartOrder">Parking</th>
+                                            <th scope="col">Numéro</th>
                                             <th scope="col">Client</th>
-                                            <th scope="col">Etage</th>
-                                            <th scope="col">Résidence</th>
-                                            <th scope="col">Surface</th>
-                                            <th scope="col">Type</th>
-                                            <th scope="col">Prix</th>
-                                            <th scope="col">Statut</th>
-                                            <th scope="col">Commentaire</th>
-                                            <th scope="col" class="noExport">Charges</th>
-                                            <th scope="col" class="noExport">Échanciers</th>
-
-                                            <th scope="col" class="noExport">Actions</th>
+                                            @if (Auth::user()->role == 1)
+                                                <th scope="col" class="noExport">Actions</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($etage->appart as $appart)
+                                        @foreach ($etage->building->parking as $parking)
                                             <tr>
-                                                <td>{{ $appart->name }}</td>
+
+                                                <td>{{ $parking->name }}</td>
+                                                <td>{{ $parking->number }}</td>
                                                 <td>
-                                                    @if ($appart->client)
-                                                        {{ $appart->client->name }} {{ $appart->client->lastName }}
+                                                    @if ($parking->client)
+                                                        {{ $parking->client->name }} {{ $parking->client->lastName }}
                                                     @else
                                                         --
                                                     @endif
                                                 </td>
-                                                <td>{{ $appart->etage->name }}</td>
-                                                <td>{{ $appart->etage->building->name }}</td>
-                                                <td>{{ $appart->surface }}</td>
-                                                <td>
-                                                    @if ($appart->type == 0)
-                                                        Commerce
-                                                    @endif
-                                                    @if ($appart->type == 1)
-                                                        Duplex
-                                                    @endif
-                                                    @if ($appart->type == 2)
-                                                        Duplex - 1
-                                                    @endif
-                                                    @if ($appart->type == 3)
-                                                        S+1
-                                                    @endif
-                                                    @if ($appart->type == 4)
-                                                        S+2
-                                                    @endif
-                                                    @if ($appart->type == 5)
-                                                        S+3
-                                                    @endif
-                                                </td>
-                                                <td>{{ number_format(floatval($appart->price), 3, '.', ' ') }}</td>
-                                                <td>
-                                                    @if ($appart->bs == 0)
-                                                        A vendre
-                                                    @endif
-                                                    @if ($appart->bs == 1)
-                                                        Loué
-                                                    @endif
-                                                    @if ($appart->bs == 2)
-                                                        Réservé
-                                                    @endif
-                                                    @if ($appart->bs == 3)
-                                                        Vendu
-                                                    @endif
-                                                </td>
 
-                                                <td>{{ $appart->comments }}</td>
-                                                <td> <a href="{{ route('charges') }}?appart={{ $appart->id }}"
-                                                        class="badge bg-success">Charges</a> </td>
-                                                <td> <a href="{{ route('echances') }}?appart={{ $appart->id }}"
-                                                        class="badge bg-success">Échanciers</a> </td>
-                                                <td>
-                                                    <a href="{{ route('apparts.show', $appart->id) }}"
-                                                        class="btn btn-primary"><i
-                                                            data-feather="plus-circle"></i>Details</a>
-                                                    @if (Auth::user()->role == 1)
-                                                        <button id="{{ $appart->id }}" class="btn btn-warning edit"
-                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
+
+                                                @if (Auth::user()->role == 1)
+                                                    <td class="d-flex flex-row">
+                                                        <button id="{{ $parking->id }}"
+                                                            class="btn btn-warning editParking m-1" data-bs-toggle="modal"
+                                                            data-bs-target="#inlineFormEditParking"><i
                                                                 data-feather="edit"></i>Modifier</button>
 
 
                                                         <form method="GET"
-                                                            action="{{ route('apparts.destroy', $appart->id) }}">
+                                                            action="{{ route('parkings.destroy', $parking->id) }}">
                                                             @csrf
                                                             <button type="button" class="btn btn-danger m-1"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#inlineChargeDelete{{ $appart->id }}"><i
+                                                                data-bs-target="#inlineChargeDelete{{ $parking->id }}"><i
                                                                     data-feather="trash"></i>Supprimer</button>
                                                             <div class="modal fade"
-                                                                id="inlineChargeDelete{{ $appart->id }}" tabindex="-1"
+                                                                id="inlineChargeDelete{{ $parking->id }}" tabindex="-1"
                                                                 role="dialog" aria-labelledby="exampleModalLabel"
                                                                 aria-hidden="true">
                                                                 <div class="modal-dialog" role="document">
@@ -157,17 +108,14 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                    @endif
-                                                </td>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
 
-                                <form id="delete" action="#">
-                                    @csrf
 
-                                </form>
                                 <!--End Row-->
 
                                 <div class="modal fade text-left " id="inlineForm" tabindex="-1" role="dialog"
@@ -185,16 +133,11 @@
                                                     </svg>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('apparts.store') }}" id="formmm"
+                                            <form method="POST" action="{{ route('parkings.store') }}" id="formmm"
                                                 enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="modal-body">
-                                                    <label>Nom: </label>
-                                                    <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Nom"
-                                                            id="nomAppart" class="form-control">
-                                                    </div>
-
+                                                    
                                                     <label>Résidence: </label>
                                                     <div class="form-group">
                                                         <select name="residence_id" class="form-control"
@@ -212,7 +155,16 @@
 
                                                         </select>
                                                     </div>
+                                                    <label>Bien Immobilier: </label>
+                                                    <div class="form-group">
+                                                        <select name="appart_id" id="appartAdd" class="form-control">
 
+                                                        </select>
+                                                    </div>
+                                                    <div class="d-flex"><label class="mx-1">Client: </label>
+                                                        <p id="clientAdd"></p>
+                                                    </div>
+                                                    <input type="hidden" name="client_id" id="clientAddInput">
                                                     <div class="form-group">
                                                         <main class="cd__main addImage" style="display: none;">
 
@@ -222,64 +174,25 @@
 
                                                     </div>
 
-                                                    <label>Surface: </label>
+                                                    <label>Place Parking: </label>
                                                     <div class="form-group">
-                                                        <input type="number" name="surface" placeholder="Surface"
+                                                        <input type="text" name="name" id="nomAppart" placeholder="Place Parking"
                                                             class="form-control">
                                                     </div>
-                                                    <label>Type: </label>
+                                                    <label>Numero: </label>
                                                     <div class="form-group">
-                                                        <select name="type" class="form-control">
-                                                            <option value="0">Commerce</option>
-                                                            <option value="1">Duplex</option>
-                                                            <option value="2">Duplex - 1</option>
-                                                            <option value="3">S+1</option>
-                                                            <option value="4">S+2</option>
-                                                            <option value="5">S+3</option>
-                                                        </select>
-                                                    </div>
-                                                    <label>Prix: </label>
-                                                    <div class="form-group">
-                                                        <input type="number" name="price" placeholder="Prix"
-                                                            step="0.001" class="form-control">
-                                                    </div>
-                                                    <label>Client: </label>
-                                                    <div class="form-group">
-                                                        <select name="client_id" class="form-control">
-                                                            <option value="">--</option>
-                                                            @foreach ($clients as $client)
-                                                                <option value="{{ $client->id }}">
-                                                                    {{ $client->name }} {{ $client->lastName }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <label>Statut: </label>
-                                                    <div class="form-group">
-                                                        <select name="bs" class="form-control">
-                                                            <option value= "0"> A vendre </option>
-                                                            <option value= "1"> Loué </option>
-                                                            <option value= "2"> Réservé </option>
-                                                            <option value= "3"> Vendu </option>
-                                                        </select>
-                                                    </div>
-                                                    <label>Gallery </label>
-                                                    <input type="file" name="gallery[]"
-                                                        class="multiple-files-filepond" multiple>
-                                                    <label>Commentaires: </label>
-                                                    <div class="form-group">
-                                                        <textarea name="comments" cols="30" rows="10" class="form-control"></textarea>
+                                                        <input type="text" name="number" placeholder="Numero"
+                                                            class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light-secondary"
                                                         data-bs-dismiss="modal">
-                                                        
+
                                                         <span class="d-block">Annuler</span>
                                                     </button>
                                                     <button type="submit" class="btn btn-primary ml-1">
-                                                        
+
                                                         <span class="d-block text-white">Ajouter</span>
                                                     </button>
                                                 </div>
@@ -393,11 +306,11 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light-secondary"
                                                         data-bs-dismiss="modal">
-                                                        
+
                                                         <span class="d-block">Annuler</span>
                                                     </button>
                                                     <button type="submit" class="btn btn-primary ml-1">
-                                                        
+
                                                         <span class="d-block text-white">Modifier</span>
                                                     </button>
                                                 </div>
@@ -459,11 +372,11 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light-secondary close" data-bs-dismiss="modal"
                                         label="Close">
-                                        
+
                                         <span class="d-block">Close</span>
                                     </button>
                                     <button type="submit" class="btn btn-primary ml-1">
-                                        
+
                                         <span class="d-block text-white">Modifier</span>
                                     </button>
                                 </div>
@@ -527,25 +440,68 @@
 
 
 
-<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
 
     <script>
+        const getDetailsAppart = (id, select) => {
+            let route = '{{ route('apparts.get', '5') }}';
+            route = route.replace('5', id);
+            axios.get(route).then((reponse) => {
+                const appart = reponse.data;
+                const divDetails = document.getElementById(select);
+                const clientInput = divDetails.parentElement.parentElement.querySelector(
+                    'input[name="client_id"]')
+                const detailsClient = document.createElement('h4');
+                divDetails.innerHTML = '';
+                if (appart.client) {
+                    detailsClient.innerHTML = ' ' + appart.client.name + ' ' + appart.client.lastName;
+                    clientInput.value = appart.client.id;
+                } else {
+                    detailsClient.innerHTML = ' Pas de client';
+                    clientInput.value = '';
+                }
+                divDetails.appendChild(detailsClient);
+
+
+
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+        const data = @json($residences);
         const etageData = @json($etage);
         const selectEtages = document.getElementById('residencesAdd')
         const selectEtagesEdit = document.getElementById('residencesEdit')
         const addSelect = document.getElementById('addetage')
         const etagesSelectEdit = document.getElementById('editetage')
+        const listApparts = document.getElementById('appartAdd');
         selectEtages.value = etageData.residence_id;
         loadEtages(selectEtages.value, 'addetage');
-
+        const selectApparts = document.getElementById('addetage');
+        loadApparts(selectApparts.value, 'appartAdd');
+        getDetailsAppart(listApparts.value, 'clientAdd')
 
         selectEtages.addEventListener('change', (e) => {
             const id = e.target.value
 
             loadEtages(id, 'addetage')
+            const selectApparts = document.getElementById('addetage');
+            loadApparts(selectApparts.value, 'appartAdd');
+            getDetailsAppart(listApparts.value, 'clientAdd')
+        })
+
+        selectApparts.addEventListener('change', (e) => {
+            const id = e.target.value
+            loadApparts(id, 'appartAdd');
+            getDetailsAppart(listApparts.value, 'clientAdd')
+        })
+        listApparts.addEventListener('change', (e) => {
+            const id = e.target.value;
+            getDetailsAppart(id, 'clientAdd');
+
         })
 
         selectEtagesEdit.addEventListener('change', (e) => {
@@ -588,6 +544,35 @@
                 }
             })
         }
+
+        function loadApparts(id, appartId) {
+            const selectAppart = document.getElementById(appartId)
+            selectAppart.innerHTML = ''
+            data.forEach(residence => {
+                residence.etage.forEach((etage) => {
+                    if (etage.id == id) {
+                        
+                        etage.appart.sort((a, b) => {
+                            if (a.name < b.name) {
+                                return -1;
+                            }
+                            if (a.name > b.name) {
+                                return 1;
+                            }
+                            return 0;
+                        })
+                        etage.appart.forEach(appart => {
+                            const option = document.createElement('option')
+                            option.value = appart.id
+                            option.innerHTML = appart.name
+                            selectAppart.appendChild(option)
+                        })
+                    }
+                })
+            })
+        }
+
+        
 
         FilePond.create(document.querySelector(".multiple-files-filepond"), {
             credits: null,

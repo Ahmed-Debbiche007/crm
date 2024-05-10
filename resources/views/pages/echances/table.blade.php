@@ -126,7 +126,7 @@
                                                                 data-bs-target="#inlineFormEdit"><i
                                                                     data-feather="edit"></i>Modifier</button>
                                                             <form method="GET"
-                                                                action="{{ route('echeances.destroy', $echance->id) }}">
+                                                                action="{{ route('echances.destroy', $echance->id) }}">
                                                                 @csrf
                                                                 <button type="button" class="btn btn-danger m-1"
                                                                     data-bs-toggle="modal"

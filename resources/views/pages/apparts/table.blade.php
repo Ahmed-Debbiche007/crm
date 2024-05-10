@@ -88,6 +88,9 @@
                                                     @if ($appart->type == 2)
                                                         Duplex - 1
                                                     @endif
+                                                    @if ($appart->type == 6)
+                                                        Triplex
+                                                    @endif
                                                     @if ($appart->type == 3)
                                                         S+1
                                                     @endif
@@ -97,6 +100,7 @@
                                                     @if ($appart->type == 5)
                                                         S+3
                                                     @endif
+                                                    
                                                 </td>
                                                 <td>{{ number_format(floatval($appart->price), 3, '.', ' ') }}</td>
                                                 <td>
@@ -232,6 +236,7 @@
                                                     <div class="form-group">
                                                         <select name="type" class="form-control">
                                                             <option value="0">Commerce</option>
+                                                            <option value="6">Triplex</option>
                                                             <option value="1">Duplex</option>
                                                             <option value="2">Duplex - 1</option>
                                                             <option value="3">S+1</option>
@@ -347,6 +352,7 @@
                                                     <div class="form-group">
                                                         <select name="type" class="form-control">
                                                             <option value="0">Commerce</option>
+                                                            <option value="6">Triplex</option>
                                                             <option value="1">Duplex</option>
                                                             <option value="2">Duplex - 1</option>
                                                             <option value="3">S+1</option>

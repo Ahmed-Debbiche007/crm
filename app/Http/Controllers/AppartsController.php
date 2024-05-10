@@ -99,6 +99,7 @@ class AppartsController extends Controller
 
     public function update(Request $request, $id)
     {
+        
         $formFileds = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'etage_id' => ['required', 'exists:etages,id'],
@@ -229,6 +230,9 @@ class AppartsController extends Controller
         if ($appart->type == 5) {
             $type = 'S+3';
         }
+        if ($appart->type == 6) {
+            $type = 'Triplex';
+        }
         $my_template->setValue('type', $type);
         $my_template->setValue('surface', $appart->surface);
         $my_template->setValue('etage', $appart->etage->name);
@@ -276,6 +280,9 @@ class AppartsController extends Controller
         }
         if ($appart->type == 5) {
             $type = 'S+3';
+        }
+        if ($appart->type == 6) {
+            $type = 'Triplex';
         }
         $my_template->setValue('type', $type);
         $my_template->setValue('surface', $appart->surface);

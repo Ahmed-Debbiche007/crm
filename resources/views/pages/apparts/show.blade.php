@@ -86,6 +86,9 @@
                                                 @if ($appart->type == 0)
                                                     Commerce
                                                 @endif
+                                                @if ($appart->type == 6)
+                                                    Triplex
+                                                @endif
                                                 @if ($appart->type == 1)
                                                     Duplex
                                                 @endif
@@ -202,6 +205,7 @@
                                                     <div class="form-group">
                                                         <select name="type" class="form-control">
                                                             <option value="0">Commerce</option>
+                                                            <option value="6">Triplex</option>
                                                             <option value="1">Duplex</option>
                                                             <option value="2">Duplex - 1</option>
                                                             <option value="3">S+1</option>
@@ -246,11 +250,11 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light-secondary"
                                                         data-bs-dismiss="modal">
-                                                        
+
                                                         <span class="d-block">Annuler</span>
                                                     </button>
                                                     <button type="submit" class="btn btn-primary ml-1">
-                                                        
+
                                                         <span class="d-block text-white">Modifier</span>
                                                     </button>
                                                 </div>
@@ -555,11 +559,11 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    
+
                                     <span class="d-block">Close</span>
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
-                                    
+
                                     <span class="d-block text-white">Ajouter</span>
                                 </button>
                             </div>
@@ -654,11 +658,11 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    
+
                                     <span class="d-block">Close</span>
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
-                                    
+
                                     <span class="d-block text-white">Modifier</span>
                                 </button>
                             </div>
@@ -818,11 +822,11 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    
+
                                     <span class="d-block">Close</span>
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
-                                    
+
                                     <span class="d-block text-white">Ajouter</span>
                                 </button>
                             </div>
@@ -878,11 +882,11 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    
+
                                     <span class="d-block">Close</span>
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
-                                    
+
                                     <span class="d-block text-white">Modifier</span>
                                 </button>
                             </div>

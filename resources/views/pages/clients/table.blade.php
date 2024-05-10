@@ -129,11 +129,11 @@
                         <form method="POST" action="{{ route('clients.store') }}">
                             @csrf
                             <div class="modal-body">
-                                <label>Nom: </label>
+                                <label>Prenom: </label>
                                 <div class="form-group">
                                     <input type="text" name="name" placeholder="Nom" class="form-control">
                                 </div>
-                                <label>Prenom: </label>
+                                <label>Nom: </label>
                                 <div class="form-group">
                                     <input type="text" name="lastName" placeholder="Prénom" class="form-control">
                                 </div>
@@ -198,11 +198,11 @@
                         <form id="editForm" method="POST" action="{{ route('clients.store') }}">
                             @csrf
                             <div class="modal-body">
-                                <label>Nom: </label>
+                                <label>Prenom: </label>
                                 <div class="form-group">
                                     <input type="text" name="name" placeholder="Nom" class="form-control">
                                 </div>
-                                <label>Prenom: </label>
+                                <label>Nom: </label>
                                 <div class="form-group">
                                     <input type="text" name="lastName" placeholder="Prénom" class="form-control">
                                 </div>

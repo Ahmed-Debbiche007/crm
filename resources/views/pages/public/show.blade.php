@@ -100,6 +100,9 @@
                         @if ($appart->type == 0)
                             Commerce
                         @endif
+                        @if ($appart->type == 6)
+                            Triplex
+                        @endif
                         @if ($appart->type == 1)
                             Duplex
                         @endif
