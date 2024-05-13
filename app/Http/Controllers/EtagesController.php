@@ -50,6 +50,12 @@ class EtagesController extends Controller
         return response()->json($etage);
     }
 
+    public function getSousSol($id)
+    {
+        $etage = Etage::with('appart', 'appart.charge', 'appart.etage', 'appart.client', 'building','building.parking','building.cellier','building.garage')->where('residence_id', $id)->where('name', 'like', '%sol%')->first();
+        return response()->json($etage);
+    }
+
     public function show($id)
     {
         $etage = Etage::with('appart', 'appart.charge', 'appart.etage', 'appart.client', 'building')->findOrFail($id);

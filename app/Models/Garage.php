@@ -38,6 +38,8 @@ class Garage extends Model
         'residence_id',
         'etage_id',
         'appart_id',
+        'x',
+        'y'
 
     ];
 }

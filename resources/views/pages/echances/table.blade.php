@@ -511,25 +511,8 @@
 
 
     <script>
-        $(document).ready(function() {
-            // get query params
-            const urlParams = new URLSearchParams(window.location.search);
-            const myParam = urlParams.get('appart');
-            if (myParam) {
-                axios.get('{{ route('apparts.get', '5') }}'.replace('5', myParam)).then((reponse) => {
-                    const appart = reponse.data;
-                    $("#residencesAdd").val(appart.etage.residence_id)
-                    loadEtages(appart.etage.residence_id, 'addetage');
-                    $("#addetage").val(appart.etage.id)
-                    const selectApparts = document.getElementById('addetage');
-                    loadApparts(selectApparts.value, 'appartAdd');
-                    $("#appartAdd").val(appart.id)
-                    getDetailsAppart(listApparts.value, 'details');
-                }).catch((error) => {
-                    console.log(error)
-                })
-            }
-        })
+        
+        
 
         const getDetailsAppart = (id, select) => {
             let route = '{{ route('apparts.get', '5') }}';
@@ -952,5 +935,36 @@
                 }
             })
         })
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const resIdParam = urlParams.get('res');
+        const etId = urlParams.get('etage');
+
+        if (resIdParam) {
+
+            resSelect.value = resIdParam;
+            selectEtages.value = resIdParam;
+            loadEtages(selectEtages.value, 'addetage');
+            loadApparts(selectApparts.value, 'appartAdd');
+
+
+        } else if (etId) {
+            axios.get("{{ route('etages.get', 5) }}".replace('5', etId)).then((reponse) => {
+                const residence = reponse.data;
+                resSelect.value = residence.residence_id;
+                selectEtages.value = residence.residence_id;
+                loadEtages(selectEtages.value, 'addetage');
+                selectApparts.value = etId;
+                loadApparts(selectApparts.value, 'appartAdd');
+            }).catch((error) => {
+                console.log(error)
+            });
+        } else {
+            resSelect.value = 0;
+            selectEtages.value = 1;
+            loadEtages(selectEtages.value, 'addetage');
+            loadApparts(selectApparts.value, 'appartAdd');
+
+        }
     </script>
 @endsection

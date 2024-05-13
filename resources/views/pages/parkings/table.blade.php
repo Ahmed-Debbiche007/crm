@@ -1,7 +1,8 @@
 @extends('welcome')
 @section('title', 'Parkings')
 @section('styles')
-
+    <link href="{{ asset('dist/css/hotspot/hotspot.css') }}" rel="stylesheet" />
+    <link href="{{ asset('dist/css/hotspot/style.css') }}" rel="stylesheet" />
 @endsection
 
 @section('content')
@@ -113,7 +114,7 @@
 
                     <div class="modal fade text-left " id="inlineForm" tabindex="-1" role="dialog"
                         aria-labelledby="myModalLabel33" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
@@ -125,7 +126,8 @@
                                         </svg>
                                     </button>
                                 </div>
-                                <form method="POST" action="{{ route('parkings.store') }}" enctype="multipart/form-data">
+                                <form id="formmm" method="POST" action="{{ route('parkings.store') }}"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <div class="modal-body">
                                         <label>Residence: </label>
@@ -155,24 +157,31 @@
                                         <input type="hidden" name="client_id" id="clientAddInput">
                                         <label>Place Parking: </label>
                                         <div class="form-group">
-                                            <input type="text" name="name" placeholder="Place Parking"
-                                                class="form-control">
+                                            <input type="text" name="name" id="nameAdd"
+                                                placeholder="Place Parking" class="form-control">
                                         </div>
                                         <label>Numero: </label>
                                         <div class="form-group">
                                             <input type="text" name="number" placeholder="Numero"
                                                 class="form-control">
                                         </div>
+                                        <label>Emplacement: </label>
+                                        <div class="form-group">
+                                            <main class="cd__main" style="display: none;">
 
+                                            </main>
+                                            <input type="hidden" name="x">
+                                            <input type="hidden" name="y">
+                                        </div>
 
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                            
+
                                             <span class="d-block">Close</span>
                                         </button>
                                         <button type="submit" class="btn btn-primary ml-1">
-                                            
+
                                             <span class="d-block text-white">Ajouter</span>
                                         </button>
                                     </div>
@@ -182,7 +191,7 @@
                     </div>
                     <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
                         aria-labelledby="myModalLabel44" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
@@ -233,16 +242,24 @@
                                             <input type="text" name="number" placeholder="Numero"
                                                 class="form-control">
                                         </div>
+                                        <label>Emplacement: </label>
+                                        <div class="form-group">
+                                            <main class="cd__main editHotspot" style="display: none;">
+
+                                            </main>
+                                            <input type="hidden" name="x">
+                                            <input type="hidden" name="y">
+                                        </div>
 
 
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                            
+
                                             <span class="d-block">Close</span>
                                         </button>
                                         <button type="submit" class="btn btn-primary ml-1">
-                                            
+
                                             <span class="d-block text-white">Modifier</span>
                                         </button>
                                     </div>
@@ -270,10 +287,10 @@
 
 
 
-    
+
     <script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
-    
-    
+
+
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -295,6 +312,8 @@
                 const etage_idInput = form.querySelector('select[name="etage_id"]')
                 const appart_idInput = form.querySelector('select[name="appart_id"]')
                 const cleintInput = form.querySelector('input[name="client_id"]')
+                const xInput = form.querySelector('input[name="x"]')
+                const yInput = form.querySelector('input[name="y"]')
 
                 url = "{{ route('parkings.get', 5) }}";
                 url = url.replace('5', editButton.id);
@@ -303,8 +322,10 @@
                     nameInput.value = appart.name;
                     numberInput.value = appart.number;
                     residence_idInput.value = appart.residence_id;
+                    xInput.value = appart.x;
+                    yInput.value = appart.y;
                     loadEtages(appart.residence_id, 'editetage');
-
+                    loadImageEdit(appart.residence_id, appart.id);
                     etage_idInput.value = appart.etage_id;
 
                     loadApparts(etage_idInput.value, 'appartEdit');
@@ -354,7 +375,7 @@
             data.forEach(residence => {
                 residence.etage.forEach((etage) => {
                     if (etage.id == id) {
-                        
+
                         etage.appart.sort((a, b) => {
                             if (a.name < b.name) {
                                 return -1;
@@ -401,6 +422,111 @@
             })
         }
 
+        function loadImage(id) {
+            const main = document.querySelector('.cd__main');
+
+
+            axios.get("{{ route('etages.soussol', 5) }}".replace('5', id)).then((reponse) => {
+                const etage = reponse.data;
+                const w = 900;
+
+                if (etage.hplan != 'undefined' && etage.wplan != 'undefined') {
+                    main.style.display = 'block'
+                    main.innerHTML = ''
+                    main.classList.add('mt-3')
+                    const imageUrl = "{{ route('dashboard') }}" + etage.plan;
+                    const div = document.createElement('div');
+
+                    const ratio = etage.wplan / etage.hplan;
+                    main.setAttribute('style', 'height: ' + w / ratio +
+                        'px; width: ' + w + 'px;');
+
+
+                    div.classList.add('containerH');
+
+                    const path = "{{ asset('favicon.ico') }}".replace("favicon.ico", etage.plan)
+                    div.setAttribute('style', "background-image: url('" + path +
+                        "'); background-size: cover; height: " + w / ratio + "px; width: " + w + "px;");
+
+                    etage.building.parking.forEach((ap) => {
+                        const appart = document.createElement('div');
+                        appart.classList.add('hotspot');
+                        appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                        appart.innerHTML = '<div class="icon">P</div><div class="content"><h4>' + ap
+                            .name +
+                            '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                        const divText = document.createElement('div');
+                        let t = ap.y - 10;
+                        let l = ap.x - 10;
+                        t += 10;
+                        l += 12;
+                        divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
+                        divText.innerHTML = '<div>' + ap.name + '</div>';
+                        divText.classList.add('hotspot-label');
+                        div.appendChild(divText);
+                        div.appendChild(appart);
+                    })
+                    main.appendChild(div);
+                };
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+
+        function loadImageEdit(id, appart_id) {
+            const main = document.querySelector('.editHotspot');
+            axios.get("{{ route('etages.soussol', 5) }}".replace('5', id)).then((reponse) => {
+                const etage = reponse.data;
+                const w = 900;
+
+                if (etage.hplan != 'undefined' && etage.wplan != 'undefined') {
+                    main.style.display = 'block'
+                    main.innerHTML = ''
+                    main.classList.add('mt-3')
+                    const imageUrl = "{{ route('dashboard') }}" + etage.plan;
+                    const div = document.createElement('div');
+
+                    const ratio = etage.wplan / etage.hplan;
+                    main.setAttribute('style', 'height: ' + w / ratio +
+                        'px; width: ' + w + 'px;');
+
+
+                    div.classList.add('containerH');
+
+                    const path = "{{ asset('favicon.ico') }}".replace("favicon.ico", etage.plan)
+                    div.setAttribute('style', "background-image: url('" + path +
+                        "'); background-size: cover; height: " + w / ratio + "px; width: " + w + "px;");
+
+                    etage.building.parking.forEach((ap) => {
+                        const appart = document.createElement('div');
+                        appart.classList.add('hotspot');
+                        appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                        appart.innerHTML = '<div class="icon">P</div><div class="content"><h4>' + ap
+                            .name +
+                            '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                        const divText = document.createElement('div');
+                        let t = ap.y - 10;
+                        let l = ap.x - 10;
+                        t += 10;
+                        l += 12;
+                        divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
+                        divText.innerHTML = '<div>' + ap.name + '</div>';
+                        divText.classList.add('hotspot-label');
+                        if (ap.id == appart_id) {
+                            appart.classList.add('added');
+                            divText.classList.add('added');
+                        }
+                        div.appendChild(divText);
+                        div.appendChild(appart);
+                    })
+                    main.appendChild(div);
+                };
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+
+
         const selectEtages = document.getElementById('residencesAdd')
         const listApparts = document.getElementById('appartAdd');
         loadEtages(selectEtages.value, 'addetage');
@@ -410,6 +536,7 @@
         selectEtages.addEventListener('change', (e) => {
             const id = e.target.value
             loadEtages(id, 'addetage')
+            loadImage(id)
             const selectApparts = document.getElementById('addetage');
             loadApparts(selectApparts.value, 'appartAdd');
             getDetailsAppart(listApparts.value, 'clientAdd')
@@ -433,7 +560,7 @@
             loadEtages(id, 'editetage')
             const selectApparts = document.getElementById('editetage');
             loadApparts(selectApparts.value, 'appartEdit');
-
+            loadImageEdit(id, e.id)
             getDetailsAppart(listAppartsEdit.value, 'detailsEdit');
         })
         selectAppartsEdit.addEventListener('change', (e) => {
@@ -448,6 +575,58 @@
             getDetailsAppart(id, 'detailsEdit');
 
         })
+
+
+        $(document).on("click", ".containerH", function(e) {
+            const container = $(this); // Get the clicked container element
+            // console.log the parent elemnt 
+
+
+            const containerRect = container[0].getBoundingClientRect();
+
+            const offsetXPercent =
+                ((e.clientX - containerRect.left) / containerRect.width) * 100;
+            const offsetYPercent =
+                ((e.clientY - containerRect.top) / containerRect.height) * 100;
+
+
+
+            $('.added').each((index, el) => {
+                $(el).remove(); // Remove each element with the class .added
+            });
+            let nameAppart = $('#nameAdd').val();
+            if (container.parent()[0].parentElement.parentElement.parentElement.id == "formEdit") {
+                nameAppart = $('#formEdit').find('input[name="name"]').val();
+            }
+            
+            let t = offsetYPercent - 10;
+            let l = offsetXPercent - 10;
+            t += 9;
+            l += 11;
+            const newElement = $(
+                `<div class='hotspot-label added' style='top: ${t}%; left: ${l}%;'>
+                    <div>${nameAppart}</div>
+                    </div>
+                <div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
+      <div class='icon'>P</div>
+      <div class='content'>
+        <h4>Eros uns eos sind rebum</h4>
+        <p>Clita sanctus eirmod eros aliquip. Clita Lorem dolores diam</p>
+        <a class='btn'>
+          velit dolor
+        </a>
+      </div>
+    </div>`
+            );
+            document.getElementById("formmm").querySelector("input[name='x']").value = offsetXPercent;
+            document.getElementById("formmm").querySelector("input[name='y']").value = offsetYPercent;
+            document.getElementById("formEdit").querySelector("input[name='x']").value = offsetXPercent;
+            document.getElementById("formEdit").querySelector("input[name='y']").value = offsetYPercent;
+
+            container.append(newElement);
+        });
+
+
 
         const resSelect = document.getElementById('resSelect');
         const resId = window.location.search.split('=')[1];

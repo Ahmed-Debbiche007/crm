@@ -97,30 +97,21 @@
                                                     <div class="d-flex justify-content-center align-items-center col-12">
                                                         <div class="parking mt-3" id="{{ $residence->id }}"></div>
                                                     </div>
-                                                @else
-                                                    <div class="d-flex flex-column">
-                                                        <a href="#" class="badge bg-danger mx-2">Pas de Parkings</a>
-                                                    </div>
+                                              
                                                 @endif
                                                 @if ($residence->cellier->count() > 0)
                                                     <h5>Celliers:</h5>
                                                     <div class="d-flex justify-content-center align-items-center col-12">
                                                         <div class="cellier mt-3" id="{{ $residence->id }}"></div>
                                                     </div>
-                                                @else
-                                                    <div class="d-flex flex-column mt-2">
-                                                        <a href="#" class="badge bg-danger mx-2">Pas de Celliers</a>
-                                                    </div>
+                                              
                                                 @endif
                                                 @if ($residence->garage->count() > 0)
                                                     <h5>Garages:</h5>
                                                     <div class="d-flex justify-content-center align-items-center col-12">
                                                         <div class="garage mt-3" id="{{ $residence->id }}"></div>
                                                     </div>
-                                                @else
-                                                    <div class="d-flex flex-column mt-2">
-                                                        <a href="#" class="badge bg-danger mx-2">Pas de Garages</a>
-                                                    </div>
+                                                
                                                 @endif
                                                 <div class="d-flex justify-content-center align-items-center col-12">
                                                     <div class="bar mt-3" id="{{ $residence->id }}"></div>

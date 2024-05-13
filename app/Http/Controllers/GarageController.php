@@ -35,7 +35,9 @@ class GarageController extends Controller
             'residence_id' => ['required', 'exists:residences,id'],
             'client_id' => ['nullable', 'exists:clients,id'],
             'etage_id' => ['nullable', 'exists:etages,id'],
-            'appart_id' => ['nullable']
+            'appart_id' => ['nullable'],
+            'x' => ['nullable', 'string'],
+            'y' => ['nullable', 'string'],
         ]);
 
         $garage = Garage::create($formFileds);
@@ -59,6 +61,8 @@ class GarageController extends Controller
             'residence_id' => ['required', 'exists:residences,id'],
             'client_id' => ['nullable', 'exists:clients,id'],
             'etage_id' => ['nullable', 'exists:etages,id'],
+            'x' => ['nullable', 'string'],
+            'y' => ['nullable', 'string'],
             'appart_id' => ['nullable']
         ]);
 

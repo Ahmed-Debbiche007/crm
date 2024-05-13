@@ -100,7 +100,7 @@
                                                     @if ($appart->type == 5)
                                                         S+3
                                                     @endif
-                                                    
+
                                                 </td>
                                                 <td>{{ number_format(floatval($appart->price), 3, '.', ' ') }}</td>
                                                 <td>
@@ -281,11 +281,11 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light-secondary"
                                                         data-bs-dismiss="modal">
-                                                        
+
                                                         <span class="d-block">Annuler</span>
                                                     </button>
                                                     <button type="submit" class="btn btn-primary ml-1">
-                                                        
+
                                                         <span class="d-block text-white">Ajouter</span>
                                                     </button>
                                                 </div>
@@ -397,11 +397,11 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light-secondary"
                                                         data-bs-dismiss="modal">
-                                                        
+
                                                         <span class="d-block">Annuler</span>
                                                     </button>
                                                     <button type="submit" class="btn btn-primary ml-1">
-                                                        
+
                                                         <span class="d-block text-white">Modifier</span>
                                                     </button>
                                                 </div>
@@ -435,7 +435,7 @@
 
 
 
-<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 

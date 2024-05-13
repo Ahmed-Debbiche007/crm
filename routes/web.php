@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/etages/{id}', [EtagesController::class, 'destroy'])->name('etages.destroy');
     Route::get('/etage/{id}', [EtagesController::class, 'get'])->name('etages.get');
     Route::get('/etagess/{id}', [EtagesController::class, 'show'])->name('etages.show');
+    Route::get('/soussol/{id}', [EtagesController::class, 'getSousSol'])->name('etages.soussol');
 
     Route::get('/apparts', [AppartsController::class, 'index'])->name('apparts');
     Route::post('/apparts', [AppartsController::class, 'store'])->name('apparts.store');

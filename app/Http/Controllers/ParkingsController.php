@@ -11,12 +11,12 @@ class ParkingsController extends Controller
 {
     public function index(Request $request)
     {
-        $parkings = Parking::with('client', 'residence')->orderBy("created_at","desc")->get();
+        $parkings = Parking::with('client', 'residence')->orderBy("created_at", "desc")->get();
         $residence = request('res');
-        if($residence){
+        if ($residence) {
             $parkings = Parking::with('client', 'residence')->where('residence_id', $residence)->get();
         }
-        $residences = Residence::with('etage','etage.appart','etage.appart.client','cellier')->get();
+        $residences = Residence::with('etage', 'etage.appart', 'etage.appart.client', 'cellier')->get();
         $clients = Client::all();
         return view('pages.parkings.table', [
             'parkings' => $parkings,
@@ -33,7 +33,9 @@ class ParkingsController extends Controller
             'client_id' => ['nullable', 'exists:clients,id'],
             'number' => ['required', 'string'],
             'etage_id' => ['nullable', 'exists:etages,id'],
-            'appart_id' => ['nullable']
+            'appart_id' => ['nullable'],
+            'x' => ['nullable', 'string'],
+            'y' => ['nullable', 'string']
 
         ]);
 
@@ -57,11 +59,14 @@ class ParkingsController extends Controller
             'client_id' => ['nullable', 'exists:clients,id'],
             'number' => ['required', 'string'],
             'etage_id' => ['nullable', 'exists:etages,id'],
-            'appart_id' => ['nullable']
+            'appart_id' => ['nullable'],
+            'x' => ['nullable', 'string'],
+            'y' => ['nullable', 'string']
         ]);
-
+        
         $parking = Parking::findOrFail($id);
         $parking->update($formFileds);
+        
         return redirect()->back()->with('success', 'Parking updated!');
     }
 

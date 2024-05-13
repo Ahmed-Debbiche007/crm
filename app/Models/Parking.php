@@ -36,7 +36,9 @@ class Parking extends Model
         'client_id',
         'residence_id',
         'etage_id',
-        'appart_id'
+        'appart_id',
+        'x',
+        'y'
 
     ];
 }

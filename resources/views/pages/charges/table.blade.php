@@ -143,8 +143,8 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                     <path
                                         d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
                                 </svg>
@@ -204,11 +204,11 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    
+
                                     <span class="d-block">Close</span>
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
-                                    
+
                                     <span class="d-block text-white">Ajouter</span>
                                 </button>
                             </div>
@@ -285,11 +285,11 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                    
+
                                     <span class="d-block">Close</span>
                                 </button>
                                 <button type="submit" class="btn btn-primary ml-1">
-                                    
+
                                     <span class="d-block text-white">Modifier</span>
                                 </button>
                             </div>
@@ -312,7 +312,7 @@
 
 
 
-<script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('dist/js/DataTables/datatables.js') }}"></script>
     <script src="{{ asset('dist/js/vendors.js') }}"></script>
 
 
@@ -434,14 +434,29 @@
             };
         })
         const resSelect = document.getElementById('resSelect');
-        const resId = window.location.search.split('=')[1];
+        const urlParams = new URLSearchParams(window.location.search);
+        const resId = urlParams.get('res');
+        const etId = urlParams.get('etage');
+
         if (resId) {
+
             resSelect.value = resId;
             selectEtages.value = resId;
             loadEtages(selectEtages.value, 'addetage');
             loadApparts(selectApparts.value, 'appartAdd');
 
 
+        } else if (etId) {
+            axios.get("{{ route('etages.get', 5) }}".replace('5', etId)).then((reponse) => {
+                const residence = reponse.data;
+                resSelect.value = residence.residence_id;
+                selectEtages.value = residence.residence_id;
+                loadEtages(selectEtages.value, 'addetage');
+                selectApparts.value = etId;
+                loadApparts(selectApparts.value, 'appartAdd');
+            }).catch((error) => {
+                console.log(error)
+            });
         } else {
             resSelect.value = 0;
             selectEtages.value = 1;
