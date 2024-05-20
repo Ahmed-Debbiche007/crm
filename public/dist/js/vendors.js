@@ -11,8 +11,8 @@ function tables() {
             },
             dom: "lBfrtip", // 'l' for length menu, 'B' for buttons
             lengthMenu: [
-                [10, 25, 50, 75, 100, -1], // Available options
-                [10, 25, 50, 75, 100, "Tous"], // Labels
+                [-1, 10, 25, 50, 75, 100], // Available options
+                ["Tous", 10, 25, 50, 75, 100], // Labels
             ],
             buttons: [
                 {
