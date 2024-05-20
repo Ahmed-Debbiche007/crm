@@ -7,6 +7,22 @@
   background-repeat: no-repeat;
   background-size: contain;
 }
+.containerC {
+  position: relative;
+  z-index: 99;
+  display: block;
+  
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.containerG {
+  position: relative;
+  z-index: 99;
+  display: block;
+  
+  background-repeat: no-repeat;
+  background-size: contain;
+}
 
 .containerD {
   position: relative;

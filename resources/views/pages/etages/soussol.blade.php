@@ -68,9 +68,8 @@
 
                                                 @if (Auth::user()->role == 1)
                                                     <td class="d-flex flex-row">
-                                                        <button id="{{ $parking->id }}"
-                                                            class="btn btn-warning edit m-1" data-bs-toggle="modal"
-                                                            data-bs-target="#inlineFormEdit"><i
+                                                        <button id="{{ $parking->id }}" class="btn btn-warning edit m-1"
+                                                            data-bs-toggle="modal" data-bs-target="#inlineFormEdit"><i
                                                                 data-feather="edit"></i>Modifier</button>
 
 
@@ -118,164 +117,706 @@
 
                                 <!--End Row-->
                                 <div class="modal fade text-left " id="inlineForm" tabindex="-1" role="dialog"
-                                aria-labelledby="myModalLabel33" aria-hidden="true">
-                                <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
-                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                                                </svg>
-                                            </button>
+                                    aria-labelledby="myModalLabel33" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                                                <button type="button" class="close" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <form id="formmm" method="POST" action="{{ route('parkings.store') }}"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <label>Residence: </label>
+                                                    <div class="form-group">
+                                                        <select name="residence_id" class="form-control"
+                                                            id="residencesAdd">
+                                                            @foreach ($residences as $residence)
+                                                                <option value="{{ $residence->id }}">
+                                                                    {{ $residence->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <label>Etage: </label>
+                                                    <div class="form-group">
+                                                        <select name="etage_id" id="addetage" class="form-control">
+
+                                                        </select>
+                                                    </div>
+                                                    <label>Bien Immobilier: </label>
+                                                    <div class="form-group">
+                                                        <select name="appart_id" id="appartAdd" class="form-control">
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="d-flex"><label class="mx-1">Client: </label>
+                                                        <p id="clientAdd"></p>
+                                                    </div>
+                                                    <input type="hidden" name="client_id" id="clientAddInput">
+                                                    <label>Place Parking: </label>
+                                                    <div class="form-group">
+                                                        <input type="text" name="name" id="nameAdd"
+                                                            placeholder="Place Parking" class="form-control">
+                                                    </div>
+                                                    <label>Numero: </label>
+                                                    <div class="form-group">
+                                                        <input type="text" name="number" placeholder="Numero"
+                                                            class="form-control">
+                                                    </div>
+                                                    <label>Emplacement: </label>
+                                                    <div class="form-group">
+                                                        <main class="cd__main" style="display: none;">
+
+                                                        </main>
+                                                        <input type="hidden" name="x">
+                                                        <input type="hidden" name="y">
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light-secondary"
+                                                        data-bs-dismiss="modal">
+
+                                                        <span class="d-block">Close</span>
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary ml-1">
+
+                                                        <span class="d-block text-white">Ajouter</span>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <form id="formmm" method="POST" action="{{ route('parkings.store') }}"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="modal-body">
-                                                <label>Residence: </label>
-                                                <div class="form-group">
-                                                    <select name="residence_id" class="form-control" id="residencesAdd">
-                                                        @foreach ($residences as $residence)
-                                                            <option value="{{ $residence->id }}">{{ $residence->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <label>Etage: </label>
-                                                <div class="form-group">
-                                                    <select name="etage_id" id="addetage" class="form-control">
-        
-                                                    </select>
-                                                </div>
-                                                <label>Bien Immobilier: </label>
-                                                <div class="form-group">
-                                                    <select name="appart_id" id="appartAdd" class="form-control">
-        
-                                                    </select>
-                                                </div>
-                                                <div class="d-flex"><label class="mx-1">Client: </label>
-                                                    <p id="clientAdd"></p>
-                                                </div>
-                                                <input type="hidden" name="client_id" id="clientAddInput">
-                                                <label>Place Parking: </label>
-                                                <div class="form-group">
-                                                    <input type="text" name="name" id="nameAdd"
-                                                        placeholder="Place Parking" class="form-control">
-                                                </div>
-                                                <label>Numero: </label>
-                                                <div class="form-group">
-                                                    <input type="text" name="number" placeholder="Numero"
-                                                        class="form-control">
-                                                </div>
-                                                <label>Emplacement: </label>
-                                                <div class="form-group">
-                                                    <main class="cd__main" style="display: none;">
-        
-                                                    </main>
-                                                    <input type="hidden" name="x">
-                                                    <input type="hidden" name="y">
-                                                </div>
-        
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-        
-                                                    <span class="d-block">Close</span>
-                                                </button>
-                                                <button type="submit" class="btn btn-primary ml-1">
-        
-                                                    <span class="d-block text-white">Ajouter</span>
-                                                </button>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
-                                aria-labelledby="myModalLabel44" aria-hidden="true">
-                                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
-                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                                                </svg>
-                                            </button>
+                                <div class="modal fade text-left " id="inlineFormEdit" tabindex="-1" role="dialog"
+                                    aria-labelledby="myModalLabel44" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+                                        role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
+                                                <button type="button" class="close" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <form id="formEdit" method="POST" enctype="multipart/form-data">
+
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <label>Residence: </label>
+                                                    <div class="form-group">
+                                                        <select name="residence_id" class="form-control"
+                                                            id="residencesEdit">
+                                                            @foreach ($residences as $residence)
+                                                                <option value="{{ $residence->id }}">
+                                                                    {{ $residence->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <label>Etage: </label>
+                                                    <div class="form-group">
+                                                        <select name="etage_id" id="editetage" class="form-control">
+
+                                                        </select>
+                                                    </div>
+                                                    <label>Bien Immobilier: </label>
+                                                    <div class="form-group">
+                                                        <select name="appart_id" id="appartEdit" class="form-control">
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="d-flex"><label class="mx-1">Client: </label>
+                                                        <p id="detailsEdit"></p>
+                                                    </div>
+                                                    <input type="hidden" name="client_id" id="clientAddInput">
+                                                    <label>Place Parking: </label>
+                                                    <div class="form-group">
+                                                        <input type="text" name="name" placeholder="Place Parking"
+                                                            class="form-control">
+                                                    </div>
+                                                    <label>Numero: </label>
+                                                    <div class="form-group">
+                                                        <input type="text" name="number" placeholder="Numero"
+                                                            class="form-control">
+                                                    </div>
+                                                    <label>Emplacement: </label>
+                                                    <div class="form-group">
+                                                        <main class="cd__main editHotspot" style="display: none;">
+
+                                                        </main>
+                                                        <input type="hidden" name="x">
+                                                        <input type="hidden" name="y">
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light-secondary"
+                                                        data-bs-dismiss="modal">
+
+                                                        <span class="d-block">Close</span>
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary ml-1">
+
+                                                        <span class="d-block text-white">Modifier</span>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <form id="formEdit" method="POST" enctype="multipart/form-data">
-        
-                                            @csrf
-                                            <div class="modal-body">
-                                                <label>Residence: </label>
-                                                <div class="form-group">
-                                                    <select name="residence_id" class="form-control" id="residencesEdit">
-                                                        @foreach ($residences as $residence)
-                                                            <option value="{{ $residence->id }}">
-                                                                {{ $residence->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <label>Etage: </label>
-                                                <div class="form-group">
-                                                    <select name="etage_id" id="editetage" class="form-control">
-        
-                                                    </select>
-                                                </div>
-                                                <label>Bien Immobilier: </label>
-                                                <div class="form-group">
-                                                    <select name="appart_id" id="appartEdit" class="form-control">
-        
-                                                    </select>
-                                                </div>
-                                                <div class="d-flex"><label class="mx-1">Client: </label>
-                                                    <p id="detailsEdit"></p>
-                                                </div>
-                                                <input type="hidden" name="client_id" id="clientAddInput">
-                                                <label>Place Parking: </label>
-                                                <div class="form-group">
-                                                    <input type="text" name="name" placeholder="Place Parking"
-                                                        class="form-control">
-                                                </div>
-                                                <label>Numero: </label>
-                                                <div class="form-group">
-                                                    <input type="text" name="number" placeholder="Numero"
-                                                        class="form-control">
-                                                </div>
-                                                <label>Emplacement: </label>
-                                                <div class="form-group">
-                                                    <main class="cd__main editHotspot" style="display: none;">
-        
-                                                    </main>
-                                                    <input type="hidden" name="x">
-                                                    <input type="hidden" name="y">
-                                                </div>
-        
-        
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-        
-                                                    <span class="d-block">Close</span>
-                                                </button>
-                                                <button type="submit" class="btn btn-primary ml-1">
-        
-                                                    <span class="d-block text-white">Modifier</span>
-                                                </button>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>
-                  
+
+                    <div class="card m-5">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between m-3">
+                                <h5 class="card-title">Celliers</h5>
+                                @if (Auth::user()->role == 1)
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#inlineFormCellier"
+                                        class="btn btn-primary">Ajouter</button>
+                                @endif
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class='table table-striped' id="table1">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Residence</th>
+                                            <th scope="col">Numéro</th>
+                                            <th scope="col">Client</th>
+                                            <th scope="col">Surface</th>
+                                            <th scope="col">Prix</th>
+                                            @if (Auth::user()->role == 1)
+                                                <th scope="col" class="noExport">Actions</th>
+                                            @endif
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($etage->building->cellier as $cellier)
+                                            <tr>
+                                                <td id="{{ $cellier->residence->id }}">{{ $cellier->residence->name }}
+                                                </td>
+                                                <td>{{ $cellier->name }}</td>
+                                                <td>
+                                                    @if ($cellier->client)
+                                                        {{ $cellier->client->name }} {{ $cellier->client->lastName }}
+                                                    @else
+                                                        --
+                                                    @endif
+                                                </td>
+                                                <td>{{ $cellier->surface }}</td>
+                                                <td>{{ number_format(floatval($cellier->price), 3, '.', ' ') }}</td>
+                                                @if (Auth::user()->role == 1)
+                                                    <td>
+
+                                                        <div class="d-flex">
+                                                            <button id="{{ $cellier->id }}"
+                                                                class="btn btn-warning editCellier m-1"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#inlineFormEditCellier"><i
+                                                                    data-feather="edit"></i>Modifier</button>
+
+                                                            <form method="GET"
+                                                                action="{{ route('celliers.destroy', $cellier->id) }}">
+                                                                @csrf
+                                                                <button type="button" class="btn btn-danger m-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#inlineCellierDelete{{ $cellier->id }}"><i
+                                                                        data-feather="trash"></i>Supprimer</button>
+                                                                <div class="modal fade"
+                                                                    id="inlineCellierDelete{{ $cellier->id }}"
+                                                                    tabindex="-1" role="dialog"
+                                                                    aria-labelledby="exampleModalLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">
+                                                                                    Confirmation</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                Êtes-vous sûr de vouloir supprimer ?
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">Annuler</button>
+                                                                                <button id="deleteButton" type="submit"
+                                                                                    class="btn btn-danger">Confirmer</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal fade text-left " id="inlineFormCellier" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel33" aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+                                role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <form id="formmmCellier" method="POST" action="{{ route('celliers.store') }}"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <label>Residence: </label>
+                                            <div class="form-group">
+                                                <select name="residence_id" class="form-control"
+                                                    id="residencesAddCellier">
+                                                    @foreach ($residences as $residence)
+                                                        <option value="{{ $residence->id }}">{{ $residence->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <label>Etage: </label>
+                                            <div class="form-group">
+                                                <select name="etage_id" id="addetageCellier" class="form-control">
+
+                                                </select>
+                                            </div>
+                                            <label>Bien Immobilier: </label>
+                                            <div class="form-group">
+                                                <select name="appart_id" id="appartAddCellier" class="form-control">
+
+                                                </select>
+                                            </div>
+                                            <div class="d-flex"><label class="mx-1">Client: </label>
+                                                <p id="clientAddCellier"></p>
+                                            </div>
+                                            <input type="hidden" name="client_id" id="clientAddInput">
+                                            <label>Numero: </label>
+                                            <div class="form-group">
+                                                <input type="text" name="name" placeholder="Numero" id="nameAdd"
+                                                    class="form-control">
+                                            </div>
+
+                                            <label>Surface: </label>
+                                            <div class="form-group">
+                                                <input type="number" name="surface" placeholder="Surface"
+                                                    class="form-control" step="0.001">
+                                            </div>
+                                            <label>Prix: </label>
+                                            <div class="form-group">
+                                                <input type="number" name="price" placeholder="Prix" step="0.001"
+                                                    class="form-control">
+                                            </div>
+
+                                            <label>Emplacement: </label>
+                                            <div class="form-group">
+                                                <main class="cd__mainCellier" style="display: none;">
+
+                                                </main>
+                                                <input type="hidden" name="x">
+                                                <input type="hidden" name="y">
+                                            </div>
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-secondary"
+                                                data-bs-dismiss="modal">
+
+                                                <span class="d-block">Close</span>
+                                            </button>
+                                            <button type="submit" class="btn btn-primary ml-1">
+
+                                                <span class="d-block text-white">Ajouter</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade text-left " id="inlineFormEditCellier" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel44" aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+                                role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <form id="formEditCellier" method="POST" enctype="multipart/form-data">
+
+                                        @csrf
+                                        <div class="modal-body">
+                                            <label>Residence: </label>
+                                            <div class="form-group">
+                                                <select name="residence_id" class="form-control"
+                                                    id="residencesEditCellier">
+                                                    @foreach ($residences as $residence)
+                                                        <option value="{{ $residence->id }}">
+                                                            {{ $residence->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <label>Etage: </label>
+                                            <div class="form-group">
+                                                <select name="etage_id" id="editetageCellier" class="form-control">
+
+                                                </select>
+                                            </div>
+                                            <label>Bien Immobilier: </label>
+                                            <div class="form-group">
+                                                <select name="appart_id" id="appartEditCellier" class="form-control">
+
+                                                </select>
+                                            </div>
+                                            <div class="d-flex"><label class="mx-1">Client: </label>
+                                                <p id="detailsEditCellier"></p>
+                                            </div>
+                                            <input type="hidden" name="client_id" id="clientAddInput">
+                                            <label>Numero: </label>
+                                            <div class="form-group">
+                                                <input type="text" name="name" placeholder="Numero"
+                                                    class="form-control">
+                                            </div>
+                                            <label>Surface: </label>
+                                            <div class="form-group">
+                                                <input type="number" name="surface" placeholder="Surface"
+                                                    class="form-control" step="0.001">
+                                            </div>
+                                            <label>Prix: </label>
+                                            <div class="form-group">
+                                                <input type="number" name="price" placeholder="Prix" step="0.001"
+                                                    class="form-control">
+                                            </div>
+                                            <label>Emplacement: </label>
+                                            <div class="form-group">
+                                                <main class="cd__mainCellier editHotspotCellier" style="display: none;">
+
+                                                </main>
+                                                <input type="hidden" name="x">
+                                                <input type="hidden" name="y">
+                                            </div>
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-secondary"
+                                                data-bs-dismiss="modal">
+
+                                                <span class="d-block">Close</span>
+                                            </button>
+                                            <button type="submit" class="btn btn-primary ml-1">
+
+                                                <span class="d-block text-white">Modifier</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card m-5">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between m-3">
+                            <h5 class="card-title">Garage</h5>
+                            @if (Auth::user()->role == 1)
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#inlineFormGarage"
+                                    class="btn btn-primary">Ajouter</button>
+                            @endif
+                        </div>
+                        <div class="table-responsive">
+                            <table class='table table-striped' id="table1">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Residence</th>
+                                        <th scope="col">Numéro</th>
+                                        <th scope="col">Client</th>
+                                        <th scope="col">Surface</th>
+                                        <th scope="col">Prix</th>
+                                        @if (Auth::user()->role == 1)
+                                            <th scope="col" class="noExport">Actions</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($etage->building->garage as $garage)
+                                        <tr>
+                                            <td id="{{ $garage->residence->id }}">{{ $garage->residence->name }}</td>
+                                            <td>{{ $garage->name }}</td>
+                                            <td>
+                                                @if ($garage->client)
+                                                    {{ $garage->client->name }} {{ $garage->client->lastName }}
+                                                @else
+                                                    --
+                                                @endif
+                                            </td>
+                                            <td>{{ $garage->surface }}</td>
+                                            <td>{{ number_format(floatval($garage->price), 3, '.', ' ') }}</td>
+                                            @if (Auth::user()->role == 1)
+                                                <td>
+
+                                                    <div class="d-flex">
+                                                        <button id="{{ $garage->id }}"
+                                                            class="btn btn-warning editGarage m-1" data-bs-toggle="modal"
+                                                            data-bs-target="#inlineFormEditGarage"><i
+                                                                data-feather="edit"></i>Modifier</button>
+
+                                                        <form method="GET"
+                                                            action="{{ route('garages.destroy', $garage->id) }}">
+                                                            @csrf
+                                                            <button type="button" class="btn btn-danger m-1"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#inlineGarageDelete{{ $garage->id }}"><i
+                                                                    data-feather="trash"></i>Supprimer</button>
+                                                            <div class="modal fade"
+                                                                id="inlineGarageDelete{{ $garage->id }}"
+                                                                tabindex="-1" role="dialog"
+                                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title"
+                                                                                id="exampleModalLabel">
+                                                                                Confirmation</h5>
+                                                                            <button type="button" class="close"
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Êtes-vous sûr de vouloir supprimer ?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Annuler</button>
+                                                                            <button id="deleteButton" type="submit"
+                                                                                class="btn btn-danger">Confirmer</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade text-left " id="inlineFormGarage" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel33" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel33">Ajouter </h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <form id="formmmGarage" method="POST" action="{{ route('garages.store') }}"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="modal-body">
+                                    <label>Residence: </label>
+                                    <div class="form-group">
+                                        <select name="residence_id" class="form-control" id="residencesAddGarage">
+                                            @foreach ($residences as $residence)
+                                                <option value="{{ $residence->id }}">{{ $residence->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <label>Etage: </label>
+                                    <div class="form-group">
+                                        <select name="etage_id" id="addetageGarage" class="form-control">
+
+                                        </select>
+                                    </div>
+                                    <label>Bien Immobilier: </label>
+                                    <div class="form-group">
+                                        <select name="appart_id" id="appartAddGarage" class="form-control">
+
+                                        </select>
+                                    </div>
+                                    <div class="d-flex"><label class="mx-1">Client: </label>
+                                        <p id="clientAddGarage"></p>
+                                    </div>
+                                    <input type="hidden" name="client_id" id="clientAddInput">
+                                    <label>Numero: </label>
+                                    <div class="form-group">
+                                        <input type="text" name="name" placeholder="Numero" id="nameAdd"
+                                            class="form-control">
+                                    </div>
+                                    <label>Surface: </label>
+                                    <div class="form-group">
+                                        <input type="number" name="surface" placeholder="Surface"
+                                            class="form-control" step="0.001">
+                                    </div>
+                                    <label>Prix: </label>
+                                    <div class="form-group">
+                                        <input type="number" name="price" placeholder="Prix" step="0.001"
+                                            class="form-control">
+                                    </div>
+                                    <label>Emplacement: </label>
+                                    <div class="form-group">
+                                        <main class="cd__mainGarage" style="display: none;">
+
+                                        </main>
+                                        <input type="hidden" name="x">
+                                        <input type="hidden" name="y">
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+
+                                        <span class="d-block">Close</span>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary ml-1">
+
+                                        <span class="d-block text-white">Ajouter</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade text-left " id="inlineFormEditGarage" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel44" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel33">Modifier </h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <form id="formEditGarage" method="POST" enctype="multipart/form-data">
+
+                                @csrf
+                                <div class="modal-body">
+                                    <label>Residence: </label>
+                                    <div class="form-group">
+                                        <select name="residence_id" class="form-control" id="residencesEditGarage">
+                                            @foreach ($residences as $residence)
+                                                <option value="{{ $residence->id }}">
+                                                    {{ $residence->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <label>Etage: </label>
+                                    <div class="form-group">
+                                        <select name="etage_id" id="editetageGarage" class="form-control">
+
+                                        </select>
+                                    </div>
+                                    <label>Bien Immobilier: </label>
+                                    <div class="form-group">
+                                        <select name="appart_id" id="appartEditGarage" class="form-control">
+
+                                        </select>
+                                    </div>
+                                    <div class="d-flex"><label class="mx-1">Client: </label>
+                                        <p id="detailsEditGarage"></p>
+                                    </div>
+                                    <input type="hidden" name="client_id" id="clientAddInput">
+                                    <label>Numero: </label>
+                                    <div class="form-group">
+                                        <input type="text" name="name" placeholder="Numero"
+                                            class="form-control">
+                                    </div>
+                                    <label>Surface: </label>
+                                    <div class="form-group">
+                                        <input type="number" name="surface" placeholder="Surface"
+                                            class="form-control" step="0.001">
+                                    </div>
+                                    <label>Prix: </label>
+                                    <div class="form-group">
+                                        <input type="number" name="price" placeholder="Prix" step="0.001"
+                                            class="form-control">
+                                    </div>
+                                    <label>Emplacement: </label>
+                                    <div class="form-group">
+                                        <main class="cd__mainGarage editHotspotGarage" style="display: none;">
+
+                                        </main>
+                                        <input type="hidden" name="x">
+                                        <input type="hidden" name="y">
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+
+                                        <span class="d-block">Close</span>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary ml-1">
+
+                                        <span class="d-block text-white">Modifier</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal fade text-left " id="inlineEtageEdit" tabindex="-1" role="dialog"
@@ -433,9 +974,10 @@
         const addSelect = document.getElementById('addetage')
         const etagesSelectEdit = document.getElementById('editetage')
         const listApparts = document.getElementById('appartAdd');
+        const listAppartsEdit = document.getElementById('appartEdit');
         selectEtages.value = etageData.residence_id;
         loadEtages(selectEtages.value, 'addetage');
-        loadImage(etageData.residence_id);
+        loadImage(etageData.residence_id, '.cd__main', 'P');
         const selectApparts = document.getElementById('addetage');
         loadApparts(selectApparts.value, 'appartAdd');
         getDetailsAppart(listApparts.value, 'clientAdd')
@@ -445,7 +987,7 @@
 
             loadEtages(id, 'addetage')
             const selectApparts = document.getElementById('addetage');
-            loadImage(id);
+            loadImage(id, '.cd__main', 'P');
             loadApparts(selectApparts.value, 'appartAdd');
             getDetailsAppart(listApparts.value, 'clientAdd')
         })
@@ -463,17 +1005,132 @@
 
         selectEtagesEdit.addEventListener('change', (e) => {
             const id = e.target.value
+
             loadEtages(id, 'editetage')
-            loadImageEdit(id, e.id);
+
+            loadImage(id, '.editHotspot', 'P');
+            loadApparts(etagesSelectEdit.value, 'appartEdit');
+            getDetailsAppart(listAppartsEdit.value, 'detailsEdit')
         })
-        addSelect.addEventListener('change', (e) => {
-            const id = e.target.value
-            loadImageEdit(id, null, '.addImage')
-        })
+
         etagesSelectEdit.addEventListener('change', (e) => {
             const id = e.target.value
-            const appart = document.getElementById('formEdit').querySelector('input[name="id"]')?.value
-            loadImageEdit(id, appart, '.EditImg')
+            loadApparts(id, 'appartEdit');
+            getDetailsAppart(listAppartsEdit.value, 'detailsEdit');
+        })
+        listAppartsEdit.addEventListener('change', (e) => {
+            const id = e.target.value;
+            getDetailsAppart(id, 'detailsEdit');
+
+        })
+
+
+        const selectEtagesCellier = document.getElementById('residencesAddCellier')
+        const selectEtagesEditCellier = document.getElementById('residencesEditCellier')
+        const etagesSelectEditCellier = document.getElementById('editetageCellier')
+        const listAppartsCellier = document.getElementById('appartAddCellier');
+        const listAppartsEditCellier = document.getElementById('appartEditCellier');
+        selectEtagesCellier.value = etageData.residence_id;
+        loadEtages(selectEtagesCellier.value, 'addetageCellier');
+        loadImage(etageData.residence_id, '.cd__mainCellier', 'C');
+        const selectAppartsCellier = document.getElementById('addetageCellier');
+        loadApparts(selectAppartsCellier.value, 'appartAddCellier');
+        getDetailsAppart(listAppartsCellier.value, 'clientAddCellier')
+
+        selectEtagesCellier.addEventListener('change', (e) => {
+            const id = e.target.value
+
+            loadEtages(id, 'addetageCellier')
+            const selectAppartsCellier = document.getElementById('addetageCellier');
+            loadImage(id, '.cd__mainCellier', 'C');
+            loadApparts(selectAppartsCellier.value, 'appartAddCellier');
+            getDetailsAppart(listAppartsCellier.value, 'clientAddCellier')
+        })
+
+        selectAppartsCellier.addEventListener('change', (e) => {
+            const id = e.target.value
+            loadApparts(id, 'appartAddCellier');
+            getDetailsAppart(listAppartsCellier.value, 'clientAddCellier')
+        })
+        listAppartsCellier.addEventListener('change', (e) => {
+            const id = e.target.value;
+            getDetailsAppart(id, 'clientAddCellier');
+
+        })
+
+        selectEtagesEditCellier.addEventListener('change', (e) => {
+            const id = e.target.value
+
+            loadEtages(id, 'editetageCellier')
+
+            loadImage(id, '.editHotspotCellier', 'C');
+            loadApparts(etagesSelectEditCellier.value, 'appartEditCellier');
+            getDetailsAppart(listAppartsEditCellier.value, 'detailsEditCellier')
+        })
+
+        etagesSelectEditCellier.addEventListener('change', (e) => {
+            const id = e.target.value
+            loadApparts(id, 'appartEditCellier');
+            getDetailsAppart(listAppartsEditCellier.value, 'detailsEditCellier');
+        })
+        listAppartsEditCellier.addEventListener('change', (e) => {
+            const id = e.target.value;
+            getDetailsAppart(id, 'detailsEditCellier');
+
+        })
+
+        const selectEtagesGarage = document.getElementById('residencesAddGarage')
+        const selectEtagesEditGarage = document.getElementById('residencesEditGarage')
+        const etagesSelectEditGarage = document.getElementById('editetageGarage')
+        const listAppartsGarage = document.getElementById('appartAddGarage');
+        const listAppartsEditGarage = document.getElementById('appartEditGarage');
+        selectEtagesGarage.value = etageData.residence_id;
+        loadEtages(selectEtagesGarage.value, 'addetageGarage');
+        loadImage(etageData.residence_id, '.cd__mainGarage', 'G');
+        const selectAppartsGarage = document.getElementById('addetageGarage');
+        loadApparts(selectAppartsGarage.value, 'appartAddGarage');
+        getDetailsAppart(listAppartsGarage.value, 'clientAddGarage')
+
+        selectEtagesGarage.addEventListener('change', (e) => {
+            const id = e.target.value
+
+            loadEtages(id, 'addetageGarage')
+            const selectAppartsGarage = document.getElementById('addetageGarage');
+            loadImage(id, '.cd__mainGarage', 'G');
+            loadApparts(selectAppartsGarage.value, 'appartAddGarage');
+            getDetailsAppart(listAppartsGarage.value, 'clientAddGarage')
+        })
+
+        selectAppartsGarage.addEventListener('change', (e) => {
+            const id = e.target.value
+            loadApparts(id, 'appartAddGarage');
+            getDetailsAppart(listAppartsGarage.value, 'clientAddGarage')
+        })
+        listAppartsGarage.addEventListener('change', (e) => {
+            const id = e.target.value;
+            getDetailsAppart(id, 'clientAddGarage');
+
+        })
+
+        selectEtagesEditGarage.addEventListener('change', (e) => {
+            const id = e.target.value
+
+            loadEtages(id, 'editetageGarage')
+
+            loadImage(id, '.editHotspotGarage', 'G');
+            loadApparts(etagesSelectEditGarage.value, 'appartEditGarage');
+            getDetailsAppart(listAppartsEditGarage.value, 'detailsEditGarage')
+        })
+
+        etagesSelectEditGarage.addEventListener('change', (e) => {
+            const id = e.target.value
+            loadApparts(id, 'appartEditGarage');
+            getDetailsAppart(listAppartsEditGarage.value, 'detailsEditGarage');
+        })
+        listAppartsEditGarage.addEventListener('change', (e) => {
+            const id = e.target.value;
+            getDetailsAppart(id, 'detailsEditGarage');
+
         })
 
         function loadEtages(id, etageId) {
@@ -547,8 +1204,8 @@
             labelIdle: `<span class="text-primary">Choisir une image ou <span class="filepond--label-action text-primary" >Browse</span></span>`,
         });
 
-        function loadImage(id) {
-            const main = document.querySelector('.cd__main');
+        function loadImage(id, container, letter) {
+            const main = document.querySelector(container);
 
 
             axios.get("{{ route('etages.soussol', 5) }}".replace('5', id)).then((reponse) => {
@@ -567,30 +1224,79 @@
                         'px; width: ' + w + 'px;');
 
 
-                    div.classList.add('containerH');
+                    if (letter == 'P') {
+                        div.classList.add('containerH');
+                    }
+                    if (letter == 'C') {
+                        div.classList.add('containerC');
+                    }
+                    if (letter == 'G') {
+                        div.classList.add('containerG');
+                    }
 
                     const path = "{{ asset('favicon.ico') }}".replace("favicon.ico", etage.plan)
                     div.setAttribute('style', "background-image: url('" + path +
                         "'); background-size: cover; height: " + w / ratio + "px; width: " + w + "px;");
-
-                    etage.building.parking.forEach((ap) => {
-                        const appart = document.createElement('div');
-                        appart.classList.add('hotspot');
-                        appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
-                        appart.innerHTML = '<div class="icon">P</div><div class="content"><h4>' + ap
-                            .name +
-                            '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
-                        const divText = document.createElement('div');
-                        let t = ap.y - 10;
-                        let l = ap.x - 10;
-                        t += 10;
-                        l += 12;
-                        divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
-                        divText.innerHTML = '<div>' + ap.name + '</div>';
-                        divText.classList.add('hotspot-label');
-                        div.appendChild(divText);
-                        div.appendChild(appart);
-                    })
+                    if (letter == 'P') {
+                        etage.building.parking.forEach((ap) => {
+                            const appart = document.createElement('div');
+                            appart.classList.add('hotspot');
+                            appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                            appart.innerHTML = '<div class="icon">P</div><div class="content"><h4>' + ap
+                                .name +
+                                '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                            const divText = document.createElement('div');
+                            let t = ap.y - 10;
+                            let l = ap.x - 10;
+                            t += 10;
+                            l += 12;
+                            divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
+                            divText.innerHTML = '<div>' + ap.name + '</div>';
+                            divText.classList.add('hotspot-label');
+                            div.appendChild(divText);
+                            div.appendChild(appart);
+                        })
+                    }
+                    if (letter == 'C') {
+                        etage.building.cellier.forEach((ap) => {
+                            const appart = document.createElement('div');
+                            appart.classList.add('hotspot');
+                            appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                            appart.innerHTML = '<div class="icon">C</div><div class="content"><h4>' + ap
+                                .name +
+                                '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                            const divText = document.createElement('div');
+                            let t = ap.y - 10;
+                            let l = ap.x - 10;
+                            t += 10;
+                            l += 12;
+                            divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
+                            divText.innerHTML = '<div>' + ap.name + '</div>';
+                            divText.classList.add('hotspot-label');
+                            div.appendChild(divText);
+                            div.appendChild(appart);
+                        })
+                    }
+                    if (letter == 'G') {
+                        etage.building.garage.forEach((ap) => {
+                            const appart = document.createElement('div');
+                            appart.classList.add('hotspot');
+                            appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                            appart.innerHTML = '<div class="icon">G</div><div class="content"><h4>' + ap
+                                .name +
+                                '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                            const divText = document.createElement('div');
+                            let t = ap.y - 10;
+                            let l = ap.x - 10;
+                            t += 10;
+                            l += 12;
+                            divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
+                            divText.innerHTML = '<div>' + ap.name + '</div>';
+                            divText.classList.add('hotspot-label');
+                            div.appendChild(divText);
+                            div.appendChild(appart);
+                        })
+                    }
                     main.appendChild(div);
                 };
             }).catch((error) => {
@@ -598,8 +1304,9 @@
             })
         }
 
-        function loadImageEdit(id, appart_id) {
-            const main = document.querySelector('.editHotspot');
+        function loadImageEdit(id, appart_id, container, letter) {
+            const main = document.querySelector(container);
+
             axios.get("{{ route('etages.soussol', 5) }}".replace('5', id)).then((reponse) => {
                 const etage = reponse.data;
                 const w = 900;
@@ -615,35 +1322,91 @@
                     main.setAttribute('style', 'height: ' + w / ratio +
                         'px; width: ' + w + 'px;');
 
-
-                    div.classList.add('containerH');
-
+                    if (letter == 'P') {
+                        div.classList.add('containerH');
+                    }
+                    if (letter == 'C') {
+                        div.classList.add('containerC');
+                    }
+                    if (letter == 'G') {
+                        div.classList.add('containerG');
+                    }
                     const path = "{{ asset('favicon.ico') }}".replace("favicon.ico", etage.plan)
                     div.setAttribute('style', "background-image: url('" + path +
                         "'); background-size: cover; height: " + w / ratio + "px; width: " + w + "px;");
 
-                    etage.building.parking.forEach((ap) => {
-                        const appart = document.createElement('div');
-                        appart.classList.add('hotspot');
-                        appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
-                        appart.innerHTML = '<div class="icon">P</div><div class="content"><h4>' + ap
-                            .name +
-                            '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
-                        const divText = document.createElement('div');
-                        let t = ap.y - 10;
-                        let l = ap.x - 10;
-                        t += 10;
-                        l += 12;
-                        divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
-                        divText.innerHTML = '<div>' + ap.name + '</div>';
-                        divText.classList.add('hotspot-label');
-                        if (ap.id == appart_id) {
-                            appart.classList.add('added');
-                            divText.classList.add('added');
-                        }
-                        div.appendChild(divText);
-                        div.appendChild(appart);
-                    })
+                    if (letter == 'P') {
+                        etage.building.parking.forEach((ap) => {
+                            const appart = document.createElement('div');
+                            appart.classList.add('hotspot');
+                            appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                            appart.innerHTML = '<div class="icon">P</div><div class="content"><h4>' + ap
+                                .name +
+                                '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                            const divText = document.createElement('div');
+                            let t = ap.y - 10;
+                            let l = ap.x - 10;
+                            t += 10;
+                            l += 12;
+                            divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
+                            divText.innerHTML = '<div>' + ap.name + '</div>';
+                            divText.classList.add('hotspot-label');
+                            if (ap.id == appart_id) {
+                                appart.classList.add('added');
+                                divText.classList.add('added');
+                            }
+                            div.appendChild(divText);
+                            div.appendChild(appart);
+                        })
+                    }
+                    if (letter == 'C') {
+                        etage.building.cellier.forEach((ap) => {
+                            const appart = document.createElement('div');
+                            appart.classList.add('hotspot');
+                            appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                            appart.innerHTML = '<div class="icon">C</div><div class="content"><h4>' + ap
+                                .name +
+                                '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                            const divText = document.createElement('div');
+                            let t = ap.y - 10;
+                            let l = ap.x - 10;
+                            t += 10;
+                            l += 12;
+                            divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
+                            divText.innerHTML = '<div>' + ap.name + '</div>';
+                            divText.classList.add('hotspot-label');
+                            if (ap.id == appart_id) {
+                                appart.classList.add('added');
+                                divText.classList.add('added');
+                            }
+                            div.appendChild(divText);
+                            div.appendChild(appart);
+                        })
+                    }
+                    if (letter == 'G') {
+                        etage.building.garage.forEach((ap) => {
+                            const appart = document.createElement('div');
+                            appart.classList.add('hotspot');
+                            appart.setAttribute('style', 'top: ' + ap.y + '%; left: ' + ap.x + '%;');
+                            appart.innerHTML = '<div class="icon">G</div><div class="content"><h4>' + ap
+                                .name +
+                                '</h4><p>' + ap.comments + '</p><a class="btn">Voir</a></div>';
+                            const divText = document.createElement('div');
+                            let t = ap.y - 10;
+                            let l = ap.x - 10;
+                            t += 10;
+                            l += 12;
+                            divText.setAttribute('style', 'top: ' + t + '%; left: ' + l + '%;  ');
+                            divText.innerHTML = '<div>' + ap.name + '</div>';
+                            divText.classList.add('hotspot-label');
+                            if (ap.id == appart_id) {
+                                appart.classList.add('added');
+                                divText.classList.add('added');
+                            }
+                            div.appendChild(divText);
+                            div.appendChild(appart);
+                        })
+                    }
                     main.appendChild(div);
                 };
             }).catch((error) => {
@@ -662,7 +1425,7 @@
             form.submit();
         }
 
-        
+
         const editButtons = document.getElementsByClassName('edit');
         editButtons.forEach = Array.prototype.forEach;
         document.addEventListener('click', function(event) {
@@ -692,7 +1455,7 @@
                     xInput.value = appart.x;
                     yInput.value = appart.y;
                     loadEtages(appart.residence_id, 'editetage');
-                    loadImageEdit(appart.residence_id, appart.id);
+                    loadImageEdit(appart.residence_id, appart.id, '.editHotspot', 'P');
                     etage_idInput.value = appart.etage_id;
 
                     loadApparts(etage_idInput.value, 'appartEdit');
@@ -719,11 +1482,6 @@
                     console.log(error)
                 })
             };
-        })
-        const editButtonEt = document.getElementsByClassName('editEt');
-        editButtonEt.forEach = Array.prototype.forEach;
-        document.addEventListener('click', function(event) {
-            const target = event.target;
             if (target.classList.contains('editEt')) {
                 const form = document.getElementById('formEtage');
                 const editButton = target;
@@ -764,14 +1522,122 @@
                     console.log(error)
                 })
             };
+            if (target.classList.contains('editCellier')) {
+                const editButton = target;
+                const form = document.getElementById('formEditCellier');
+
+                let base = '{{ route('celliers.update', '5') }}';
+                base = base.replace('5', editButton.id);
+                form.action = base;
+                const nameInput = form.querySelector('input[name="name"]')
+                const residence_idInput = form.querySelector('select[name="residence_id"]')
+                const etage_idInput = form.querySelector('select[name="etage_id"]')
+                const appart_idInput = form.querySelector('select[name="appart_id"]')
+                const cleintInput = form.querySelector('input[name="client_id"]')
+                const surfaceInput = form.querySelector('input[name="surface"]')
+                const priceInput = form.querySelector('input[name="price"]')
+                const xInput = form.querySelector('input[name="x"]')
+                const yInput = form.querySelector('input[name="y"]')
+                url = "{{ route('celliers.get', 5) }}";
+                url = url.replace('5', editButton.id);
+                axios.get(url).then((reponse) => {
+                    const appart = reponse.data;
+
+                    nameInput.value = appart.name;
+                    residence_idInput.value = appart.residence_id;
+                    xInput.value = appart.x;
+                    yInput.value = appart.y;
+                    loadImageEdit(appart.residence_id, appart.id, '.editHotspotCellier', 'C');
+                    loadEtages(residence_idInput.value, 'editetageCellier');
+
+                    etage_idInput.value = appart.etage_id;
+                    loadApparts(etage_idInput.value, 'appartEditCellier');
+                    appart_idInput.value = appart.appart_id;
+                    cleintInput.value = appart.client_id;
+                    surfaceInput.value = appart.surface;
+                    priceInput.value = appart.price
+
+                    const divDetails = document.getElementById('detailsEdit');
+                    const clientInput = divDetails.parentElement.parentElement.querySelector(
+                        'input[name="client_id"]')
+                    const detailsClient = document.createElement('h4');
+
+                    divDetails.innerHTML = '';
+                    if (appart.client) {
+                        detailsClient.innerHTML = ' ' + appart.client.name + ' ' + appart.client.lastName;
+                        clientInput.value = appart.client.id;
+                    } else {
+                        detailsClient.innerHTML = ' Pas de client';
+                        clientInput.value = '';
+                    }
+                    divDetails.appendChild(detailsClient);
+                }).catch((error) => {
+                    console.log(error)
+                })
+            };
+            if (target.classList.contains('editGarage')) {
+                const editButton = target;
+                const form = document.getElementById('formEditGarage');
+
+                let base = '{{ route('garages.update', '5') }}';
+                base = base.replace('5', editButton.id);
+                form.action = base;
+                const nameInput = form.querySelector('input[name="name"]')
+                const residence_idInput = form.querySelector('select[name="residence_id"]')
+                const etage_idInput = form.querySelector('select[name="etage_id"]')
+                const appart_idInput = form.querySelector('select[name="appart_id"]')
+                const cleintInput = form.querySelector('input[name="client_id"]')
+                const surfaceInput = form.querySelector('input[name="surface"]')
+                const priceInput = form.querySelector('input[name="price"]')
+                const xInput = form.querySelector('input[name="x"]')
+                const yInput = form.querySelector('input[name="y"]')
+                url = "{{ route('garages.get', 5) }}";
+                url = url.replace('5', editButton.id);
+                axios.get(url).then((reponse) => {
+                    const appart = reponse.data;
+
+                    nameInput.value = appart.name;
+                    residence_idInput.value = appart.residence_id;
+                    xInput.value = appart.x;
+                    yInput.value = appart.y;
+                    loadImageEdit(appart.residence_id, appart.id, '.editHotspotGarage', 'G');
+                    loadEtages(residence_idInput.value, 'editetageGarage');
+
+                    etage_idInput.value = appart.etage_id;
+                    loadApparts(etage_idInput.value, 'appartEditGarage');
+                    appart_idInput.value = appart.appart_id;
+                    cleintInput.value = appart.client_id;
+                    surfaceInput.value = appart.surface;
+                    priceInput.value = appart.price
+
+                    const divDetails = document.getElementById('detailsEdit');
+                    const clientInput = divDetails.parentElement.parentElement.querySelector(
+                        'input[name="client_id"]')
+                    const detailsClient = document.createElement('h4');
+
+                    divDetails.innerHTML = '';
+                    if (appart.client) {
+                        detailsClient.innerHTML = ' ' + appart.client.name + ' ' + appart.client.lastName;
+                        clientInput.value = appart.client.id;
+                    } else {
+                        detailsClient.innerHTML = ' Pas de client';
+                        clientInput.value = '';
+                    }
+                    divDetails.appendChild(detailsClient);
+                }).catch((error) => {
+                    console.log(error)
+                })
+            };
+            
         })
+
 
         const main = document.querySelector('.main_plan');
         const etage = @json($etage);
         const ratio = etage.wplan / etage.hplan
         main.style.width = '1000px';
         main.style.height = (1000 / ratio) + 'px';
-        
+
         const div = document.createElement('div');
         div.classList.add('containerD');
         const wid = 1000;
@@ -817,8 +1683,8 @@
             content.classList.add('content');
             content.setAttribute('style', 'background-color: ' + color + ';');
             content.innerHTML = '<h4>' + ap.name + '</h4><p>' + statut + '</p>';
-            if (letter != "P"){
-                content.innerHTML += '<br><p> Prix: '+ap.price+'TND <br>Surface: '+ap.surface +' </p>';    
+            if (letter != "P") {
+                content.innerHTML += '<br><p> Prix: ' + ap.price + 'TND <br>Surface: ' + ap.surface + ' </p>';
             }
 
             const divText = document.createElement('div');
@@ -835,9 +1701,9 @@
             div.appendChild(appart);
         }
 
-        etage.building.parking.forEach(ap=>addHotspot(ap,"P"));
-        // etage.building.cellier.forEach(ap=>addHotspot(ap,"C"));
-        // etage.building.garage.forEach(ap=>addHotspot(ap,"G"));
+        etage.building.parking.forEach(ap => addHotspot(ap, "P"));
+        etage.building.cellier.forEach(ap => addHotspot(ap, "C"));
+        etage.building.garage.forEach(ap => addHotspot(ap, "G"));
 
         // create a container having the color codes an explanations
         const container = document.createElement('div');
@@ -893,10 +1759,6 @@
         main.appendChild(container);
     </script>
     <script>
-
-
-
-
         $(document).on("click", ".addedContainer", function(e) {
             const container = $(this); // Get the clicked container element
 
@@ -955,7 +1817,7 @@
             if (container.parent()[0].parentElement.parentElement.parentElement.id == "formEdit") {
                 nameAppart = $('#formEdit').find('input[name="name"]').val();
             }
-            
+
             let t = offsetYPercent - 10;
             let l = offsetXPercent - 10;
             t += 9;
@@ -979,6 +1841,104 @@
             document.getElementById("formmm").querySelector("input[name='y']").value = offsetYPercent;
             document.getElementById("formEdit").querySelector("input[name='x']").value = offsetXPercent;
             document.getElementById("formEdit").querySelector("input[name='y']").value = offsetYPercent;
+
+            container.append(newElement);
+        });
+
+        $(document).on("click", ".containerC", function(e) {
+            const container = $(this); // Get the clicked container element
+            // console.log the parent elemnt 
+
+
+            const containerRect = container[0].getBoundingClientRect();
+
+            const offsetXPercent =
+                ((e.clientX - containerRect.left) / containerRect.width) * 100;
+            const offsetYPercent =
+                ((e.clientY - containerRect.top) / containerRect.height) * 100;
+
+
+
+            $('.added').each((index, el) => {
+                $(el).remove(); // Remove each element with the class .added
+            });
+            let nameAppart = $('#formmmCellier').find('input[name="name"]').val();
+            if (container.parent()[0].parentElement.parentElement.parentElement.id == "formEditCellier") {
+                nameAppart = $('#formEditCellier').find('input[name="name"]').val();
+            }
+
+            let t = offsetYPercent - 10;
+            let l = offsetXPercent - 10;
+            t += 9;
+            l += 11;
+            const newElement = $(
+                `<div class='hotspot-label added' style='top: ${t}%; left: ${l}%;'>
+                    <div>${nameAppart}</div>
+                    </div>
+                <div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
+      <div class='icon'>C</div>
+      <div class='content'>
+        <h4>Eros uns eos sind rebum</h4>
+        <p>Clita sanctus eirmod eros aliquip. Clita Lorem dolores diam</p>
+        <a class='btn'>
+          velit dolor
+        </a>
+      </div>
+    </div>`
+            );
+            document.getElementById("formmmCellier").querySelector("input[name='x']").value = offsetXPercent;
+            document.getElementById("formmmCellier").querySelector("input[name='y']").value = offsetYPercent;
+            document.getElementById("formEditCellier").querySelector("input[name='x']").value = offsetXPercent;
+            document.getElementById("formEditCellier").querySelector("input[name='y']").value = offsetYPercent;
+
+            container.append(newElement);
+        });
+
+        $(document).on("click", ".containerG", function(e) {
+            const container = $(this); // Get the clicked container element
+            // console.log the parent elemnt 
+
+
+            const containerRect = container[0].getBoundingClientRect();
+
+            const offsetXPercent =
+                ((e.clientX - containerRect.left) / containerRect.width) * 100;
+            const offsetYPercent =
+                ((e.clientY - containerRect.top) / containerRect.height) * 100;
+
+
+
+            $('.added').each((index, el) => {
+                $(el).remove(); // Remove each element with the class .added
+            });
+            let nameAppart = $('#formmmGarage').find('input[name="name"]').val();
+            if (container.parent()[0].parentElement.parentElement.parentElement.id == "formEditGarage") {
+                nameAppart = $('#formEditGarage').find('input[name="name"]').val();
+            }
+
+            let t = offsetYPercent - 10;
+            let l = offsetXPercent - 10;
+            t += 9;
+            l += 11;
+            const newElement = $(
+                `<div class='hotspot-label added' style='top: ${t}%; left: ${l}%;'>
+                    <div>${nameAppart}</div>
+                    </div>
+                <div class='hotspot added' style='top: ${offsetYPercent-1}%; left: ${offsetXPercent-1}%;'>
+      <div class='icon'>G</div>
+      <div class='content'>
+        <h4>Eros uns eos sind rebum</h4>
+        <p>Clita sanctus eirmod eros aliquip. Clita Lorem dolores diam</p>
+        <a class='btn'>
+          velit dolor
+        </a>
+      </div>
+    </div>`
+            );
+            document.getElementById("formmmGarage").querySelector("input[name='x']").value = offsetXPercent;
+            document.getElementById("formmmGarage").querySelector("input[name='y']").value = offsetYPercent;
+            document.getElementById("formEditGarage").querySelector("input[name='x']").value = offsetXPercent;
+            document.getElementById("formEditGarage").querySelector("input[name='y']").value = offsetYPercent;
 
             container.append(newElement);
         });
