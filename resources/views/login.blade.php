@@ -20,6 +20,7 @@
     <link href="{{asset('dist/css/tabler-vendors.min.css?1684106062')}}" rel="stylesheet"/>
     <link href="{{asset('dist/css/demo.min.css?1684106062')}}" rel="stylesheet"/>
     <link rel="icon" href="{{ asset('static/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('dist/js/toastify-js/src/toastify.css') }}">
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {
@@ -79,6 +80,40 @@
     <script src="{{asset('dist/js/tabler.min.js?1684106062')}}" defer></script>
     <script src="{{asset('dist/js/demo.min.js?1684106062')}}" defer></script>
     <script src="{{asset('dist/js/intDark.js')}}"></script>
+    <script src="{{ asset('dist/js/toastify-js/src/toastify.js') }}"></script>
+    @if (session('success'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Toastify({
+                    text: "{{ session('success') }}",
+                    duration: 3000,
+                    close: true,
+                    gravity: "bottom",
+                    position: "right",
+                    backgroundColor: "#4fbe87",
+                }).showToast()
+            });
+        </script>
+    @endif
+
+    @if (isset($errors) && count($errors) > 0)
+        <script src="{{ asset('dist/js/toastify-js/src/toastify.js') }}"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const errors = @json($errors->all());
+                errors.forEach((error) => {
+                    Toastify({
+                        text: error,
+                        duration: 3000,
+                        close: true,
+                        gravity: "bottom",
+                        position: "left",
+                        backgroundColor: "red",
+                    }).showToast()
+                })
+            });
+        </script>
+    @endif
     <script src="{{ asset('main.js') }}"></script>
   
   </body>
