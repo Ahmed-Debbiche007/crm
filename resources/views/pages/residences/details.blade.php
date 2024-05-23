@@ -114,7 +114,6 @@
                                     <tr>
 
                                         <th scope="col">Place Parking</th>
-                                        <th scope="col">Numéro</th>
                                         <th scope="col">Client</th>
                                         @if (Auth::user()->role == 1)
                                             <th scope="col" class="noExport">Actions</th>
@@ -126,7 +125,6 @@
                                         <tr>
 
                                             <td>{{ $parking->name }}</td>
-                                            <td>{{ $parking->number }}</td>
                                             <td>
                                                 @if ($parking->client)
                                                     {{ $parking->client->name }} {{ $parking->client->lastName }}
@@ -1007,10 +1005,7 @@
                                     <input type="text" name="name" placeholder="Place Parking"
                                         class="form-control">
                                 </div>
-                                <label>Numero: </label>
-                                <div class="form-group">
-                                    <input type="text" name="number" placeholder="Numero" class="form-control">
-                                </div>
+                               
                                 <label>Client: </label>
                                 <div class="form-group">
                                     <select name="client_id" class="form-control">
@@ -1062,10 +1057,7 @@
                                     <input type="text" name="name" placeholder="Place Parking"
                                         class="form-control">
                                 </div>
-                                <label>Numero: </label>
-                                <div class="form-group">
-                                    <input type="text" name="number" placeholder="Numero" class="form-control">
-                                </div>
+                                
                                 <label>Client: </label>
                                 <div class="form-group">
                                     <select name="client_id" class="form-control">
@@ -1308,7 +1300,6 @@
                 base = base.replace('5', editButton.id);
                 form.action = base;
                 const nameInput = form.querySelector('input[name="name"]')
-                const numberInput = form.querySelector('input[name="number"]')
                 const cleintInput = form.querySelector('select[name="client_id"]')
 
                 url = "{{ route('parkings.get', 5) }}";
@@ -1316,7 +1307,6 @@
                 axios.get(url).then((reponse) => {
                     const appart = reponse.data;
                     nameInput.value = appart.name;
-                    numberInput.value = appart.number;
                     cleintInput.value = appart.client_id;
 
                 }).catch((error) => {

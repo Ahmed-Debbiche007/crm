@@ -32,7 +32,6 @@ class Parking extends Model
 
     protected $fillable = [
         'name',
-        'number',
         'client_id',
         'residence_id',
         'etage_id',

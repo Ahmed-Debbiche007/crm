@@ -34,7 +34,6 @@
                                         <tr>
                                             <th scope="col">Residence</th>
                                             <th scope="col">Place Parking</th>
-                                            <th scope="col">Numéro</th>
                                             <th scope="col">Client</th>
                                             @if (Auth::user()->role == 1)
                                                 <th scope="col" class="noExport">Actions</th>
@@ -46,7 +45,6 @@
                                             <tr>
                                                 <td id="{{ $parking->residence->id }}">{{ $parking->residence->name }}</td>
                                                 <td>{{ $parking->name }}</td>
-                                                <td>{{ $parking->number }}</td>
                                                 <td>
                                                     @if ($parking->client)
                                                         {{ $parking->client->name }} {{ $parking->client->lastName }}
@@ -160,11 +158,6 @@
                                             <input type="text" name="name" id="nameAdd"
                                                 placeholder="Place Parking" class="form-control">
                                         </div>
-                                        <label>Numero: </label>
-                                        <div class="form-group">
-                                            <input type="text" name="number" placeholder="Numero"
-                                                class="form-control">
-                                        </div>
                                         <label>Emplacement: </label>
                                         <div class="form-group">
                                             <main class="cd__main" style="display: none;">
@@ -237,11 +230,6 @@
                                             <input type="text" name="name" placeholder="Place Parking"
                                                 class="form-control">
                                         </div>
-                                        <label>Numero: </label>
-                                        <div class="form-group">
-                                            <input type="text" name="number" placeholder="Numero"
-                                                class="form-control">
-                                        </div>
                                         <label>Emplacement: </label>
                                         <div class="form-group">
                                             <main class="cd__main editHotspot" style="display: none;">
@@ -307,7 +295,6 @@
                 base = base.replace('5', editButton.id);
                 form.action = base;
                 const nameInput = form.querySelector('input[name="name"]')
-                const numberInput = form.querySelector('input[name="number"]')
                 const residence_idInput = form.querySelector('select[name="residence_id"]')
                 const etage_idInput = form.querySelector('select[name="etage_id"]')
                 const appart_idInput = form.querySelector('select[name="appart_id"]')
@@ -320,7 +307,6 @@
                 axios.get(url).then((reponse) => {
                     const appart = reponse.data;
                     nameInput.value = appart.name;
-                    numberInput.value = appart.number;
                     residence_idInput.value = appart.residence_id;
                     xInput.value = appart.x;
                     yInput.value = appart.y;
